@@ -1,13 +1,15 @@
 from __future__ import annotations
 
 import datetime as dt
+import gc
 import hashlib
+import json
 import math
 import time
 from pathlib import Path
 from typing import Any, Iterable
 
-from .io_utils import load_config, read_jsonl, write_json, write_jsonl
+from .io_utils import ensure_parent, load_config, read_jsonl, write_json
 from .metrics import score_from_label_logprobs
 
 SHARED_PLAIN_PROTOCOL = "shared_plain_ab_label"
@@ -130,8 +132,7 @@ def fake_score_records(
     records: Iterable[dict[str, Any]],
     *,
     config: dict[str, Any],
-) -> list[dict[str, Any]]:
-    rows: list[dict[str, Any]] = []
+) -> Iterable[dict[str, Any]]:
     protocols = configured_protocols(config)
     models = config.get("models", {})
     for protocol in protocols:
@@ -144,21 +145,18 @@ def fake_score_records(
                     model_key=model_key,
                     protocol=protocol,
                 )
-                rows.append(
-                    _score_row(
-                        item=item,
-                        model_key=model_key,
-                        model_id=model_id,
-                        protocol=protocol,
-                        logprob_a=logprob_a,
-                        logprob_b=logprob_b,
-                        device="fake",
-                        dtype="fake",
-                        elapsed_seconds=time.perf_counter() - start,
-                        label_token_counts={"A": 1, "B": 1},
-                    )
+                yield _score_row(
+                    item=item,
+                    model_key=model_key,
+                    model_id=model_id,
+                    protocol=protocol,
+                    logprob_a=logprob_a,
+                    logprob_b=logprob_b,
+                    device="fake",
+                    dtype="fake",
+                    elapsed_seconds=time.perf_counter() - start,
+                    label_token_counts={"A": 1, "B": 1},
                 )
-    return rows
 
 
 def _load_torch_dtype(torch_module: Any, dtype_name: str) -> Any:
@@ -283,8 +281,7 @@ def transformer_score_records(
     records: Iterable[dict[str, Any]],
     *,
     config: dict[str, Any],
-) -> list[dict[str, Any]]:
-    rows: list[dict[str, Any]] = []
+) -> Iterable[dict[str, Any]]:
     protocols = configured_protocols(config)
     models = config.get("models", {})
     for model_key, model_config in models.items():
@@ -299,21 +296,38 @@ def transformer_score_records(
                 )
                 start = time.perf_counter()
                 logprob_a, logprob_b, label_token_counts = scorer.score_prompt(prompt)
-                rows.append(
-                    _score_row(
-                        item=item,
-                        model_key=model_key,
-                        model_id=scorer.model_id,
-                        protocol=protocol,
-                        logprob_a=logprob_a,
-                        logprob_b=logprob_b,
-                        device=str(scorer.device),
-                        dtype=scorer.dtype,
-                        elapsed_seconds=time.perf_counter() - start,
-                        label_token_counts=label_token_counts,
-                    )
+                yield _score_row(
+                    item=item,
+                    model_key=model_key,
+                    model_id=scorer.model_id,
+                    protocol=protocol,
+                    logprob_a=logprob_a,
+                    logprob_b=logprob_b,
+                    device=str(scorer.device),
+                    dtype=scorer.dtype,
+                    elapsed_seconds=time.perf_counter() - start,
+                    label_token_counts=label_token_counts,
                 )
-    return rows
+        torch_module = scorer.torch
+        del scorer
+        gc.collect()
+        if hasattr(torch_module, "cuda") and torch_module.cuda.is_available():
+            torch_module.cuda.empty_cache()
+
+
+def _score_key(row: dict[str, Any]) -> tuple[str, str, str]:
+    return (
+        str(row["question_id"]),
+        str(row["model_key"]),
+        str(row["prompt_protocol"]),
+    )
+
+
+def _existing_score_keys(path: str | Path) -> set[tuple[str, str, str]]:
+    score_path = Path(path)
+    if not score_path.exists():
+        return set()
+    return {_score_key(row) for row in read_jsonl(score_path)}
 
 
 def score_run(
@@ -322,24 +336,47 @@ def score_run(
     out: str | Path,
     fake: bool = False,
     limit: int | None = None,
+    resume: bool = False,
 ) -> int:
     config = load_config(config_path)
     dataset_path = Path(config["dataset"]["path"])
     records = read_jsonl(dataset_path)
     if limit is not None:
         records = records[:limit]
-    rows = fake_score_records(records, config=config) if fake else transformer_score_records(records, config=config)
-    count = write_jsonl(rows, out)
+    existing_keys = _existing_score_keys(out) if resume else set()
+    row_iterable = (
+        fake_score_records(records, config=config)
+        if fake
+        else transformer_score_records(records, config=config)
+    )
+
+    output_path = ensure_parent(out)
+    mode = "a" if resume and output_path.exists() else "w"
+    written_count = 0
+    skipped_count = 0
+    with output_path.open(mode, encoding="utf-8", newline="\n") as handle:
+        for row in row_iterable:
+            if _score_key(row) in existing_keys:
+                skipped_count += 1
+                continue
+            handle.write(json.dumps(row, ensure_ascii=True, sort_keys=True))
+            handle.write("\n")
+            handle.flush()
+            existing_keys.add(_score_key(row))
+            written_count += 1
+
     metadata = {
         "created_at_utc": dt.datetime.now(dt.timezone.utc).isoformat(),
         "config_path": str(config_path),
         "config": config,
         "fake": fake,
         "limit": limit,
-        "score_rows": count,
+        "resume": resume,
+        "score_rows_written": written_count,
+        "score_rows_skipped": skipped_count,
+        "score_rows_total": len(existing_keys),
         "question_rows": len(records),
         "protocols": configured_protocols(config),
     }
     write_json(metadata, Path(out).parent / "run_metadata.json")
-    return count
-
+    return written_count

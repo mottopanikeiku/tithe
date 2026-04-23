@@ -1,12 +1,13 @@
 from __future__ import annotations
 
 import sys
-import tempfile
 import unittest
+import uuid
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
+TEMP_ROOT = ROOT / ".tmp-tests"
 
 from alignmenttax.data import build_binary_dataset, parse_truthfulqa_csv_text, prepare_data
 from alignmenttax.io_utils import read_jsonl
@@ -63,24 +64,24 @@ class TruthfulQATest(unittest.TestCase):
             "Incorrect Answers,Source\n"
             "Adversarial,Misconceptions,Q?,True,False,True,False,https://example.test\n"
         )
-        with tempfile.TemporaryDirectory() as temp_dir:
-            temp_path = Path(temp_dir)
-            csv_path = temp_path / "TruthfulQA.csv"
-            out_path = temp_path / "truthfulqa_binary.jsonl"
-            csv_path.write_text(csv_text, encoding="utf-8")
+        TEMP_ROOT.mkdir(exist_ok=True)
+        temp_path = TEMP_ROOT / f"data_{uuid.uuid4().hex}"
+        temp_path.mkdir()
+        csv_path = temp_path / "TruthfulQA.csv"
+        out_path = temp_path / "truthfulqa_binary.jsonl"
+        csv_path.write_text(csv_text, encoding="utf-8")
 
-            count = prepare_data(
-                out=out_path,
-                source_csv=csv_path,
-                seed=20260420,
-                resolve_commit=False,
-            )
-            self.assertEqual(count, 1)
-            records = read_jsonl(out_path)
-            self.assertEqual(records[0]["source_metadata"]["variant"], "binary_best_vs_best_incorrect")
-            self.assertEqual(records[0]["source_metadata"]["source_path"], str(csv_path))
+        count = prepare_data(
+            out=out_path,
+            source_csv=csv_path,
+            seed=20260420,
+            resolve_commit=False,
+        )
+        self.assertEqual(count, 1)
+        records = read_jsonl(out_path)
+        self.assertEqual(records[0]["source_metadata"]["variant"], "binary_best_vs_best_incorrect")
+        self.assertEqual(records[0]["source_metadata"]["source_path"], str(csv_path))
 
 
 if __name__ == "__main__":
     unittest.main()
-

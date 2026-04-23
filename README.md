@@ -9,10 +9,12 @@ The intended interpretation is cautious: this is a post-training or instruction-
 
 ## Quickstart
 
-Install the project in editable mode:
+Create and activate a local environment, then install the CLI:
 
 ```powershell
-python -m pip install -e .
+uv venv --python 3.13 .venv
+.\.venv\Scripts\Activate.ps1
+uv pip install --python .venv\Scripts\python.exe --no-deps -e .
 ```
 
 Prepare the current upstream TruthfulQA binary dataset:
@@ -27,10 +29,34 @@ Score the Qwen pair locally:
 alignmenttax score --config configs/qwen2_5_1_5b.yaml --out runs/qwen2_5_1_5b/scores.jsonl
 ```
 
+For long CPU runs, add `--resume` so interrupted runs continue from completed rows:
+
+```powershell
+alignmenttax score --config configs/qwen2_5_1_5b.yaml --out runs/qwen2_5_1_5b/scores.jsonl --resume
+```
+
 Analyze the paired results:
 
 ```powershell
 alignmenttax analyze --run runs/qwen2_5_1_5b --out reports/qwen2_5_1_5b
+```
+
+Run the second-stage held-out calibration repair analysis:
+
+```powershell
+alignmenttax calibrate --run runs/qwen2_5_1_5b --out reports/qwen2_5_1_5b
+```
+
+For real Qwen scoring, install the model and plotting extras before running `score`:
+
+```powershell
+uv pip install --python .venv\Scripts\python.exe -e ".[full]"
+```
+
+If PowerShell cannot find `alignmenttax`, the environment is not activated. Either run `.\.venv\Scripts\Activate.ps1` first or call the executable directly:
+
+```powershell
+.\.venv\Scripts\alignmenttax.exe prepare-data --out data/processed/truthfulqa_binary.jsonl --seed 20260420
 ```
 
 For an offline smoke run that does not download models:
@@ -60,4 +86,3 @@ alignmenttax analyze --run runs/fake --out reports/fake --bootstrap-iterations 1
 - Qwen instruct model card: https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct
 - TruthfulQA upstream repository: https://github.com/sylinrl/TruthfulQA
 - TruthfulQA publication summary: https://openai.com/index/truthfulqa/
-

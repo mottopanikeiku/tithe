@@ -9,10 +9,21 @@ description = "TruthfulQA honesty and calibration experiments for matched base/i
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-    "matplotlib>=3.8",
     "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+models = [
     "torch>=2.1",
     "transformers>=4.37",
+]
+plots = [
+    "matplotlib>=3.8",
+]
+full = [
+    "torch>=2.1",
+    "transformers>=4.37",
+    "matplotlib>=3.8",
 ]
 
 [project.scripts]
@@ -20,4 +31,3 @@ alignmenttax = "alignmenttax.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
-

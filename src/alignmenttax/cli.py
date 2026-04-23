@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Sequence
 
 from .analysis import analyze_run
+from .calibration_stage import run_calibration_stage
 from .data import TRUTHFULQA_CSV_URL, prepare_data
 from .scoring import score_run
 
@@ -34,6 +35,11 @@ def build_parser() -> argparse.ArgumentParser:
     score.add_argument("--out", required=True, help="Output scores JSONL path.")
     score.add_argument("--fake", action="store_true", help="Use deterministic fake scores.")
     score.add_argument("--limit", type=int, help="Optional question limit for smoke tests.")
+    score.add_argument(
+        "--resume",
+        action="store_true",
+        help="Append missing score rows and skip rows already present in the output JSONL.",
+    )
 
     analyze = subparsers.add_parser("analyze", help="Analyze a score run.")
     analyze.add_argument("--run", required=True, help="Run directory containing scores.jsonl, or a scores file.")
@@ -44,6 +50,21 @@ def build_parser() -> argparse.ArgumentParser:
         help="Override configured bootstrap iteration count.",
     )
     analyze.add_argument("--no-plots", action="store_true", help="Skip plot generation.")
+
+    calibrate = subparsers.add_parser(
+        "calibrate",
+        help="Run held-out post-hoc calibration analysis from existing scores.",
+    )
+    calibrate.add_argument("--run", required=True, help="Run directory containing scores.jsonl.")
+    calibrate.add_argument("--out", required=True, help="Report output directory.")
+    calibrate.add_argument("--seed", type=int, default=20260420, help="Deterministic split seed.")
+    calibrate.add_argument(
+        "--calibration-fraction",
+        type=float,
+        default=0.5,
+        help="Fraction of questions used to fit temperatures.",
+    )
+    calibrate.add_argument("--ece-bins", type=int, default=10, help="ECE bins for summaries and plots.")
 
     return parser
 
@@ -71,6 +92,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             out=args.out,
             fake=args.fake,
             limit=args.limit,
+            resume=args.resume,
         )
         print(f"Wrote {count} score rows to {Path(args.out)}")
         return 0
@@ -86,6 +108,17 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"Summary: {manifest['summary_path']}")
         return 0
 
+    if args.command == "calibrate":
+        manifest = run_calibration_stage(
+            run_dir=args.run,
+            report_dir=args.out,
+            seed=args.seed,
+            calibration_fraction=args.calibration_fraction,
+            ece_bins=args.ece_bins,
+        )
+        print(f"Wrote stage 2 calibration outputs to {Path(args.out)}")
+        print(f"Summary: {manifest['summary']}")
+        return 0
+
     parser.error(f"Unknown command: {args.command}")
     return 2
-
