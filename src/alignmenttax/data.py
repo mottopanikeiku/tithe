@@ -3,7 +3,6 @@ from __future__ import annotations
 import csv
 import hashlib
 import io
-import json
 import random
 import urllib.request
 from pathlib import Path
@@ -11,8 +10,12 @@ from typing import Any
 
 from .io_utils import ensure_parent, write_jsonl
 
-TRUTHFULQA_CSV_URL = "https://raw.githubusercontent.com/sylinrl/TruthfulQA/main/TruthfulQA.csv"
-TRUTHFULQA_COMMIT_API_URL = "https://api.github.com/repos/sylinrl/TruthfulQA/commits/main"
+TRUTHFULQA_COMMIT = "d71c110897f5d31c5d7f309e7bc316c152f6f031"
+TRUTHFULQA_CSV_URL = (
+    f"https://raw.githubusercontent.com/sylinrl/TruthfulQA/{TRUTHFULQA_COMMIT}/TruthfulQA.csv"
+)
+# SHA256 of the unmodified CSV bytes at the pinned revision.
+TRUTHFULQA_CSV_SHA256 = "b8d8ef1e12f98b4f2a9f47abc9765da0640b182b6c5d9b92f0c1a1f2f1e02e5c"
 TRUTHFULQA_VARIANT = "binary_best_vs_best_incorrect"
 
 REQUIRED_COLUMNS = (
@@ -24,7 +27,7 @@ REQUIRED_COLUMNS = (
 )
 
 
-def _request_text(url: str, timeout: int = 60) -> str:
+def _request_bytes(url: str, timeout: int = 60) -> bytes:
     request = urllib.request.Request(
         url,
         headers={
@@ -33,17 +36,7 @@ def _request_text(url: str, timeout: int = 60) -> str:
         },
     )
     with urllib.request.urlopen(request, timeout=timeout) as response:
-        return response.read().decode("utf-8-sig")
-
-
-def resolve_truthfulqa_commit(timeout: int = 20) -> str | None:
-    try:
-        text = _request_text(TRUTHFULQA_COMMIT_API_URL, timeout=timeout)
-        payload = json.loads(text)
-    except Exception:
-        return None
-    sha = payload.get("sha")
-    return sha if isinstance(sha, str) and sha else None
+        return response.read()
 
 
 def load_or_download_csv(
@@ -52,28 +45,41 @@ def load_or_download_csv(
     cache_path: str | Path = "data/raw/TruthfulQA.csv",
     url: str = TRUTHFULQA_CSV_URL,
 ) -> tuple[str, dict[str, Any]]:
+    """Read exact CSV bytes and identify the pinned dataset by their SHA256.
+
+    Local files and existing caches have unknown upstream provenance unless their
+    checksum matches the pin. They remain usable offline either way.
+    """
     if source_csv is not None:
         path = Path(source_csv)
-        return path.read_text(encoding="utf-8-sig"), {
-            "source_kind": "local_csv",
-            "source_path": str(path),
-            "upstream_url": url,
-        }
+        csv_bytes = path.read_bytes()
+        source_kind = "local_csv"
+    else:
+        path = Path(cache_path)
+        if path.exists():
+            csv_bytes = path.read_bytes()
+            source_kind = "cache"
+        else:
+            csv_bytes = _request_bytes(url)
+            source_kind = "download"
 
-    cache = Path(cache_path)
-    if cache.exists():
-        return cache.read_text(encoding="utf-8-sig"), {
-            "source_kind": "cache",
-            "source_path": str(cache),
-            "upstream_url": url,
-        }
+    csv_sha256 = hashlib.sha256(csv_bytes).hexdigest()
+    matches_pin = csv_sha256 == TRUTHFULQA_CSV_SHA256
+    if source_kind == "download":
+        if url == TRUTHFULQA_CSV_URL and not matches_pin:
+            raise ValueError("Downloaded TruthfulQA CSV does not match the pinned SHA256.")
+        ensure_parent(path).write_bytes(csv_bytes)
 
-    text = _request_text(url)
-    ensure_parent(cache).write_text(text, encoding="utf-8", newline="\n")
-    return text, {
-        "source_kind": "download",
-        "source_path": str(cache),
-        "upstream_url": url,
+    # A filename or requested URL cannot establish where existing bytes came from.
+    upstream_url = url if source_kind == "download" else None
+    if matches_pin:
+        upstream_url = TRUTHFULQA_CSV_URL
+    return csv_bytes.decode("utf-8-sig"), {
+        "source_kind": source_kind,
+        "source_path": str(path),
+        "upstream_url": upstream_url,
+        "source_commit": TRUTHFULQA_COMMIT if matches_pin else None,
+        "csv_sha256": csv_sha256,
     }
 
 
@@ -112,9 +118,10 @@ def build_binary_dataset(
     rows: list[dict[str, str]],
     *,
     seed: int,
-    upstream_url: str = TRUTHFULQA_CSV_URL,
+    upstream_url: str | None = TRUTHFULQA_CSV_URL,
     source_commit: str | None = None,
     source_path: str | None = None,
+    csv_sha256: str | None = None,
     limit: int | None = None,
 ) -> list[dict[str, Any]]:
     rng = random.Random(seed)
@@ -150,6 +157,7 @@ def build_binary_dataset(
                     "upstream_url": upstream_url,
                     "source_commit": source_commit,
                     "source_path": source_path,
+                    "csv_sha256": csv_sha256,
                 },
             }
         )
@@ -164,23 +172,21 @@ def prepare_data(
     cache_path: str | Path = "data/raw/TruthfulQA.csv",
     url: str = TRUTHFULQA_CSV_URL,
     limit: int | None = None,
-    resolve_commit: bool = True,
 ) -> int:
+    """Write binary records with the original CSV SHA256 in source_metadata."""
     csv_text, source_info = load_or_download_csv(
         source_csv=source_csv,
         cache_path=cache_path,
         url=url,
     )
-    source_commit = None
-    if resolve_commit and source_csv is None:
-        source_commit = resolve_truthfulqa_commit()
     rows = parse_truthfulqa_csv_text(csv_text)
     records = build_binary_dataset(
         rows,
         seed=seed,
-        upstream_url=url,
-        source_commit=source_commit,
-        source_path=source_info.get("source_path"),
+        upstream_url=source_info["upstream_url"],
+        source_commit=source_info["source_commit"],
+        source_path=source_info["source_path"],
+        csv_sha256=source_info["csv_sha256"],
         limit=limit,
     )
     return write_jsonl(records, out)

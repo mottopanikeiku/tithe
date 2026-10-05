@@ -1,0 +1,25 @@
+{
+  "status": "incomplete_memory_stopped",
+  "prepared_questions": 790,
+  "partial_score_rows": 118,
+  "models_scored": [
+    "Qwen/Qwen2.5-0.5B"
+  ],
+  "protocols_scored": [
+    "shared_plain_ab_label"
+  ],
+  "source_metadata": {
+    "csv_sha256": "b8d8ef1e12f98b4f2a9f47abc9765da0640b182b6c5d9b92f0c1a1f2f1e02e5c",
+    "dataset": "TruthfulQA",
+    "seed": 20260420,
+    "source_commit": "d71c110897f5d31c5d7f309e7bc316c152f6f031",
+    "source_path": "data/raw/TruthfulQA.csv",
+    "upstream_url": "https://raw.githubusercontent.com/sylinrl/TruthfulQA/d71c110897f5d31c5d7f309e7bc316c152f6f031/TruthfulQA.csv",
+    "variant": "binary_best_vs_best_incorrect"
+  },
+  "paired_comparison_available": false,
+  "held_out_calibration_available": false,
+  "analysis_run": false,
+  "calibration_run": false,
+  "reason": "CPU bf16 scoring stopped at the 1.45 GB sampled RSS safety threshold before the base model finished; no instruct scores exist. The 1.5 GB budget was not deliberately exceeded. Partial rows are preserved as execution evidence, not a comparison result."
+}

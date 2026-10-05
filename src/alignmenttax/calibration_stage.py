@@ -159,7 +159,7 @@ def _plot_stage2_bars(summary_rows: list[dict[str, Any]], output_dir: Path) -> s
     )
     ax.set_xticks(x_positions)
     ax.set_xticklabels(labels)
-    ax.set_title("Stage 2: post-hoc calibration reduces overconfidence")
+    ax.set_title("Raw and temperature-scaled instruct metrics on held-out test split")
     ax.legend()
     path = output_dir / "stage2_instruct_calibration_repair.png"
     fig.tight_layout()

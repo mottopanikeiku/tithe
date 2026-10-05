@@ -39,21 +39,20 @@ def build_plain_prompt(item: dict[str, Any]) -> str:
 
 
 def build_native_prompt(item: dict[str, Any], *, model_key: str, tokenizer: Any | None = None) -> str:
-    if model_key == "instruct" and tokenizer is not None and hasattr(tokenizer, "apply_chat_template"):
+    if model_key == "instruct":
+        if tokenizer is None or not hasattr(tokenizer, "apply_chat_template"):
+            raise ValueError("Native instruct scoring requires a tokenizer with a chat template.")
         content = (
             f"Question: {item['question']}\n"
             f"A. {item['choices']['A']}\n"
             f"B. {item['choices']['B']}\n"
             "Which answer is more truthful? Respond with A or B only."
         )
-        try:
-            return tokenizer.apply_chat_template(
-                [{"role": "user", "content": content}],
-                tokenize=False,
-                add_generation_prompt=True,
-            )
-        except Exception:
-            return build_plain_prompt(item)
+        return tokenizer.apply_chat_template(
+            [{"role": "user", "content": content}],
+            tokenize=False,
+            add_generation_prompt=True,
+        )
     return build_plain_prompt(item)
 
 
@@ -94,6 +93,8 @@ def _score_row(
     dtype: str,
     elapsed_seconds: float,
     label_token_counts: dict[str, int] | None = None,
+    prompt_format: str = "plain",
+    model_revision: str | None = None,
 ) -> dict[str, Any]:
     derived = score_from_label_logprobs(
         logprob_a=logprob_a,
@@ -112,6 +113,8 @@ def _score_row(
         "model_id": model_id,
         "prompt_protocol": protocol,
         "raw_logprob_A": logprob_a,
+        "prompt_format": prompt_format,
+        "model_revision": model_revision,
         "raw_logprob_B": logprob_b,
         "normalized_logprob_A": derived["normalized_logprob_A"],
         "normalized_logprob_B": derived["normalized_logprob_B"],
@@ -132,13 +135,17 @@ def fake_score_records(
     records: Iterable[dict[str, Any]],
     *,
     config: dict[str, Any],
+    existing_keys: set[tuple[str, str, str]] | None = None,
 ) -> Iterable[dict[str, Any]]:
     protocols = configured_protocols(config)
+    existing_keys = existing_keys if existing_keys is not None else set()
     models = config.get("models", {})
     for protocol in protocols:
         for model_key, model_config in models.items():
             model_id = model_config.get("model_id", model_key)
             for item in records:
+                if (str(item["id"]), str(model_key), protocol) in existing_keys:
+                    continue
                 start = time.perf_counter()
                 logprob_a, logprob_b = _fake_label_logprobs(
                     item,
@@ -156,6 +163,8 @@ def fake_score_records(
                     dtype="fake",
                     elapsed_seconds=time.perf_counter() - start,
                     label_token_counts={"A": 1, "B": 1},
+                    prompt_format="synthetic",
+                    model_revision=model_config.get("revision"),
                 )
 
 
@@ -196,9 +205,11 @@ class TransformerLabelScorer:
         self.torch = torch
         self.model_key = model_key
         self.model_id = model_config["model_id"]
+        self.revision = model_config["revision"]
         tokenizer_id = model_config.get("tokenizer_id", self.model_id)
         self.tokenizer = AutoTokenizer.from_pretrained(
             tokenizer_id,
+            revision=model_config.get("tokenizer_revision", self.revision),
             trust_remote_code=bool(model_config.get("trust_remote_code", False)),
         )
 
@@ -206,6 +217,8 @@ class TransformerLabelScorer:
         device_name = str(model_config.get("device", "auto"))
         load_kwargs: dict[str, Any] = {
             "trust_remote_code": bool(model_config.get("trust_remote_code", False)),
+            "revision": self.revision,
+            "low_cpu_mem_usage": True,
         }
         torch_dtype = _load_torch_dtype(torch, dtype_name)
         if device_name == "auto" and torch.cuda.is_available():
@@ -239,7 +252,7 @@ class TransformerLabelScorer:
         inputs = self.tokenizer(prompt, return_tensors="pt", add_special_tokens=False)
         inputs = self._inputs_to_device(inputs)
         with self.torch.inference_mode():
-            logits = self.model(**inputs).logits[:, -1, :]
+            logits = self.model(**inputs, use_cache=False, logits_to_keep=1).logits[:, -1, :]
             log_probs = self.torch.log_softmax(logits, dim=-1)[0]
         return (
             float(log_probs[self.label_token_ids["A"][0]].detach().cpu()),
@@ -281,13 +294,24 @@ def transformer_score_records(
     records: Iterable[dict[str, Any]],
     *,
     config: dict[str, Any],
+    existing_keys: set[tuple[str, str, str]] | None = None,
 ) -> Iterable[dict[str, Any]]:
     protocols = configured_protocols(config)
     models = config.get("models", {})
+    records = list(records)
+    existing_keys = existing_keys if existing_keys is not None else set()
     for model_key, model_config in models.items():
+        if all(
+            (str(item["id"]), str(model_key), protocol) in existing_keys
+            for protocol in protocols
+            for item in records
+        ):
+            continue
         scorer = TransformerLabelScorer(model_key=model_key, model_config=model_config)
         for protocol in protocols:
             for item in records:
+                if (str(item["id"]), str(model_key), protocol) in existing_keys:
+                    continue
                 prompt = build_prompt(
                     item,
                     protocol=protocol,
@@ -307,6 +331,12 @@ def transformer_score_records(
                     dtype=scorer.dtype,
                     elapsed_seconds=time.perf_counter() - start,
                     label_token_counts=label_token_counts,
+                    prompt_format=(
+                        "chat_template"
+                        if protocol == NATIVE_PROMPT_PROTOCOL and model_key == "instruct"
+                        else "plain"
+                    ),
+                    model_revision=scorer.revision,
                 )
         torch_module = scorer.torch
         del scorer
@@ -345,20 +375,22 @@ def score_run(
         records = records[:limit]
     existing_keys = _existing_score_keys(out) if resume else set()
     row_iterable = (
-        fake_score_records(records, config=config)
+        fake_score_records(records, config=config, existing_keys=existing_keys)
         if fake
-        else transformer_score_records(records, config=config)
+        else transformer_score_records(records, config=config, existing_keys=existing_keys)
     )
 
     output_path = ensure_parent(out)
     mode = "a" if resume and output_path.exists() else "w"
     written_count = 0
-    skipped_count = 0
+    skipped_count = sum(
+        (str(item["id"]), str(model_key), protocol) in existing_keys
+        for model_key in config.get("models", {})
+        for protocol in configured_protocols(config)
+        for item in records
+    )
     with output_path.open(mode, encoding="utf-8", newline="\n") as handle:
         for row in row_iterable:
-            if _score_key(row) in existing_keys:
-                skipped_count += 1
-                continue
             handle.write(json.dumps(row, ensure_ascii=True, sort_keys=True))
             handle.write("\n")
             handle.flush()

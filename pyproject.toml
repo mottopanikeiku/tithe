@@ -15,14 +15,14 @@ dependencies = [
 [project.optional-dependencies]
 models = [
     "torch>=2.1",
-    "transformers>=4.37",
+    "transformers>=4.49,<5",
 ]
 plots = [
     "matplotlib>=3.8",
 ]
 full = [
     "torch>=2.1",
-    "transformers>=4.37",
+    "transformers>=4.49,<5",
     "matplotlib>=3.8",
 ]
 

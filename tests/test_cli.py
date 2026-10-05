@@ -43,7 +43,6 @@ class CLITest(unittest.TestCase):
                     str(processed),
                     "--seed",
                     "11",
-                    "--skip-commit-resolution",
                 ]
             ),
             0,

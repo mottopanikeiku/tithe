@@ -1,0 +1,33 @@
+{
+  "command": [
+    "nice",
+    "-n",
+    "19",
+    "/home/alp/Projects/profile-program/work/alignmenttax/.venv/bin/alignmenttax",
+    "score",
+    "--config",
+    "configs/qwen2_5_0_5b.yaml",
+    "--out",
+    "/home/alp/Projects/profile-program/work/alignmenttax/results/qwen2_5_0_5b/scores.jsonl"
+  ],
+  "available_memory_before_bytes": 3502628864,
+  "memory_budget_bytes": 1500000000,
+  "rss_stop_threshold_bytes": 1450000000,
+  "sample_interval_seconds": 0.01,
+  "wall_time_limit_seconds": 7200,
+  "platform": "Linux-7.2.5-200.fc44.x86_64-x86_64-with-glibc2.43",
+  "python": "3.12.13",
+  "packages": {
+    "torch": "2.6.0+cpu",
+    "transformers": "4.57.6",
+    "huggingface-hub": "0.36.2",
+    "pyyaml": "6.0.3"
+  },
+  "hardware": "",
+  "cpu_threads": 2,
+  "exit_code": -9,
+  "stopped_reason": "rss_stop_threshold_exceeded",
+  "sampled_peak_rss_bytes": 1450061824,
+  "elapsed_seconds": 56.82063780100725,
+  "completed": false
+}

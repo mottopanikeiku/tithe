@@ -157,7 +157,7 @@ def _plot_headline(summary: dict[tuple[str, str], float], output_dir: Path) -> l
     ax.set_xticklabels(labels)
     ax.set_ylim(0.0, 1.0)
     ax.set_ylabel("Value")
-    ax.set_title("Accuracy improves, calibration worsens")
+    ax.set_title("Base and instruct metrics on the shared prompt")
     ax.legend()
     path = output_dir / "headline_metrics_shared_prompt.png"
     fig.tight_layout()
@@ -176,7 +176,7 @@ def _plot_headline(summary: dict[tuple[str, str], float], output_dir: Path) -> l
     ax.axhline(0, color="black", linewidth=1)
     ax.bar(delta_labels, deltas, color=colors)
     ax.set_ylabel("Instruct - base")
-    ax.set_title("Post-training shifts both accuracy and confidence")
+    ax.set_title("Metric differences on the shared prompt (instruct - base)")
     path_delta = output_dir / "delta_metrics_shared_prompt.png"
     fig.tight_layout()
     fig.savefig(path_delta, dpi=170)

@@ -22,13 +22,8 @@ def build_parser() -> argparse.ArgumentParser:
     prepare.add_argument("--seed", type=int, default=20260420, help="A/B randomization seed.")
     prepare.add_argument("--source-csv", help="Optional local TruthfulQA CSV path.")
     prepare.add_argument("--cache-path", default="data/raw/TruthfulQA.csv", help="Raw CSV cache path.")
-    prepare.add_argument("--url", default=TRUTHFULQA_CSV_URL, help="TruthfulQA CSV URL.")
+    prepare.add_argument("--url", default=TRUTHFULQA_CSV_URL, help="CSV URL (default: pinned TruthfulQA revision).")
     prepare.add_argument("--limit", type=int, help="Optional row limit for smoke tests.")
-    prepare.add_argument(
-        "--skip-commit-resolution",
-        action="store_true",
-        help="Do not query GitHub for the current source commit.",
-    )
 
     score = subparsers.add_parser("score", help="Score models on processed TruthfulQA JSONL.")
     score.add_argument("--config", required=True, help="YAML or JSON config path.")
@@ -81,7 +76,6 @@ def main(argv: Sequence[str] | None = None) -> int:
             cache_path=args.cache_path,
             url=args.url,
             limit=args.limit,
-            resolve_commit=not args.skip_commit_resolution,
         )
         print(f"Wrote {count} TruthfulQA binary rows to {Path(args.out)}")
         return 0
