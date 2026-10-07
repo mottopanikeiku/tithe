@@ -3,13 +3,14 @@
     "nice",
     "-n",
     "19",
-    "/home/alp/Projects/profile-program/work/alignmenttax/.venv/bin/alignmenttax",
+    ".venv/bin/alignmenttax",
     "score",
     "--config",
     "configs/qwen2_5_0_5b.yaml",
     "--out",
-    "/home/alp/Projects/profile-program/work/alignmenttax/results/qwen2_5_0_5b/scores.jsonl"
+    "results/qwen2_5_0_5b/scores.jsonl"
   ],
+  "command_paths": "Repository-relative paths; the original machine-specific prefix is omitted.",
   "available_memory_before_bytes": 3502628864,
   "memory_budget_bytes": 1500000000,
   "rss_stop_threshold_bytes": 1450000000,

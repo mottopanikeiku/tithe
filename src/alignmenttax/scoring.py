@@ -3,9 +3,11 @@ from __future__ import annotations
 import datetime as dt
 import gc
 import hashlib
+import inspect
 import json
 import math
 import time
+from itertools import islice
 from pathlib import Path
 from typing import Any, Iterable
 
@@ -220,6 +222,8 @@ class TransformerLabelScorer:
             "revision": self.revision,
             "low_cpu_mem_usage": True,
         }
+        if model_config.get("attn_implementation") is not None:
+            load_kwargs["attn_implementation"] = model_config["attn_implementation"]
         torch_dtype = _load_torch_dtype(torch, dtype_name)
         if device_name == "auto" and torch.cuda.is_available():
             load_kwargs["device_map"] = "auto"
@@ -239,6 +243,13 @@ class TransformerLabelScorer:
             label: self.tokenizer.encode(text, add_special_tokens=False)
             for label, text in LABEL_TEXT.items()
         }
+        # Older OLMo2 releases expose neither argument. Do not assume **kwargs
+        # means support: those releases must use the full-logits forward path.
+        forward_parameters = inspect.signature(self.model.forward).parameters
+        self.logits_keep_argument = next(
+            (name for name in ("logits_to_keep", "num_logits_to_keep") if name in forward_parameters),
+            None,
+        )
 
     def _inputs_to_device(self, inputs: dict[str, Any]) -> dict[str, Any]:
         return {
@@ -246,14 +257,23 @@ class TransformerLabelScorer:
             for key, value in inputs.items()
         }
 
+    def _forward_logits(self, inputs: dict[str, Any], first_position: int) -> tuple[Any, int]:
+        """Return only a needed suffix when the model explicitly supports it."""
+        kwargs = dict(inputs, use_cache=False)
+        offset = 0
+        if self.logits_keep_argument is not None:
+            kwargs[self.logits_keep_argument] = inputs["input_ids"].shape[1] - first_position
+            offset = first_position
+        return self.model(**kwargs).logits, offset
+
     def _single_next_token_logprobs(self, prompt: str) -> tuple[float, float] | None:
         if any(len(token_ids) != 1 for token_ids in self.label_token_ids.values()):
             return None
         inputs = self.tokenizer(prompt, return_tensors="pt", add_special_tokens=False)
         inputs = self._inputs_to_device(inputs)
         with self.torch.inference_mode():
-            logits = self.model(**inputs, use_cache=False, logits_to_keep=1).logits[:, -1, :]
-            log_probs = self.torch.log_softmax(logits, dim=-1)[0]
+            logits, _ = self._forward_logits(inputs, inputs["input_ids"].shape[1] - 1)
+            log_probs = self.torch.log_softmax(logits[:, -1, :].float(), dim=-1)[0]
         return (
             float(log_probs[self.label_token_ids["A"][0]].detach().cpu()),
             float(log_probs[self.label_token_ids["B"][0]].detach().cpu()),
@@ -264,17 +284,20 @@ class TransformerLabelScorer:
         continuation_ids = self.tokenizer.encode(continuation, add_special_tokens=False)
         if not continuation_ids:
             raise ValueError("Continuation tokenization produced no tokens.")
+        if not prompt_ids:
+            raise ValueError("Prompt tokenization produced no tokens.")
         input_ids = self.torch.tensor([prompt_ids + continuation_ids], device=self.device)
         attention_mask = self.torch.ones_like(input_ids, device=self.device)
+        first_position = len(prompt_ids) - 1
         with self.torch.inference_mode():
-            logits = self.model(input_ids=input_ids, attention_mask=attention_mask).logits
-            log_probs = self.torch.log_softmax(logits, dim=-1)
-        total = 0.0
-        prompt_length = len(prompt_ids)
-        for offset, token_id in enumerate(continuation_ids):
-            position = prompt_length + offset - 1
-            total += float(log_probs[0, position, token_id].detach().cpu())
-        return total
+            logits, offset = self._forward_logits(
+                {"input_ids": input_ids, "attention_mask": attention_mask}, first_position
+            )
+            selected = logits[0, first_position - offset:first_position - offset + len(continuation_ids)]
+            log_probs = self.torch.log_softmax(selected.float(), dim=-1)
+            targets = self.torch.tensor(continuation_ids, device=self.device)
+            values = log_probs.gather(1, targets[:, None]).squeeze(1).cpu().tolist()
+        return sum(values)
 
     def score_prompt(self, prompt: str) -> tuple[float, float, dict[str, int]]:
         next_token_scores = self._single_next_token_logprobs(prompt)
@@ -289,6 +312,90 @@ class TransformerLabelScorer:
             label_token_counts,
         )
 
+    def score_prompts(self, prompts: list[str]) -> list[tuple[float, float, dict[str, int]]]:
+        """Score a batch in input order with the scalar continuation semantics."""
+        if not prompts:
+            return []
+        torch = self.torch
+        counts = {label: len(ids) for label, ids in self.label_token_ids.items()}
+        if any(count == 0 for count in counts.values()):
+            raise ValueError("Continuation tokenization produced no tokens.")
+        prompt_ids = [self.tokenizer.encode(prompt, add_special_tokens=False) for prompt in prompts]
+        if any(not ids for ids in prompt_ids):
+            raise ValueError("Prompt tokenization produced no tokens.")
+
+        single_token = all(count == 1 for count in counts.values())
+        # With multi-token labels, each label needs its own teacher-forced
+        # sequence. The last target is not an input: causal predictions do not
+        # depend on it. Labels remain separately tokenized, as in score_prompt.
+        sequences = (
+            prompt_ids if single_token else [
+                ids + self.label_token_ids[label][:-1]
+                for ids in prompt_ids for label in LABEL_TEXT
+            ]
+        )
+        width = max(map(len, sequences))
+        left_padding = self.tokenizer.padding_side == "left"
+        pad_id = self.tokenizer.pad_token_id
+        if pad_id is None:
+            pad_id = self.tokenizer.eos_token_id
+        if pad_id is None:
+            # A masked, in-vocabulary token suffices; no tokenizer mutation.
+            pad_id = sequences[0][0]
+        input_rows, mask_rows, starts = [], [], []
+        for ids in sequences:
+            padding = width - len(ids)
+            start = padding if left_padding else 0
+            starts.append(start)
+            input_rows.append(
+                [pad_id] * padding + ids if left_padding else ids + [pad_id] * padding
+            )
+            mask_rows.append(
+                [0] * padding + [1] * len(ids) if left_padding else [1] * len(ids) + [0] * padding
+            )
+        input_ids = torch.tensor(input_rows, dtype=torch.long, device=self.device)
+        attention_mask = torch.tensor(mask_rows, dtype=torch.long, device=self.device)
+        position_ids = (attention_mask.cumsum(dim=1) - 1).clamp_min(0)
+
+        sequence_indices, positions, targets = [], [], []
+        for prompt_index, ids in enumerate(prompt_ids):
+            for label_index, label in enumerate(LABEL_TEXT):
+                sequence_index = prompt_index if single_token else 2 * prompt_index + label_index
+                for token_offset, token_id in enumerate(self.label_token_ids[label]):
+                    sequence_indices.append(sequence_index)
+                    positions.append(starts[sequence_index] + len(ids) + token_offset - 1)
+                    targets.append(token_id)
+        first_position = min(positions)
+        with torch.inference_mode():
+            logits, offset = self._forward_logits(
+                {"input_ids": input_ids, "attention_mask": attention_mask, "position_ids": position_ids},
+                first_position,
+            )
+            # Select prediction positions before casting or normalizing. This
+            # keeps fp32 softmax on the GPU without a full-sequence fp32 copy.
+            prediction_indices = sequence_indices[::2] if single_token else sequence_indices
+            prediction_positions = positions[::2] if single_token else positions
+            selected = logits[
+                torch.tensor(prediction_indices, device=self.device),
+                torch.tensor(prediction_positions, device=self.device) - offset,
+            ]
+            log_probs = torch.log_softmax(selected.float(), dim=-1)
+            if single_token:
+                target_ids = torch.tensor(targets[:2], device=self.device)
+                values = log_probs[:, target_ids].flatten().cpu().tolist()
+            else:
+                target_ids = torch.tensor(targets, device=self.device)
+                values = log_probs.gather(1, target_ids[:, None]).squeeze(1).cpu().tolist()
+        results = []
+        cursor = 0
+        for _ in prompts:
+            logprob_a = sum(values[cursor:cursor + counts["A"]])
+            cursor += counts["A"]
+            logprob_b = sum(values[cursor:cursor + counts["B"]])
+            cursor += counts["B"]
+            results.append((logprob_a, logprob_b, dict(counts)))
+        return results
+
 
 def transformer_score_records(
     records: Iterable[dict[str, Any]],
@@ -300,6 +407,9 @@ def transformer_score_records(
     models = config.get("models", {})
     records = list(records)
     existing_keys = existing_keys if existing_keys is not None else set()
+    batch_size = config.get("scoring", {}).get("batch_size", 1)
+    if isinstance(batch_size, bool) or not isinstance(batch_size, int) or batch_size < 1:
+        raise ValueError("scoring.batch_size must be a positive integer.")
     for model_key, model_config in models.items():
         if all(
             (str(item["id"]), str(model_key), protocol) in existing_keys
@@ -309,35 +419,53 @@ def transformer_score_records(
             continue
         scorer = TransformerLabelScorer(model_key=model_key, model_config=model_config)
         for protocol in protocols:
-            for item in records:
-                if (str(item["id"]), str(model_key), protocol) in existing_keys:
+            pending = (
+                (item, build_prompt(
+                    item, protocol=protocol, model_key=model_key, tokenizer=scorer.tokenizer,
+                ))
+                for item in records
+                if (str(item["id"]), str(model_key), protocol) not in existing_keys
+            )
+            if batch_size > 1:
+                pending = iter(sorted(pending, key=lambda entry: len(entry[1])))
+            while True:
+                candidates = list(islice(pending, batch_size))
+                if not candidates:
+                    break
+                batch = [
+                    entry for entry in candidates
+                    if (str(entry[0]["id"]), str(model_key), protocol) not in existing_keys
+                ]
+                if not batch:
                     continue
-                prompt = build_prompt(
-                    item,
-                    protocol=protocol,
-                    model_key=model_key,
-                    tokenizer=scorer.tokenizer,
-                )
                 start = time.perf_counter()
-                logprob_a, logprob_b, label_token_counts = scorer.score_prompt(prompt)
-                yield _score_row(
-                    item=item,
-                    model_key=model_key,
-                    model_id=scorer.model_id,
-                    protocol=protocol,
-                    logprob_a=logprob_a,
-                    logprob_b=logprob_b,
-                    device=str(scorer.device),
-                    dtype=scorer.dtype,
-                    elapsed_seconds=time.perf_counter() - start,
-                    label_token_counts=label_token_counts,
-                    prompt_format=(
-                        "chat_template"
-                        if protocol == NATIVE_PROMPT_PROTOCOL and model_key == "instruct"
-                        else "plain"
-                    ),
-                    model_revision=scorer.revision,
+                prompts = [prompt for _, prompt in batch]
+                scores = (
+                    [scorer.score_prompt(prompts[0])]
+                    if batch_size == 1 else scorer.score_prompts(prompts)
                 )
+                elapsed_per_row = (time.perf_counter() - start) / len(batch)
+                for (item, _), (logprob_a, logprob_b, label_token_counts) in zip(batch, scores, strict=True):
+                    if (str(item["id"]), str(model_key), protocol) in existing_keys:
+                        continue
+                    yield _score_row(
+                        item=item,
+                        model_key=model_key,
+                        model_id=scorer.model_id,
+                        protocol=protocol,
+                        logprob_a=logprob_a,
+                        logprob_b=logprob_b,
+                        device=str(scorer.device),
+                        dtype=scorer.dtype,
+                        elapsed_seconds=elapsed_per_row,
+                        label_token_counts=label_token_counts,
+                        prompt_format=(
+                            "chat_template"
+                            if protocol == NATIVE_PROMPT_PROTOCOL and model_key == "instruct"
+                            else "plain"
+                        ),
+                        model_revision=scorer.revision,
+                    )
         torch_module = scorer.torch
         del scorer
         gc.collect()
