@@ -30,7 +30,7 @@ The CPU configuration is `configs/qwen2_5_0_5b.yaml`. `tools/run_cpu.py` runs it
 
 The original pinned 1.5B CPU configuration is retained for another machine; it must not be run under the earlier laptop's limits. Analysis reads saved scores and does not load models.
 
-The stopped attempt and proposed hardware allowance are described in [NEXT.md](NEXT.md).
+The [stopped attempt](../results/qwen2_5_0_5b) is retained separately. [NEXT.md](NEXT.md) now proposes label and answer-order checks after the completed cloud comparison.
 
 ## Cloud execution
 
@@ -43,3 +43,7 @@ The cloud runtime estimates GPU, CPU and memory charges. The separate cost summa
 The Qwen2.5-0.5B base pilot found a maximum scalar/batch raw-log-likelihood difference of 0.107038 nats on eight shared-prompt questions, above the preset 0.08 tolerance, with no changed predicted labels in that subset. I did not loosen the tolerance after seeing it. I switched the full configuration to scalar execution (`batch_size: 1`) before scoring the complete pairs. The likelihood definition, bf16 weights, pinned revisions, question set and paired analysis plan did not change. The batching code remains covered by numerical reference tests, but these published measurements do not use it. [The failed pilot](../results/pilot/batch_parity_failure.json) records what was actually checked.
 
 The previous stopped CPU attempt normalized logits in bf16; the current scorer uses float32 normalization of bf16 model logits for both checkpoints. I recompute all rows rather than mix either device or normalization implementation with the historical partial file.
+
+## Earlier calibration studies
+
+I build on [Kadavath et al.](https://arxiv.org/abs/2207.05221), who studied choice-probability calibration and found that temperature adjustment could repair apparent RLHF miscalibration on several evaluations. [Huang, Lu and Zeng](https://arxiv.org/abs/2508.00264) report worse calibration after instruction tuning in matched models on MMLU (their Figure 1). My experiment is a task-specific comparison on binary TruthfulQA with paired intervals and a separate prompt sensitivity check, not the first study of post-training calibration and not a replication of their MMLU setting.

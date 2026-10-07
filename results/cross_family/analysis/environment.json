@@ -1,0 +1,22 @@
+{
+  "python": "3.13.15 (main, Aug 14 2026, 15:34:59) [Clang 22.1.3 ]",
+  "numpy": "2.5.3",
+  "command": [
+    ".venv/bin/python",
+    "-m",
+    "alignmenttax.cross_family",
+    "--root",
+    "results/cross_family",
+    "--out",
+    "results/cross_family/analysis"
+  ],
+  "thread_limits": {
+    "OMP_NUM_THREADS": 2,
+    "OPENBLAS_NUM_THREADS": 2,
+    "MKL_NUM_THREADS": 2
+  },
+  "scoring_source_commit": "c998de9",
+  "analysis_plan_commit": "e299861",
+  "total_full_score_rows": 22120,
+  "numeric_analysis_source_commit": "c998de9"
+}

@@ -1,0 +1,44 @@
+{
+  "analysis": {
+    "binning": "equal_frequency",
+    "bootstrap_iterations": 10000,
+    "bootstrap_seed": 20260420,
+    "confidence_level": 0.95,
+    "ece_bins": 10
+  },
+  "dataset": {
+    "path": "data/processed/truthfulqa_binary.jsonl",
+    "seed": 20260420,
+    "variant": "binary_best_vs_best_incorrect"
+  },
+  "experiment": {
+    "family": "Qwen2.5",
+    "pair_id": "qwen2_5_1_5b",
+    "parameters_billion": 1.5
+  },
+  "models": {
+    "base": {
+      "attn_implementation": "sdpa",
+      "device": "cuda",
+      "dtype": "bf16",
+      "model_id": "Qwen/Qwen2.5-1.5B",
+      "revision": "8faed761d45a263340a0528343f099c05c9a4323",
+      "tokenizer_id": "Qwen/Qwen2.5-1.5B"
+    },
+    "instruct": {
+      "attn_implementation": "sdpa",
+      "device": "cuda",
+      "dtype": "bf16",
+      "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+      "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+      "tokenizer_id": "Qwen/Qwen2.5-1.5B-Instruct"
+    }
+  },
+  "scoring": {
+    "batch_size": 1,
+    "protocols": [
+      "shared_plain_ab_label",
+      "native_prompt_ab_label"
+    ]
+  }
+}

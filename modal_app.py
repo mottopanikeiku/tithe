@@ -105,6 +105,7 @@ def score_pairs(pair_ids: list[str], limit: int | None, check_parity: bool):
             "pair_id": pair_id,
             "scores.jsonl.gz": gzip.compress((out / "scores.jsonl").read_bytes(), mtime=0),
             "run_metadata.json": (out / "run_metadata.json").read_bytes(),
+            "config.json": config_path.read_bytes(),
             "runtime.json": (json.dumps(runtime, indent=2, sort_keys=True) + "\n").encode(),
             "dataset.jsonl.gz": gzip.compress(dataset_path.read_bytes(), mtime=0),
         }

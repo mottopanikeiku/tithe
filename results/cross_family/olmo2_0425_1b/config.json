@@ -1,0 +1,44 @@
+{
+  "analysis": {
+    "binning": "equal_frequency",
+    "bootstrap_iterations": 10000,
+    "bootstrap_seed": 20260420,
+    "confidence_level": 0.95,
+    "ece_bins": 10
+  },
+  "dataset": {
+    "path": "data/processed/truthfulqa_binary.jsonl",
+    "seed": 20260420,
+    "variant": "binary_best_vs_best_incorrect"
+  },
+  "experiment": {
+    "family": "OLMo-2",
+    "pair_id": "olmo2_0425_1b",
+    "parameters_billion": 1
+  },
+  "models": {
+    "base": {
+      "attn_implementation": "sdpa",
+      "device": "cuda",
+      "dtype": "bf16",
+      "model_id": "allenai/OLMo-2-0425-1B",
+      "revision": "a1847dff35000b4271fa70afc5db10fd29fedbdf",
+      "tokenizer_id": "allenai/OLMo-2-0425-1B"
+    },
+    "instruct": {
+      "attn_implementation": "sdpa",
+      "device": "cuda",
+      "dtype": "bf16",
+      "model_id": "allenai/OLMo-2-0425-1B-Instruct",
+      "revision": "48d788eca847d4d7548f375ad03d3c9312f6139e",
+      "tokenizer_id": "allenai/OLMo-2-0425-1B-Instruct"
+    }
+  },
+  "scoring": {
+    "batch_size": 1,
+    "protocols": [
+      "shared_plain_ab_label",
+      "native_prompt_ab_label"
+    ]
+  }
+}

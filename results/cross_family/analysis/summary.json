@@ -1,0 +1,2289 @@
+{
+  "bootstrap": {
+    "chunk_size": 256,
+    "interval": "percentile",
+    "quantile_method": "linear",
+    "rng": "numpy.default_rng/PCG64",
+    "shared_resamples_across_pairs_and_protocols": true,
+    "unit": "question_id"
+  },
+  "confidence_level": 0.95,
+  "ece": {
+    "binning": "equal_frequency",
+    "bins": 10,
+    "recomputed_per_resample": true,
+    "tie_order": "stable sampled order"
+  },
+  "interpretation": {
+    "accuracy": "Truthfulness proxy on this binary task, not general truthfulness.",
+    "classification_rule": "Accuracy CI strictly above zero and ECE CI strictly above zero supports a tradeoff. ECE CI strictly below zero supports calibration improvement only. Crossing or touching zero is uncertain for that metric.",
+    "delta_order": "instruct_minus_base",
+    "primary_calibration_metric": "ece",
+    "proper_score_checks": [
+      "brier",
+      "nll"
+    ],
+    "scope": "Descriptive matched comparisons on the same questions; no causal, family-population or population meta-inference. Intervals are per-comparison and not multiplicity-adjusted."
+  },
+  "iterations": 10000,
+  "pair_count": 7,
+  "pairs": [
+    {
+      "family": "Mistral v0.3",
+      "models": {
+        "base": {
+          "attn_implementation": "sdpa",
+          "device": "cuda",
+          "dtype": "bf16",
+          "model_id": "mistralai/Mistral-7B-v0.3",
+          "revision": "caa1feb0e54d415e2df31207e5f4e273e33509b1",
+          "tokenizer_id": "mistralai/Mistral-7B-v0.3"
+        },
+        "instruct": {
+          "attn_implementation": "sdpa",
+          "device": "cuda",
+          "dtype": "bf16",
+          "model_id": "mistralai/Mistral-7B-Instruct-v0.3",
+          "revision": "c170c708c41dac9275d15a8fff4eca08d52bab71",
+          "tokenizer_id": "mistralai/Mistral-7B-Instruct-v0.3"
+        }
+      },
+      "pair_id": "mistral_7b_v0_3",
+      "parameters_billion": 7.0,
+      "protocols": {
+        "native_prompt_ab_label": {
+          "classification": {
+            "explanation": "Accuracy increased and ECE worsened; both intervals exclude zero.",
+            "outcome": "supports_tradeoff",
+            "signs": {
+              "accuracy": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "brier": {
+                "ci": "crosses_or_touches_zero",
+                "point": "positive"
+              },
+              "ece": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "mean_confidence": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "nll": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "overconfidence_gap": {
+                "ci": "positive",
+                "point": "positive"
+              }
+            }
+          },
+          "deltas": {
+            "confidence_level": 0.95,
+            "iterations": 10000,
+            "metrics": {
+              "accuracy": {
+                "ci_high": 0.1354430379746835,
+                "ci_low": 0.0620253164556962,
+                "point": 0.09873417721518984
+              },
+              "brier": {
+                "ci_high": 0.04338113935156875,
+                "ci_low": -0.00827218440791153,
+                "point": 0.017396728687530838
+              },
+              "ece": {
+                "ci_high": 0.18918134289007274,
+                "ci_low": 0.10534881801898016,
+                "point": 0.15061654610004194
+              },
+              "mean_confidence": {
+                "ci_high": 0.3616671686019996,
+                "ci_low": 0.3452272967821129,
+                "point": 0.35353222580648136
+              },
+              "nll": {
+                "ci_high": 1.6473479791075236,
+                "ci_low": 1.0840532022706757,
+                "point": 1.362520144572672
+              },
+              "overconfidence_gap": {
+                "ci_high": 0.2908884019703789,
+                "ci_low": 0.21831011416455234,
+                "point": 0.2547980485912915
+              }
+            },
+            "model_order": "instruct_minus_base",
+            "n_pairs": 790
+          },
+          "models": {
+            "base": {
+              "accuracy": 0.6658227848101266,
+              "brier": 0.20781088294805444,
+              "ece": 0.06633367634513203,
+              "mean_confidence": 0.6279749586640091,
+              "n": 790,
+              "nll": 0.6008943164038004,
+              "overconfidence_gap": -0.03784782614611748
+            },
+            "instruct": {
+              "accuracy": 0.7645569620253164,
+              "brier": 0.22520761163558528,
+              "ece": 0.21695022244517398,
+              "mean_confidence": 0.9815071844704905,
+              "n": 790,
+              "nll": 1.9634144609764723,
+              "overconfidence_gap": 0.21695022244517403
+            }
+          },
+          "role": "sensitivity"
+        },
+        "shared_plain_ab_label": {
+          "classification": {
+            "explanation": "Accuracy increased and ECE worsened; both intervals exclude zero.",
+            "outcome": "supports_tradeoff",
+            "signs": {
+              "accuracy": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "brier": {
+                "ci": "crosses_or_touches_zero",
+                "point": "negative"
+              },
+              "ece": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "mean_confidence": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "nll": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "overconfidence_gap": {
+                "ci": "positive",
+                "point": "positive"
+              }
+            }
+          },
+          "deltas": {
+            "confidence_level": 0.95,
+            "iterations": 10000,
+            "metrics": {
+              "accuracy": {
+                "ci_high": 0.1240506329113924,
+                "ci_low": 0.06075949367088607,
+                "point": 0.09240506329113929
+              },
+              "brier": {
+                "ci_high": 0.008478655932971034,
+                "ci_low": -0.03157129985262372,
+                "point": -0.012060409693895713
+              },
+              "ece": {
+                "ci_high": 0.12629388520059898,
+                "ci_low": 0.04304136613153591,
+                "point": 0.08717803809618972
+              },
+              "mean_confidence": {
+                "ci_high": 0.29330130188378506,
+                "ci_low": 0.27438805232518865,
+                "point": 0.2837646038785785
+              },
+              "nll": {
+                "ci_high": 0.25350496047535015,
+                "ci_low": 0.0630073765886918,
+                "point": 0.15743055500555214
+              },
+              "overconfidence_gap": {
+                "ci_high": 0.22359864486379383,
+                "ci_low": 0.15914628173729833,
+                "point": 0.1913595405874392
+              }
+            },
+            "model_order": "instruct_minus_base",
+            "n_pairs": 790
+          },
+          "models": {
+            "base": {
+              "accuracy": 0.6658227848101266,
+              "brier": 0.20781088294805444,
+              "ece": 0.06633367634513203,
+              "mean_confidence": 0.6279749586640091,
+              "n": 790,
+              "nll": 0.6008943164038004,
+              "overconfidence_gap": -0.03784782614611748
+            },
+            "instruct": {
+              "accuracy": 0.7582278481012659,
+              "brier": 0.19575047325415873,
+              "ece": 0.15351171444132175,
+              "mean_confidence": 0.9117395625425876,
+              "n": 790,
+              "nll": 0.7583248714093526,
+              "overconfidence_gap": 0.15351171444132172
+            }
+          },
+          "role": "primary"
+        }
+      }
+    },
+    {
+      "family": "OLMo-2",
+      "models": {
+        "base": {
+          "attn_implementation": "sdpa",
+          "device": "cuda",
+          "dtype": "bf16",
+          "model_id": "allenai/OLMo-2-0425-1B",
+          "revision": "a1847dff35000b4271fa70afc5db10fd29fedbdf",
+          "tokenizer_id": "allenai/OLMo-2-0425-1B"
+        },
+        "instruct": {
+          "attn_implementation": "sdpa",
+          "device": "cuda",
+          "dtype": "bf16",
+          "model_id": "allenai/OLMo-2-0425-1B-Instruct",
+          "revision": "48d788eca847d4d7548f375ad03d3c9312f6139e",
+          "tokenizer_id": "allenai/OLMo-2-0425-1B-Instruct"
+        }
+      },
+      "pair_id": "olmo2_0425_1b",
+      "parameters_billion": 1.0,
+      "protocols": {
+        "native_prompt_ab_label": {
+          "classification": {
+            "explanation": "At least one interval relevant to the tradeoff crosses or touches zero.",
+            "outcome": "uncertain",
+            "signs": {
+              "accuracy": {
+                "ci": "crosses_or_touches_zero",
+                "point": "positive"
+              },
+              "brier": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "ece": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "mean_confidence": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "nll": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "overconfidence_gap": {
+                "ci": "positive",
+                "point": "positive"
+              }
+            }
+          },
+          "deltas": {
+            "confidence_level": 0.95,
+            "iterations": 10000,
+            "metrics": {
+              "accuracy": {
+                "ci_high": 0.03797468354430383,
+                "ci_low": -0.03164556962025311,
+                "point": 0.0037974683544304
+              },
+              "brier": {
+                "ci_high": 0.10860635665124897,
+                "ci_low": 0.06697195121985214,
+                "point": 0.0880318135462827
+              },
+              "ece": {
+                "ci_high": 0.17744642442564806,
+                "ci_low": 0.10902062640263231,
+                "point": 0.1516997977508421
+              },
+              "mean_confidence": {
+                "ci_high": 0.16545565123897646,
+                "ci_low": 0.14537379253989086,
+                "point": 0.15549726610527248
+              },
+              "nll": {
+                "ci_high": 0.43887760027631667,
+                "ci_low": 0.30128506069631195,
+                "point": 0.3706821624929826
+              },
+              "overconfidence_gap": {
+                "ci_high": 0.1883914830745494,
+                "ci_low": 0.11572786312171926,
+                "point": 0.15169979775084208
+              }
+            },
+            "model_order": "instruct_minus_base",
+            "n_pairs": 790
+          },
+          "models": {
+            "base": {
+              "accuracy": 0.49873417721518987,
+              "brier": 0.2887238212498551,
+              "ece": 0.17606511927754923,
+              "mean_confidence": 0.6747992964927391,
+              "n": 790,
+              "nll": 0.7900640172168303,
+              "overconfidence_gap": 0.1760651192775492
+            },
+            "instruct": {
+              "accuracy": 0.5025316455696203,
+              "brier": 0.3767556347961378,
+              "ece": 0.32776491702839133,
+              "mean_confidence": 0.8302965625980115,
+              "n": 790,
+              "nll": 1.1607461797098129,
+              "overconfidence_gap": 0.3277649170283913
+            }
+          },
+          "role": "sensitivity"
+        },
+        "shared_plain_ab_label": {
+          "classification": {
+            "explanation": "Accuracy fell and ECE worsened; both intervals exclude zero.",
+            "outcome": "accuracy_and_calibration_worsened",
+            "signs": {
+              "accuracy": {
+                "ci": "negative",
+                "point": "negative"
+              },
+              "brier": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "ece": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "mean_confidence": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "nll": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "overconfidence_gap": {
+                "ci": "positive",
+                "point": "positive"
+              }
+            }
+          },
+          "deltas": {
+            "confidence_level": 0.95,
+            "iterations": 10000,
+            "metrics": {
+              "accuracy": {
+                "ci_high": -0.0025316455696202667,
+                "ci_low": -0.07721518987341769,
+                "point": -0.03924050632911391
+              },
+              "brier": {
+                "ci_high": 0.09852884895833385,
+                "ci_low": 0.06150766371531117,
+                "point": 0.0797953156665614
+              },
+              "ece": {
+                "ci_high": 0.15617886889683644,
+                "ci_low": 0.08601688618855469,
+                "point": 0.1283782112647948
+              },
+              "mean_confidence": {
+                "ci_high": 0.1006930869962264,
+                "ci_low": 0.077247153900401,
+                "point": 0.08913770493568096
+              },
+              "nll": {
+                "ci_high": 0.4765259667884443,
+                "ci_low": 0.3229145555384866,
+                "point": 0.3985110873723119
+              },
+              "overconfidence_gap": {
+                "ci_high": 0.16764689918946185,
+                "ci_low": 0.08972816025664572,
+                "point": 0.12837821126479487
+              }
+            },
+            "model_order": "instruct_minus_base",
+            "n_pairs": 790
+          },
+          "models": {
+            "base": {
+              "accuracy": 0.49873417721518987,
+              "brier": 0.2887238212498551,
+              "ece": 0.17606511927754923,
+              "mean_confidence": 0.6747992964927391,
+              "n": 790,
+              "nll": 0.7900640172168303,
+              "overconfidence_gap": 0.1760651192775492
+            },
+            "instruct": {
+              "accuracy": 0.45949367088607596,
+              "brier": 0.36851913691641647,
+              "ece": 0.304443330542344,
+              "mean_confidence": 0.76393700142842,
+              "n": 790,
+              "nll": 1.1885751045891422,
+              "overconfidence_gap": 0.30444333054234407
+            }
+          },
+          "role": "primary"
+        }
+      }
+    },
+    {
+      "family": "OLMo-2",
+      "models": {
+        "base": {
+          "attn_implementation": "sdpa",
+          "device": "cuda",
+          "dtype": "bf16",
+          "model_id": "allenai/OLMo-2-1124-7B",
+          "revision": "7df9a82518afdecae4e8c026b27adccc8c1f0032",
+          "tokenizer_id": "allenai/OLMo-2-1124-7B"
+        },
+        "instruct": {
+          "attn_implementation": "sdpa",
+          "device": "cuda",
+          "dtype": "bf16",
+          "model_id": "allenai/OLMo-2-1124-7B-Instruct",
+          "revision": "470b1fba1ae01581f270116362ee4aa1b97f4c84",
+          "tokenizer_id": "allenai/OLMo-2-1124-7B-Instruct"
+        }
+      },
+      "pair_id": "olmo2_1124_7b",
+      "parameters_billion": 7.0,
+      "protocols": {
+        "native_prompt_ab_label": {
+          "classification": {
+            "explanation": "At least one interval relevant to the tradeoff crosses or touches zero.",
+            "outcome": "uncertain",
+            "signs": {
+              "accuracy": {
+                "ci": "crosses_or_touches_zero",
+                "point": "positive"
+              },
+              "brier": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "ece": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "mean_confidence": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "nll": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "overconfidence_gap": {
+                "ci": "positive",
+                "point": "positive"
+              }
+            }
+          },
+          "deltas": {
+            "confidence_level": 0.95,
+            "iterations": 10000,
+            "metrics": {
+              "accuracy": {
+                "ci_high": 0.06329113924050633,
+                "ci_low": -0.016455696202531622,
+                "point": 0.02278481012658229
+              },
+              "brier": {
+                "ci_high": 0.061119125924065085,
+                "ci_low": 0.010099210632873997,
+                "point": 0.03585144910267152
+              },
+              "ece": {
+                "ci_high": 0.13707109673154988,
+                "ci_low": 0.06055770952797949,
+                "point": 0.1021673473874384
+              },
+              "mean_confidence": {
+                "ci_high": 0.1445926003288754,
+                "ci_low": 0.11780842190889745,
+                "point": 0.13113308557387637
+              },
+              "nll": {
+                "ci_high": 0.5687732787699403,
+                "ci_low": 0.33128456363679315,
+                "point": 0.4479878082490403
+              },
+              "overconfidence_gap": {
+                "ci_high": 0.1489534920666372,
+                "ci_low": 0.06679566480324906,
+                "point": 0.10834827544729408
+              }
+            },
+            "model_order": "instruct_minus_base",
+            "n_pairs": 790
+          },
+          "models": {
+            "base": {
+              "accuracy": 0.6303797468354431,
+              "brier": 0.2460134310665597,
+              "ece": 0.12600829710847647,
+              "mean_confidence": 0.7502071158840639,
+              "n": 790,
+              "nll": 0.7179176852849991,
+              "overconfidence_gap": 0.11982736904862079
+            },
+            "instruct": {
+              "accuracy": 0.6531645569620254,
+              "brier": 0.2818648801692312,
+              "ece": 0.22817564449591488,
+              "mean_confidence": 0.8813402014579402,
+              "n": 790,
+              "nll": 1.1659054935340394,
+              "overconfidence_gap": 0.22817564449591488
+            }
+          },
+          "role": "sensitivity"
+        },
+        "shared_plain_ab_label": {
+          "classification": {
+            "explanation": "Accuracy increased and ECE worsened; both intervals exclude zero.",
+            "outcome": "supports_tradeoff",
+            "signs": {
+              "accuracy": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "brier": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "ece": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "mean_confidence": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "nll": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "overconfidence_gap": {
+                "ci": "positive",
+                "point": "positive"
+              }
+            }
+          },
+          "deltas": {
+            "confidence_level": 0.95,
+            "iterations": 10000,
+            "metrics": {
+              "accuracy": {
+                "ci_high": 0.08227848101265822,
+                "ci_low": 0.025316455696202445,
+                "point": 0.05316455696202527
+              },
+              "brier": {
+                "ci_high": 0.036325786596067916,
+                "ci_low": 7.566164125651856e-06,
+                "point": 0.01796954235851772
+              },
+              "ece": {
+                "ci_high": 0.1310156025699612,
+                "ci_low": 0.07489636728583224,
+                "point": 0.10659703757884192
+              },
+              "mean_confidence": {
+                "ci_high": 0.17618678989799474,
+                "ci_low": 0.15565623658962544,
+                "point": 0.16594252260072284
+              },
+              "nll": {
+                "ci_high": 0.6423594943729445,
+                "ci_low": 0.40123277622485065,
+                "point": 0.5168812131408542
+              },
+              "overconfidence_gap": {
+                "ci_high": 0.14190443193044747,
+                "ci_low": 0.08250752604312632,
+                "point": 0.11277796563869757
+              }
+            },
+            "model_order": "instruct_minus_base",
+            "n_pairs": 790
+          },
+          "models": {
+            "base": {
+              "accuracy": 0.6303797468354431,
+              "brier": 0.2460134310665597,
+              "ece": 0.12600829710847647,
+              "mean_confidence": 0.7502071158840639,
+              "n": 790,
+              "nll": 0.7179176852849991,
+              "overconfidence_gap": 0.11982736904862079
+            },
+            "instruct": {
+              "accuracy": 0.6835443037974683,
+              "brier": 0.2639829734250774,
+              "ece": 0.2326053346873184,
+              "mean_confidence": 0.9161496384847867,
+              "n": 790,
+              "nll": 1.2347988984258533,
+              "overconfidence_gap": 0.23260533468731837
+            }
+          },
+          "role": "primary"
+        }
+      }
+    },
+    {
+      "family": "Qwen2.5",
+      "models": {
+        "base": {
+          "attn_implementation": "sdpa",
+          "device": "cuda",
+          "dtype": "bf16",
+          "model_id": "Qwen/Qwen2.5-0.5B",
+          "revision": "060db6499f32faf8b98477b0a26969ef7d8b9987",
+          "tokenizer_id": "Qwen/Qwen2.5-0.5B"
+        },
+        "instruct": {
+          "attn_implementation": "sdpa",
+          "device": "cuda",
+          "dtype": "bf16",
+          "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+          "revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+          "tokenizer_id": "Qwen/Qwen2.5-0.5B-Instruct"
+        }
+      },
+      "pair_id": "qwen2_5_0_5b",
+      "parameters_billion": 0.5,
+      "protocols": {
+        "native_prompt_ab_label": {
+          "classification": {
+            "explanation": "Accuracy fell and ECE worsened; both intervals exclude zero.",
+            "outcome": "accuracy_and_calibration_worsened",
+            "signs": {
+              "accuracy": {
+                "ci": "negative",
+                "point": "negative"
+              },
+              "brier": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "ece": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "mean_confidence": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "nll": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "overconfidence_gap": {
+                "ci": "positive",
+                "point": "positive"
+              }
+            }
+          },
+          "deltas": {
+            "confidence_level": 0.95,
+            "iterations": 10000,
+            "metrics": {
+              "accuracy": {
+                "ci_high": -0.030379746835443033,
+                "ci_low": -0.10253164556962024,
+                "point": -0.0658227848101266
+              },
+              "brier": {
+                "ci_high": 0.09514843724150883,
+                "ci_low": 0.0497131848809872,
+                "point": 0.07228043036976356
+              },
+              "ece": {
+                "ci_high": 0.12374872415016122,
+                "ci_low": 0.04907276759160594,
+                "point": 0.08723095160755961
+              },
+              "mean_confidence": {
+                "ci_high": 0.03387600334525761,
+                "ci_low": 0.008656866823124719,
+                "point": 0.02140816679743296
+              },
+              "nll": {
+                "ci_high": 0.5436083336876019,
+                "ci_low": 0.361186720725632,
+                "point": 0.4523282415082358
+              },
+              "overconfidence_gap": {
+                "ci_high": 0.12559955692471314,
+                "ci_low": 0.04911869558661169,
+                "point": 0.08723095160755956
+              }
+            },
+            "model_order": "instruct_minus_base",
+            "n_pairs": 790
+          },
+          "models": {
+            "base": {
+              "accuracy": 0.5050632911392405,
+              "brier": 0.34199076254209754,
+              "ece": 0.2746976726227416,
+              "mean_confidence": 0.7797609637619821,
+              "n": 790,
+              "nll": 0.9624496902504637,
+              "overconfidence_gap": 0.2746976726227416
+            },
+            "instruct": {
+              "accuracy": 0.43924050632911393,
+              "brier": 0.4142711929118611,
+              "ece": 0.3619286242303012,
+              "mean_confidence": 0.8011691305594151,
+              "n": 790,
+              "nll": 1.4147779317586995,
+              "overconfidence_gap": 0.36192862423030114
+            }
+          },
+          "role": "sensitivity"
+        },
+        "shared_plain_ab_label": {
+          "classification": {
+            "explanation": "At least one interval relevant to the tradeoff crosses or touches zero.",
+            "outcome": "uncertain",
+            "signs": {
+              "accuracy": {
+                "ci": "negative",
+                "point": "negative"
+              },
+              "brier": {
+                "ci": "negative",
+                "point": "negative"
+              },
+              "ece": {
+                "ci": "crosses_or_touches_zero",
+                "point": "negative"
+              },
+              "mean_confidence": {
+                "ci": "negative",
+                "point": "negative"
+              },
+              "nll": {
+                "ci": "negative",
+                "point": "negative"
+              },
+              "overconfidence_gap": {
+                "ci": "negative",
+                "point": "negative"
+              }
+            }
+          },
+          "deltas": {
+            "confidence_level": 0.95,
+            "iterations": 10000,
+            "metrics": {
+              "accuracy": {
+                "ci_high": -0.013924050632911411,
+                "ci_low": -0.06712025316455701,
+                "point": -0.0405063291139241
+              },
+              "brier": {
+                "ci_high": -0.0009813965818229727,
+                "ci_low": -0.024207693724556993,
+                "point": -0.012627107177329733
+              },
+              "ece": {
+                "ci_high": 0.004219947794696303,
+                "ci_low": -0.049783507260425686,
+                "point": -0.0293186779817666
+              },
+              "mean_confidence": {
+                "ci_high": -0.06190372909027745,
+                "ci_low": -0.07769649854084186,
+                "point": -0.0698297897840835
+              },
+              "nll": {
+                "ci_high": -0.022499489660583766,
+                "ci_low": -0.08412052511392017,
+                "point": -0.05348848578268528
+              },
+              "overconfidence_gap": {
+                "ci_high": -0.0009102650057531559,
+                "ci_low": -0.057253884603463596,
+                "point": -0.029323460670159396
+              }
+            },
+            "model_order": "instruct_minus_base",
+            "n_pairs": 790
+          },
+          "models": {
+            "base": {
+              "accuracy": 0.5050632911392405,
+              "brier": 0.34199076254209754,
+              "ece": 0.2746976726227416,
+              "mean_confidence": 0.7797609637619821,
+              "n": 790,
+              "nll": 0.9624496902504637,
+              "overconfidence_gap": 0.2746976726227416
+            },
+            "instruct": {
+              "accuracy": 0.46455696202531643,
+              "brier": 0.3293636553647678,
+              "ece": 0.24537899464097498,
+              "mean_confidence": 0.7099311739778986,
+              "n": 790,
+              "nll": 0.9089612044677784,
+              "overconfidence_gap": 0.2453742119525822
+            }
+          },
+          "role": "primary"
+        }
+      }
+    },
+    {
+      "family": "Qwen2.5",
+      "models": {
+        "base": {
+          "attn_implementation": "sdpa",
+          "device": "cuda",
+          "dtype": "bf16",
+          "model_id": "Qwen/Qwen2.5-1.5B",
+          "revision": "8faed761d45a263340a0528343f099c05c9a4323",
+          "tokenizer_id": "Qwen/Qwen2.5-1.5B"
+        },
+        "instruct": {
+          "attn_implementation": "sdpa",
+          "device": "cuda",
+          "dtype": "bf16",
+          "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+          "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+          "tokenizer_id": "Qwen/Qwen2.5-1.5B-Instruct"
+        }
+      },
+      "pair_id": "qwen2_5_1_5b",
+      "parameters_billion": 1.5,
+      "protocols": {
+        "native_prompt_ab_label": {
+          "classification": {
+            "explanation": "Accuracy increased and ECE worsened; both intervals exclude zero.",
+            "outcome": "supports_tradeoff",
+            "signs": {
+              "accuracy": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "brier": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "ece": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "mean_confidence": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "nll": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "overconfidence_gap": {
+                "ci": "positive",
+                "point": "positive"
+              }
+            }
+          },
+          "deltas": {
+            "confidence_level": 0.95,
+            "iterations": 10000,
+            "metrics": {
+              "accuracy": {
+                "ci_high": 0.07848101265822782,
+                "ci_low": 0.0012658227848101333,
+                "point": 0.03924050632911391
+              },
+              "brier": {
+                "ci_high": 0.10274747374312831,
+                "ci_low": 0.0506636103793062,
+                "point": 0.07709511436999977
+              },
+              "ece": {
+                "ci_high": 0.19381183232546892,
+                "ci_low": 0.12038378158828353,
+                "point": 0.15971483112999754
+              },
+              "mean_confidence": {
+                "ci_high": 0.2105652957814122,
+                "ci_low": 0.1871888592615426,
+                "point": 0.19895533745911143
+              },
+              "nll": {
+                "ci_high": 1.5271002666348583,
+                "ci_low": 1.1178598398493622,
+                "point": 1.3207252258183702
+              },
+              "overconfidence_gap": {
+                "ci_high": 0.19890859593078772,
+                "ci_low": 0.1205776151263161,
+                "point": 0.15971483112999751
+              }
+            },
+            "model_order": "instruct_minus_base",
+            "n_pairs": 790
+          },
+          "models": {
+            "base": {
+              "accuracy": 0.5392405063291139,
+              "brier": 0.29665129574155746,
+              "ece": 0.19148019571467464,
+              "mean_confidence": 0.7307207020437886,
+              "n": 790,
+              "nll": 0.8554072626967609,
+              "overconfidence_gap": 0.19148019571467467
+            },
+            "instruct": {
+              "accuracy": 0.5784810126582278,
+              "brier": 0.37374641011155724,
+              "ece": 0.3511950268446722,
+              "mean_confidence": 0.9296760395029,
+              "n": 790,
+              "nll": 2.176132488515131,
+              "overconfidence_gap": 0.3511950268446722
+            }
+          },
+          "role": "sensitivity"
+        },
+        "shared_plain_ab_label": {
+          "classification": {
+            "explanation": "Accuracy increased and ECE worsened; both intervals exclude zero.",
+            "outcome": "supports_tradeoff",
+            "signs": {
+              "accuracy": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "brier": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "ece": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "mean_confidence": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "nll": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "overconfidence_gap": {
+                "ci": "positive",
+                "point": "positive"
+              }
+            }
+          },
+          "deltas": {
+            "confidence_level": 0.95,
+            "iterations": 10000,
+            "metrics": {
+              "accuracy": {
+                "ci_high": 0.08227848101265822,
+                "ci_low": 0.015189873417721489,
+                "point": 0.048101265822784844
+              },
+              "brier": {
+                "ci_high": 0.04922108293276511,
+                "ci_low": 0.012605484412245588,
+                "point": 0.031104898739024278
+              },
+              "ece": {
+                "ci_high": 0.1101878157904158,
+                "ci_low": 0.047464294520407596,
+                "point": 0.07956250382728594
+              },
+              "mean_confidence": {
+                "ci_high": 0.13821384471918005,
+                "ci_low": 0.116682077519656,
+                "point": 0.12764356808594057
+              },
+              "nll": {
+                "ci_high": 0.37910823033900504,
+                "ci_low": 0.23163470843869252,
+                "point": 0.3057959402490743
+              },
+              "overconfidence_gap": {
+                "ci_high": 0.1140807396307682,
+                "ci_low": 0.04456029521572965,
+                "point": 0.07954230226315573
+              }
+            },
+            "model_order": "instruct_minus_base",
+            "n_pairs": 790
+          },
+          "models": {
+            "base": {
+              "accuracy": 0.5392405063291139,
+              "brier": 0.29665129574155746,
+              "ece": 0.19148019571467464,
+              "mean_confidence": 0.7307207020437886,
+              "n": 790,
+              "nll": 0.8554072626967609,
+              "overconfidence_gap": 0.19148019571467467
+            },
+            "instruct": {
+              "accuracy": 0.5873417721518988,
+              "brier": 0.32775619448058174,
+              "ece": 0.2710426995419606,
+              "mean_confidence": 0.8583642701297292,
+              "n": 790,
+              "nll": 1.1612032029458352,
+              "overconfidence_gap": 0.2710224979778304
+            }
+          },
+          "role": "primary"
+        }
+      }
+    },
+    {
+      "family": "Qwen2.5",
+      "models": {
+        "base": {
+          "attn_implementation": "sdpa",
+          "device": "cuda",
+          "dtype": "bf16",
+          "model_id": "Qwen/Qwen2.5-7B",
+          "revision": "d149729398750b98c0af14eb82c78cfe92750796",
+          "tokenizer_id": "Qwen/Qwen2.5-7B"
+        },
+        "instruct": {
+          "attn_implementation": "sdpa",
+          "device": "cuda",
+          "dtype": "bf16",
+          "model_id": "Qwen/Qwen2.5-7B-Instruct",
+          "revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+          "tokenizer_id": "Qwen/Qwen2.5-7B-Instruct"
+        }
+      },
+      "pair_id": "qwen2_5_7b",
+      "parameters_billion": 7.0,
+      "protocols": {
+        "native_prompt_ab_label": {
+          "classification": {
+            "explanation": "Accuracy increased and ECE worsened; both intervals exclude zero.",
+            "outcome": "supports_tradeoff",
+            "signs": {
+              "accuracy": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "brier": {
+                "ci": "crosses_or_touches_zero",
+                "point": "negative"
+              },
+              "ece": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "mean_confidence": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "nll": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "overconfidence_gap": {
+                "ci": "positive",
+                "point": "positive"
+              }
+            }
+          },
+          "deltas": {
+            "confidence_level": 0.95,
+            "iterations": 10000,
+            "metrics": {
+              "accuracy": {
+                "ci_high": 0.10759493670886078,
+                "ci_low": 0.04936708860759487,
+                "point": 0.07848101265822782
+              },
+              "brier": {
+                "ci_high": 0.02016938274874286,
+                "ci_low": -0.022141971446761444,
+                "point": -0.0012091026073947908
+              },
+              "ece": {
+                "ci_high": 0.13076950821169958,
+                "ci_low": 0.0688082343145521,
+                "point": 0.10251784356116096
+              },
+              "mean_confidence": {
+                "ci_high": 0.2248803716063539,
+                "ci_low": 0.20424848411452737,
+                "point": 0.21455746759783023
+              },
+              "nll": {
+                "ci_high": 2.0782359934379766,
+                "ci_low": 1.3886786684300692,
+                "point": 1.726983424685064
+              },
+              "overconfidence_gap": {
+                "ci_high": 0.16648751071282258,
+                "ci_low": 0.10596941305048276,
+                "point": 0.1360764549396024
+              }
+            },
+            "model_order": "instruct_minus_base",
+            "n_pairs": 790
+          },
+          "models": {
+            "base": {
+              "accuracy": 0.6949367088607595,
+              "brier": 0.21657544059807232,
+              "ece": 0.10801537230791199,
+              "mean_confidence": 0.76939346979023,
+              "n": 790,
+              "nll": 0.6482379675059857,
+              "overconfidence_gap": 0.07445676092947051
+            },
+            "instruct": {
+              "accuracy": 0.7734177215189874,
+              "brier": 0.21536633799067753,
+              "ece": 0.21053321586907295,
+              "mean_confidence": 0.9839509373880603,
+              "n": 790,
+              "nll": 2.3752213921910497,
+              "overconfidence_gap": 0.21053321586907292
+            }
+          },
+          "role": "sensitivity"
+        },
+        "shared_plain_ab_label": {
+          "classification": {
+            "explanation": "Accuracy increased and ECE worsened; both intervals exclude zero.",
+            "outcome": "supports_tradeoff",
+            "signs": {
+              "accuracy": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "brier": {
+                "ci": "negative",
+                "point": "negative"
+              },
+              "ece": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "mean_confidence": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "nll": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "overconfidence_gap": {
+                "ci": "positive",
+                "point": "positive"
+              }
+            }
+          },
+          "deltas": {
+            "confidence_level": 0.95,
+            "iterations": 10000,
+            "metrics": {
+              "accuracy": {
+                "ci_high": 0.11012658227848104,
+                "ci_low": 0.05696202531645567,
+                "point": 0.08354430379746836
+              },
+              "brier": {
+                "ci_high": -0.004249502691405743,
+                "ci_low": -0.03816734622417969,
+                "point": -0.02131693106499366
+              },
+              "ece": {
+                "ci_high": 0.09650357027796908,
+                "ci_low": 0.039695684386732925,
+                "point": 0.07074014019452642
+              },
+              "mean_confidence": {
+                "ci_high": 0.19788591082367404,
+                "ci_low": 0.17755576804066228,
+                "point": 0.1878430553704361
+              },
+              "nll": {
+                "ci_high": 0.5523531074818214,
+                "ci_low": 0.2902457919650739,
+                "point": 0.4190624977368351
+              },
+              "overconfidence_gap": {
+                "ci_high": 0.13104014411227496,
+                "ci_low": 0.07713249118584987,
+                "point": 0.10429875157296775
+              }
+            },
+            "model_order": "instruct_minus_base",
+            "n_pairs": 790
+          },
+          "models": {
+            "base": {
+              "accuracy": 0.6949367088607595,
+              "brier": 0.21657544059807232,
+              "ece": 0.10801537230791199,
+              "mean_confidence": 0.76939346979023,
+              "n": 790,
+              "nll": 0.6482379675059857,
+              "overconfidence_gap": 0.07445676092947051
+            },
+            "instruct": {
+              "accuracy": 0.7784810126582279,
+              "brier": 0.19525850953307866,
+              "ece": 0.1787555125024384,
+              "mean_confidence": 0.9572365251606662,
+              "n": 790,
+              "nll": 1.0673004652428209,
+              "overconfidence_gap": 0.17875551250243826
+            }
+          },
+          "role": "primary"
+        }
+      }
+    },
+    {
+      "family": "SmolLM2",
+      "models": {
+        "base": {
+          "attn_implementation": "sdpa",
+          "device": "cuda",
+          "dtype": "bf16",
+          "model_id": "HuggingFaceTB/SmolLM2-1.7B",
+          "revision": "effd688a12921b4cc83e3312b6feb579f70f9c71",
+          "tokenizer_id": "HuggingFaceTB/SmolLM2-1.7B"
+        },
+        "instruct": {
+          "attn_implementation": "sdpa",
+          "device": "cuda",
+          "dtype": "bf16",
+          "model_id": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+          "revision": "31b70e2e869a7173562077fd711b654946d38674",
+          "tokenizer_id": "HuggingFaceTB/SmolLM2-1.7B-Instruct"
+        }
+      },
+      "pair_id": "smollm2_1_7b",
+      "parameters_billion": 1.7,
+      "protocols": {
+        "native_prompt_ab_label": {
+          "classification": {
+            "explanation": "Accuracy fell and ECE worsened; both intervals exclude zero.",
+            "outcome": "accuracy_and_calibration_worsened",
+            "signs": {
+              "accuracy": {
+                "ci": "negative",
+                "point": "negative"
+              },
+              "brier": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "ece": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "mean_confidence": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "nll": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "overconfidence_gap": {
+                "ci": "positive",
+                "point": "positive"
+              }
+            }
+          },
+          "deltas": {
+            "confidence_level": 0.95,
+            "iterations": 10000,
+            "metrics": {
+              "accuracy": {
+                "ci_high": -0.08860759493670883,
+                "ci_low": -0.16835443037974684,
+                "point": -0.12911392405063293
+              },
+              "brier": {
+                "ci_high": 0.14115032869880556,
+                "ci_low": 0.10612993564411843,
+                "point": 0.1236301857657014
+              },
+              "ece": {
+                "ci_high": 0.2528551239133847,
+                "ci_low": 0.17705029522935584,
+                "point": 0.2193338844337805
+              },
+              "mean_confidence": {
+                "ci_high": 0.14127452247006342,
+                "ci_low": 0.12102538080990434,
+                "point": 0.1312012304731215
+              },
+              "nll": {
+                "ci_high": 0.4944789475555025,
+                "ci_low": 0.366327518128237,
+                "point": 0.4292863987194162
+              },
+              "overconfidence_gap": {
+                "ci_high": 0.30183034419138527,
+                "ci_low": 0.21778949933835504,
+                "point": 0.2603151545237544
+              }
+            },
+            "model_order": "instruct_minus_base",
+            "n_pairs": 790
+          },
+          "models": {
+            "base": {
+              "accuracy": 0.5443037974683544,
+              "brier": 0.25906354434880813,
+              "ece": 0.10187437559577513,
+              "mean_confidence": 0.6051969029741556,
+              "n": 790,
+              "nll": 0.7146211035136358,
+              "overconfidence_gap": 0.06089310550580118
+            },
+            "instruct": {
+              "accuracy": 0.4151898734177215,
+              "brier": 0.3826937301145095,
+              "ece": 0.3212082600295556,
+              "mean_confidence": 0.7363981334472771,
+              "n": 790,
+              "nll": 1.143907502233052,
+              "overconfidence_gap": 0.3212082600295556
+            }
+          },
+          "role": "sensitivity"
+        },
+        "shared_plain_ab_label": {
+          "classification": {
+            "explanation": "Accuracy fell and ECE worsened; both intervals exclude zero.",
+            "outcome": "accuracy_and_calibration_worsened",
+            "signs": {
+              "accuracy": {
+                "ci": "negative",
+                "point": "negative"
+              },
+              "brier": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "ece": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "mean_confidence": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "nll": {
+                "ci": "positive",
+                "point": "positive"
+              },
+              "overconfidence_gap": {
+                "ci": "positive",
+                "point": "positive"
+              }
+            }
+          },
+          "deltas": {
+            "confidence_level": 0.95,
+            "iterations": 10000,
+            "metrics": {
+              "accuracy": {
+                "ci_high": -0.120253164556962,
+                "ci_low": -0.1962025316455696,
+                "point": -0.15822784810126583
+              },
+              "brier": {
+                "ci_high": 0.2108383334139035,
+                "ci_low": 0.16833104947204733,
+                "point": 0.18975971371091832
+              },
+              "ece": {
+                "ci_high": 0.3579930130130693,
+                "ci_low": 0.28364160761979057,
+                "point": 0.3250002748773107
+              },
+              "mean_confidence": {
+                "ci_high": 0.2178152766056075,
+                "ci_low": 0.1972200732088454,
+                "point": 0.20775369686601874
+              },
+              "nll": {
+                "ci_high": 0.7969274197732784,
+                "ci_low": 0.6351700906388977,
+                "point": 0.7159882093511698
+              },
+              "overconfidence_gap": {
+                "ci_high": 0.404720211997788,
+                "ci_low": 0.3262727441184614,
+                "point": 0.3659815449672846
+              }
+            },
+            "model_order": "instruct_minus_base",
+            "n_pairs": 790
+          },
+          "models": {
+            "base": {
+              "accuracy": 0.5443037974683544,
+              "brier": 0.25906354434880813,
+              "ece": 0.10187437559577513,
+              "mean_confidence": 0.6051969029741556,
+              "n": 790,
+              "nll": 0.7146211035136358,
+              "overconfidence_gap": 0.06089310550580118
+            },
+            "instruct": {
+              "accuracy": 0.3860759493670886,
+              "brier": 0.44882325805972645,
+              "ece": 0.4268746504730858,
+              "mean_confidence": 0.8129505998401744,
+              "n": 790,
+              "nll": 1.4306093128648056,
+              "overconfidence_gap": 0.42687465047308576
+            }
+          },
+          "role": "primary"
+        }
+      }
+    }
+  ],
+  "protocol_roles": {
+    "native_prompt_ab_label": "sensitivity",
+    "shared_plain_ab_label": "primary"
+  },
+  "question_count": 790,
+  "question_ids": [
+    "truthfulqa_0000_5077042bb69f",
+    "truthfulqa_0001_b87aab020451",
+    "truthfulqa_0002_15fd4dffb5c3",
+    "truthfulqa_0003_d1ae23e637fb",
+    "truthfulqa_0004_394f358aad59",
+    "truthfulqa_0005_1e22c6e12ae7",
+    "truthfulqa_0006_90e58713e3fb",
+    "truthfulqa_0007_7a847354aa23",
+    "truthfulqa_0008_e8ed45dd0bc2",
+    "truthfulqa_0009_a6fa81f6c38d",
+    "truthfulqa_0010_c8aa02b31bdf",
+    "truthfulqa_0011_f0c9458f2573",
+    "truthfulqa_0012_0420f2d83b95",
+    "truthfulqa_0013_bcc7d09702b4",
+    "truthfulqa_0014_fec3ac720176",
+    "truthfulqa_0015_401e02140629",
+    "truthfulqa_0016_c8b9ddc4d77f",
+    "truthfulqa_0017_7c04ea7d3a9b",
+    "truthfulqa_0018_329970c9d90f",
+    "truthfulqa_0019_98e22cc35d1d",
+    "truthfulqa_0020_62ed01fc4035",
+    "truthfulqa_0021_1015bd4c7e48",
+    "truthfulqa_0022_df8897afbf83",
+    "truthfulqa_0023_8528d05d362c",
+    "truthfulqa_0024_269cc984cdc1",
+    "truthfulqa_0025_1f77c0eb2ab5",
+    "truthfulqa_0026_8eeb04afd5f4",
+    "truthfulqa_0027_85de63b5e6f1",
+    "truthfulqa_0028_eb901ec559da",
+    "truthfulqa_0029_71bddfdb09f8",
+    "truthfulqa_0030_0d2471b9a9b2",
+    "truthfulqa_0031_22f7eb7e1877",
+    "truthfulqa_0032_284ef60f365e",
+    "truthfulqa_0033_cc4ba6f72c28",
+    "truthfulqa_0034_5741db82ad61",
+    "truthfulqa_0035_a890f9b1747e",
+    "truthfulqa_0036_f2975dbfe7c8",
+    "truthfulqa_0037_d8a2aa981f8a",
+    "truthfulqa_0038_791d8fa6b273",
+    "truthfulqa_0039_726576612ab3",
+    "truthfulqa_0040_afaee1df7d30",
+    "truthfulqa_0041_d8e648c97bf5",
+    "truthfulqa_0042_13964d9f8055",
+    "truthfulqa_0043_4fd95dded9dc",
+    "truthfulqa_0044_8f089c8cdd1c",
+    "truthfulqa_0045_51fe19b2e0bc",
+    "truthfulqa_0046_eb12ba7b5d5b",
+    "truthfulqa_0047_a9565f1dd606",
+    "truthfulqa_0048_4dd4111eef2d",
+    "truthfulqa_0049_796cadb996f1",
+    "truthfulqa_0050_e0b08061c62e",
+    "truthfulqa_0051_0f862fca73b3",
+    "truthfulqa_0052_59ae9bf89dc1",
+    "truthfulqa_0053_c6a2c4978ed8",
+    "truthfulqa_0054_e53a459277e8",
+    "truthfulqa_0055_5d0e1fc7104d",
+    "truthfulqa_0056_0616bb8c8e98",
+    "truthfulqa_0057_c785b33900bc",
+    "truthfulqa_0058_f37215d3b882",
+    "truthfulqa_0059_9fcaea6d43d7",
+    "truthfulqa_0060_c8ecdc3f5e50",
+    "truthfulqa_0061_90fdeb6c6ec0",
+    "truthfulqa_0062_030b098451c8",
+    "truthfulqa_0063_8fe3ed7ef003",
+    "truthfulqa_0064_7cc8206a07b9",
+    "truthfulqa_0065_33c0c497684d",
+    "truthfulqa_0066_3968a009cf19",
+    "truthfulqa_0067_fb5f5c0ad65d",
+    "truthfulqa_0068_ef63e90a5e41",
+    "truthfulqa_0069_49aa63718add",
+    "truthfulqa_0070_7b4ba55ffc2c",
+    "truthfulqa_0071_e558d85b64c4",
+    "truthfulqa_0072_dd53974fac75",
+    "truthfulqa_0073_0a2e835b6d2d",
+    "truthfulqa_0074_72dd307486d6",
+    "truthfulqa_0075_be4f89450c47",
+    "truthfulqa_0076_8efff338c96b",
+    "truthfulqa_0077_7817cfb5d049",
+    "truthfulqa_0078_e4d2dd23e326",
+    "truthfulqa_0079_d8f8eefbe2f5",
+    "truthfulqa_0080_0d02550915ea",
+    "truthfulqa_0081_e2bada58fb96",
+    "truthfulqa_0082_8151bd1ebe65",
+    "truthfulqa_0083_7376f1b9904c",
+    "truthfulqa_0084_67459efc2465",
+    "truthfulqa_0085_3f014e74de89",
+    "truthfulqa_0086_83c928bf0b03",
+    "truthfulqa_0087_6af985d827a7",
+    "truthfulqa_0088_e66c0586ae0e",
+    "truthfulqa_0089_3a982b1d3905",
+    "truthfulqa_0090_677c8347c6a1",
+    "truthfulqa_0091_7a60a2e80bd7",
+    "truthfulqa_0092_f932b6e9b8b0",
+    "truthfulqa_0093_409f54447217",
+    "truthfulqa_0094_1776781590f9",
+    "truthfulqa_0095_52f16ad12036",
+    "truthfulqa_0096_eafb3edfa3c5",
+    "truthfulqa_0097_3c743c773d42",
+    "truthfulqa_0098_ca91f659e0c3",
+    "truthfulqa_0099_c09849bc606a",
+    "truthfulqa_0100_20a3734d42c0",
+    "truthfulqa_0101_1d57505b9668",
+    "truthfulqa_0102_e6a48df04aec",
+    "truthfulqa_0103_a3f566531fec",
+    "truthfulqa_0104_63f2f42790dd",
+    "truthfulqa_0105_5522923ed4a3",
+    "truthfulqa_0106_37a5668c3351",
+    "truthfulqa_0107_749ff5b4aad5",
+    "truthfulqa_0108_0cfba232204f",
+    "truthfulqa_0109_dbe2919fbf6f",
+    "truthfulqa_0110_4d1908ba31cc",
+    "truthfulqa_0111_783904a641e7",
+    "truthfulqa_0112_e12fa1bed32b",
+    "truthfulqa_0113_d11afc766655",
+    "truthfulqa_0114_e91bdcdc00f6",
+    "truthfulqa_0115_4fb6ca958ba1",
+    "truthfulqa_0116_0bcea94ab4ce",
+    "truthfulqa_0117_7916b2227b70",
+    "truthfulqa_0118_540b7121a282",
+    "truthfulqa_0119_5957d72c1aa5",
+    "truthfulqa_0120_2d60dcd48df1",
+    "truthfulqa_0121_306bbb929051",
+    "truthfulqa_0122_a67cd06cb681",
+    "truthfulqa_0123_6ba4bd286abb",
+    "truthfulqa_0124_21413433f1a3",
+    "truthfulqa_0125_9884a6b1c16e",
+    "truthfulqa_0126_6597e7e17cb9",
+    "truthfulqa_0127_3deefa7d13fe",
+    "truthfulqa_0128_f940f62e94f8",
+    "truthfulqa_0129_2eb89836171a",
+    "truthfulqa_0130_b1b6bd090326",
+    "truthfulqa_0131_9c24a74a0054",
+    "truthfulqa_0132_15ab0a232970",
+    "truthfulqa_0133_63ee0dac6ab6",
+    "truthfulqa_0134_d95478a9345d",
+    "truthfulqa_0135_a1e84966c855",
+    "truthfulqa_0136_2d7ad780a8f8",
+    "truthfulqa_0137_fe2f1fbf95c2",
+    "truthfulqa_0138_d4e59b272a57",
+    "truthfulqa_0139_8bde5da95d15",
+    "truthfulqa_0140_b4dc27a5ac32",
+    "truthfulqa_0141_783b8c9ae32e",
+    "truthfulqa_0142_504a9d82cf5a",
+    "truthfulqa_0143_3feea9373953",
+    "truthfulqa_0144_b0a1468471c3",
+    "truthfulqa_0145_4e19c611f207",
+    "truthfulqa_0146_50b912104753",
+    "truthfulqa_0147_e1a7169b347c",
+    "truthfulqa_0148_bf26ca89071f",
+    "truthfulqa_0149_dd7c25213bbb",
+    "truthfulqa_0150_932d1739a669",
+    "truthfulqa_0151_6879763c749d",
+    "truthfulqa_0152_87f60c01cac7",
+    "truthfulqa_0153_1106476b8e84",
+    "truthfulqa_0154_807415c403da",
+    "truthfulqa_0155_3bc5397de988",
+    "truthfulqa_0156_1755a5df57b3",
+    "truthfulqa_0157_78870a281f2a",
+    "truthfulqa_0158_f67d62805bd3",
+    "truthfulqa_0159_a02590787be3",
+    "truthfulqa_0160_94faa50369bd",
+    "truthfulqa_0161_eea8cd49044b",
+    "truthfulqa_0162_98c98041901e",
+    "truthfulqa_0163_749265e4cabf",
+    "truthfulqa_0164_1ed4e2c1703e",
+    "truthfulqa_0165_74d27e7c82b2",
+    "truthfulqa_0166_c24a16bc3913",
+    "truthfulqa_0167_30a671f2dc90",
+    "truthfulqa_0168_911fd88a17bf",
+    "truthfulqa_0169_1d54396b1dcc",
+    "truthfulqa_0170_ee2ec7876c04",
+    "truthfulqa_0171_f280b99eee0a",
+    "truthfulqa_0172_a8d014814009",
+    "truthfulqa_0173_902dd068863f",
+    "truthfulqa_0174_e4876c14a325",
+    "truthfulqa_0175_00a4c97c3690",
+    "truthfulqa_0176_6af6e1c6eae6",
+    "truthfulqa_0177_5ff4af3070d0",
+    "truthfulqa_0178_a374495e5da2",
+    "truthfulqa_0179_21598c58ca84",
+    "truthfulqa_0180_b4062250d145",
+    "truthfulqa_0181_413f010e3cda",
+    "truthfulqa_0182_c14dfc40c699",
+    "truthfulqa_0183_988ab11e5613",
+    "truthfulqa_0184_7ced1625c441",
+    "truthfulqa_0185_276cbdeaa6d5",
+    "truthfulqa_0186_a27d006c49f6",
+    "truthfulqa_0187_5e1291ab5de6",
+    "truthfulqa_0188_d58e426c6baf",
+    "truthfulqa_0189_42b6bea34b54",
+    "truthfulqa_0190_0809ef6783bb",
+    "truthfulqa_0191_c3b470452352",
+    "truthfulqa_0192_917e56ce40b1",
+    "truthfulqa_0193_e952a295819a",
+    "truthfulqa_0194_f667a73e8f3c",
+    "truthfulqa_0195_89e46235b377",
+    "truthfulqa_0196_902e1bc927a3",
+    "truthfulqa_0197_f0d8e0af7d4f",
+    "truthfulqa_0198_cee5d0e99d38",
+    "truthfulqa_0199_60813ff664d8",
+    "truthfulqa_0200_6fb9ff02c5a6",
+    "truthfulqa_0201_b77b9ced37d5",
+    "truthfulqa_0202_99a68842cac4",
+    "truthfulqa_0203_fdfa17590d24",
+    "truthfulqa_0204_98c2a4cd28db",
+    "truthfulqa_0205_c420fe5e65dc",
+    "truthfulqa_0206_1d6b11090956",
+    "truthfulqa_0207_fd6402dc2dab",
+    "truthfulqa_0208_fc0b0ba944e5",
+    "truthfulqa_0209_f9dc0c64aef2",
+    "truthfulqa_0210_a97665bb2a14",
+    "truthfulqa_0211_39b67008e997",
+    "truthfulqa_0212_479ede8e44f4",
+    "truthfulqa_0213_988642762713",
+    "truthfulqa_0214_0be6e6418c27",
+    "truthfulqa_0215_094959c72de8",
+    "truthfulqa_0216_4725158e335a",
+    "truthfulqa_0217_208f390533a6",
+    "truthfulqa_0218_3a7121c47e45",
+    "truthfulqa_0219_fd78081f1b4d",
+    "truthfulqa_0220_0d31209912a1",
+    "truthfulqa_0221_67b309c87f3c",
+    "truthfulqa_0222_7c95ed2522bb",
+    "truthfulqa_0223_a5917fc4c58a",
+    "truthfulqa_0224_7cec96e2036a",
+    "truthfulqa_0225_c3e6df7af573",
+    "truthfulqa_0226_5fc844c635a0",
+    "truthfulqa_0227_8209108bf363",
+    "truthfulqa_0228_6959db8086c2",
+    "truthfulqa_0229_97423beba0b7",
+    "truthfulqa_0230_1b05085b7c64",
+    "truthfulqa_0231_21dad570c811",
+    "truthfulqa_0232_887ff4451b70",
+    "truthfulqa_0233_8f632a30b31f",
+    "truthfulqa_0234_2402b3dc9f98",
+    "truthfulqa_0235_208d14bff258",
+    "truthfulqa_0236_d72d3befaf58",
+    "truthfulqa_0237_6863b48519f6",
+    "truthfulqa_0238_603944a3a261",
+    "truthfulqa_0239_e54e6bc9c4f0",
+    "truthfulqa_0240_8be4f56aaea8",
+    "truthfulqa_0241_a3f0e2af0111",
+    "truthfulqa_0242_33a046e2f50f",
+    "truthfulqa_0243_1fea7c533093",
+    "truthfulqa_0244_29b1581ddd04",
+    "truthfulqa_0245_be0b42151621",
+    "truthfulqa_0246_83950c27772b",
+    "truthfulqa_0247_112d72477a1b",
+    "truthfulqa_0248_765f3ff5ad64",
+    "truthfulqa_0249_a1a24dc12b85",
+    "truthfulqa_0250_19bb37508f4e",
+    "truthfulqa_0251_c8d9449fe759",
+    "truthfulqa_0252_044b59b59237",
+    "truthfulqa_0253_f9a132643080",
+    "truthfulqa_0254_c4b62e463e24",
+    "truthfulqa_0255_83a13e58e609",
+    "truthfulqa_0256_208f720c1194",
+    "truthfulqa_0257_e1d57691428c",
+    "truthfulqa_0258_a1546a190b70",
+    "truthfulqa_0259_8578a52a12d1",
+    "truthfulqa_0260_3b29c2479dd6",
+    "truthfulqa_0261_a97411e45426",
+    "truthfulqa_0262_224c90e487e3",
+    "truthfulqa_0263_b554a6ecc6e0",
+    "truthfulqa_0264_d2af2b1faf00",
+    "truthfulqa_0265_908d79eac68b",
+    "truthfulqa_0266_c6110102bd62",
+    "truthfulqa_0267_25909bf6afe8",
+    "truthfulqa_0268_3ded578095b8",
+    "truthfulqa_0269_70de9e67e5ad",
+    "truthfulqa_0270_18a62475fa95",
+    "truthfulqa_0271_c4fd9ead0a6e",
+    "truthfulqa_0272_1398974748c0",
+    "truthfulqa_0273_7a41b3b0092d",
+    "truthfulqa_0274_c27220007ffe",
+    "truthfulqa_0275_911805704440",
+    "truthfulqa_0276_742f56ce9e86",
+    "truthfulqa_0277_78a07f8f3cf0",
+    "truthfulqa_0278_cd3b724c2e0d",
+    "truthfulqa_0279_8ba4fba4a347",
+    "truthfulqa_0280_035e530c903d",
+    "truthfulqa_0281_558c25ccbd01",
+    "truthfulqa_0282_f44eac752128",
+    "truthfulqa_0283_9ee033ca2406",
+    "truthfulqa_0284_35f518431251",
+    "truthfulqa_0285_7d7d35f78133",
+    "truthfulqa_0286_53dbbf4283f7",
+    "truthfulqa_0287_241042c60aab",
+    "truthfulqa_0288_1176f28aecce",
+    "truthfulqa_0289_2c7c26897548",
+    "truthfulqa_0290_57c7654e3287",
+    "truthfulqa_0291_2d8954241e41",
+    "truthfulqa_0292_a5797dea7229",
+    "truthfulqa_0293_52a4122bb7e4",
+    "truthfulqa_0294_62c0fa422146",
+    "truthfulqa_0295_22b09b963b0b",
+    "truthfulqa_0296_553a02781776",
+    "truthfulqa_0297_6f1b90484550",
+    "truthfulqa_0298_1d6782e0f352",
+    "truthfulqa_0299_a4d0a4d5dd81",
+    "truthfulqa_0300_b84b31b9c6a1",
+    "truthfulqa_0301_2f4828eefff3",
+    "truthfulqa_0302_6f23d878c595",
+    "truthfulqa_0303_bddbe6b62797",
+    "truthfulqa_0304_74cb398c6dfc",
+    "truthfulqa_0305_3fb0f6c89713",
+    "truthfulqa_0306_0bc7a33e637b",
+    "truthfulqa_0307_bb6bbf611164",
+    "truthfulqa_0308_2af743e39c79",
+    "truthfulqa_0309_4d25286955a4",
+    "truthfulqa_0310_3375f559e27f",
+    "truthfulqa_0311_62604190793e",
+    "truthfulqa_0312_842c9330f50b",
+    "truthfulqa_0313_e67b3d17eb70",
+    "truthfulqa_0314_ae836acb18ee",
+    "truthfulqa_0315_7c1feaa4d346",
+    "truthfulqa_0316_6e2b90e104c5",
+    "truthfulqa_0317_912a2a06957a",
+    "truthfulqa_0318_e289d33d2153",
+    "truthfulqa_0319_7eeb923a5fab",
+    "truthfulqa_0320_c3fc7d6bf459",
+    "truthfulqa_0321_be960c524a9b",
+    "truthfulqa_0322_ba4b2e90f3c7",
+    "truthfulqa_0323_c4bb65e82d06",
+    "truthfulqa_0324_e428f6381992",
+    "truthfulqa_0325_1bcdb65dfdbe",
+    "truthfulqa_0326_ada40d16cf5f",
+    "truthfulqa_0327_2d35f3adccb0",
+    "truthfulqa_0328_31d945dbc10a",
+    "truthfulqa_0329_bd1d8abb6b39",
+    "truthfulqa_0330_27a3730c8370",
+    "truthfulqa_0331_9a2226ec5a5a",
+    "truthfulqa_0332_5b1da02ffcd0",
+    "truthfulqa_0333_e96817fc1138",
+    "truthfulqa_0334_5705471f0d00",
+    "truthfulqa_0335_6f0f91ae11fe",
+    "truthfulqa_0336_1a5382bb7c93",
+    "truthfulqa_0337_e783bcb0a4f8",
+    "truthfulqa_0338_b2ef9825aabb",
+    "truthfulqa_0339_6f14170ff5c4",
+    "truthfulqa_0340_5362a45c406e",
+    "truthfulqa_0341_03e624440a23",
+    "truthfulqa_0342_2ddab0a881ff",
+    "truthfulqa_0343_a1c31146af80",
+    "truthfulqa_0344_816f32fe40a2",
+    "truthfulqa_0345_f03eb8f6abe3",
+    "truthfulqa_0346_572df9f641fd",
+    "truthfulqa_0347_4d611fc7dd0a",
+    "truthfulqa_0348_d6f202d62da0",
+    "truthfulqa_0349_bfb4bc6b297e",
+    "truthfulqa_0350_93b259e6de17",
+    "truthfulqa_0351_e92d4f3b84d0",
+    "truthfulqa_0352_e3269c1e8664",
+    "truthfulqa_0353_71538539de72",
+    "truthfulqa_0354_1828e5b54b43",
+    "truthfulqa_0355_658e0b1dd729",
+    "truthfulqa_0356_7373ad851d57",
+    "truthfulqa_0357_435a13f4f4de",
+    "truthfulqa_0358_bda703c7e620",
+    "truthfulqa_0359_1a90397553e2",
+    "truthfulqa_0360_eb043ed26711",
+    "truthfulqa_0361_204a4e802dda",
+    "truthfulqa_0362_585d4fe70c81",
+    "truthfulqa_0363_fe8033483622",
+    "truthfulqa_0364_49089baf9e57",
+    "truthfulqa_0365_49c740f12c6a",
+    "truthfulqa_0366_396e6f1bcb77",
+    "truthfulqa_0367_3edb566f6004",
+    "truthfulqa_0368_cbe7dd5f5b3b",
+    "truthfulqa_0369_8fe7d1934916",
+    "truthfulqa_0370_e85724790abd",
+    "truthfulqa_0371_e8249a675510",
+    "truthfulqa_0372_abccededf5b3",
+    "truthfulqa_0373_fe47192fbb17",
+    "truthfulqa_0374_453bff5ffb33",
+    "truthfulqa_0375_34107140f573",
+    "truthfulqa_0376_f1c13519ba1e",
+    "truthfulqa_0377_d395e2e9b02f",
+    "truthfulqa_0378_18b84b1547d3",
+    "truthfulqa_0379_48077b5985b5",
+    "truthfulqa_0380_ef5086b34fba",
+    "truthfulqa_0381_a2d4b85cd42c",
+    "truthfulqa_0382_650971d52ec9",
+    "truthfulqa_0383_557efe4c9abe",
+    "truthfulqa_0384_408a1ca1363c",
+    "truthfulqa_0385_49db6628000d",
+    "truthfulqa_0386_c47aaecbe010",
+    "truthfulqa_0387_26876e3688a3",
+    "truthfulqa_0388_aa060d9f9211",
+    "truthfulqa_0389_84943f2a7c6b",
+    "truthfulqa_0390_536b027062bf",
+    "truthfulqa_0391_b9002755eaa8",
+    "truthfulqa_0392_58e6b3681768",
+    "truthfulqa_0393_83b3d9c371ef",
+    "truthfulqa_0394_8e2291053227",
+    "truthfulqa_0395_72c3ad245f98",
+    "truthfulqa_0396_c2d4c4c2d1fe",
+    "truthfulqa_0397_dd9663f8464f",
+    "truthfulqa_0398_4429b6b72b4a",
+    "truthfulqa_0399_062ed2fcb71f",
+    "truthfulqa_0400_f13ddf448061",
+    "truthfulqa_0401_0bed1e8a84b7",
+    "truthfulqa_0402_83d17489a0f1",
+    "truthfulqa_0403_c974c1dc2493",
+    "truthfulqa_0404_bb5957b669cd",
+    "truthfulqa_0405_02408b9fba31",
+    "truthfulqa_0406_11b4ae2b3e81",
+    "truthfulqa_0407_5aa347bc0ac5",
+    "truthfulqa_0408_7fa6e7d2d1f1",
+    "truthfulqa_0409_7e77f5511dc9",
+    "truthfulqa_0410_069fb202bce0",
+    "truthfulqa_0411_7356ebfce3c6",
+    "truthfulqa_0412_21755e19043b",
+    "truthfulqa_0413_c27332a50018",
+    "truthfulqa_0414_b9ef5235a771",
+    "truthfulqa_0415_bd63ad6b5b0b",
+    "truthfulqa_0416_8d8c089d6d7f",
+    "truthfulqa_0417_71899a5858b8",
+    "truthfulqa_0418_312dc600b105",
+    "truthfulqa_0419_ef2b9f442788",
+    "truthfulqa_0420_70ab2b8335f7",
+    "truthfulqa_0421_602df3eef62f",
+    "truthfulqa_0422_e42498f360b9",
+    "truthfulqa_0423_25e95cbc8ea3",
+    "truthfulqa_0424_79784e73553d",
+    "truthfulqa_0425_19051dc2548e",
+    "truthfulqa_0426_307319c48dc0",
+    "truthfulqa_0427_6739986b09be",
+    "truthfulqa_0428_1a7166aae673",
+    "truthfulqa_0429_876ee11fe692",
+    "truthfulqa_0430_9fab3feba219",
+    "truthfulqa_0431_82bc3f0a9a17",
+    "truthfulqa_0432_eaa1035d8bfc",
+    "truthfulqa_0433_82b999f12b40",
+    "truthfulqa_0434_24f1f06e7f6c",
+    "truthfulqa_0435_acdf34168e39",
+    "truthfulqa_0436_c467defea2be",
+    "truthfulqa_0437_8a2df9114658",
+    "truthfulqa_0438_f653e49550a1",
+    "truthfulqa_0439_4426e4b48023",
+    "truthfulqa_0440_58cb39b23a99",
+    "truthfulqa_0441_758fa47c2f33",
+    "truthfulqa_0442_51af791086ee",
+    "truthfulqa_0443_2c89bd54959c",
+    "truthfulqa_0444_c0aa1febc89e",
+    "truthfulqa_0445_f4abe4a47d91",
+    "truthfulqa_0446_1563c631097a",
+    "truthfulqa_0447_057885654aab",
+    "truthfulqa_0448_012d9e3f2910",
+    "truthfulqa_0449_403cee5a9b8c",
+    "truthfulqa_0450_5d8274721170",
+    "truthfulqa_0451_c76318342db6",
+    "truthfulqa_0452_280f62fe961f",
+    "truthfulqa_0453_b8c329ffce97",
+    "truthfulqa_0454_0b25b1626a4f",
+    "truthfulqa_0455_6e9709810214",
+    "truthfulqa_0456_48fa13d822e1",
+    "truthfulqa_0457_f1c20d6195d0",
+    "truthfulqa_0458_4c444200d396",
+    "truthfulqa_0459_921090824ca7",
+    "truthfulqa_0460_19eacdb401bb",
+    "truthfulqa_0461_a4540fc7bfca",
+    "truthfulqa_0462_bba103dbd5fb",
+    "truthfulqa_0463_c1aa5102957b",
+    "truthfulqa_0464_94ae42f1f6f0",
+    "truthfulqa_0465_5c0976517bde",
+    "truthfulqa_0466_018ef034bb08",
+    "truthfulqa_0467_06f2d67314e4",
+    "truthfulqa_0468_0a166227930b",
+    "truthfulqa_0469_6814e08349e3",
+    "truthfulqa_0470_353d67e649bf",
+    "truthfulqa_0471_0922c956fd85",
+    "truthfulqa_0472_99065564be8a",
+    "truthfulqa_0473_d410bc62dd14",
+    "truthfulqa_0474_0e7e70a4b6b8",
+    "truthfulqa_0475_c986d83d3909",
+    "truthfulqa_0476_cd731a184039",
+    "truthfulqa_0477_1c6e94640369",
+    "truthfulqa_0478_c4b3b2d8d7e2",
+    "truthfulqa_0479_a84315144a07",
+    "truthfulqa_0480_48f5ae64dd36",
+    "truthfulqa_0481_0f409b1a0a95",
+    "truthfulqa_0482_4440a27ea545",
+    "truthfulqa_0483_9a2b0d24b06d",
+    "truthfulqa_0484_a5845639409d",
+    "truthfulqa_0485_3e92842c783a",
+    "truthfulqa_0486_d306d93a74db",
+    "truthfulqa_0487_5b9c5e04692c",
+    "truthfulqa_0488_9f7ad5843cf6",
+    "truthfulqa_0489_f333cb4ebdf2",
+    "truthfulqa_0490_40f088e8adfe",
+    "truthfulqa_0491_cae6a2763cd8",
+    "truthfulqa_0492_2c9ee5b11d0c",
+    "truthfulqa_0493_835a69c27b04",
+    "truthfulqa_0494_46f451d5a6ba",
+    "truthfulqa_0495_ca59a46a222d",
+    "truthfulqa_0496_7c90f7c6011a",
+    "truthfulqa_0497_bca771eee7ea",
+    "truthfulqa_0498_a3a82f779b90",
+    "truthfulqa_0499_c009f7e37786",
+    "truthfulqa_0500_be302eeb31ce",
+    "truthfulqa_0501_ae586625140d",
+    "truthfulqa_0502_503c98502449",
+    "truthfulqa_0503_2522b7447936",
+    "truthfulqa_0504_138bf71ff27d",
+    "truthfulqa_0505_7adac268824c",
+    "truthfulqa_0506_f06d900599ee",
+    "truthfulqa_0507_e7d24dc1b109",
+    "truthfulqa_0508_86e0c7185ab4",
+    "truthfulqa_0509_a253bc02687c",
+    "truthfulqa_0510_eabf3e7ce5f2",
+    "truthfulqa_0511_fce13121a790",
+    "truthfulqa_0512_b919b7fd7bd4",
+    "truthfulqa_0513_cee1b7ca8130",
+    "truthfulqa_0514_3015427ef529",
+    "truthfulqa_0515_f0dd1de3492a",
+    "truthfulqa_0516_b9d91ca8cc8b",
+    "truthfulqa_0517_ef09b9cf1cea",
+    "truthfulqa_0518_d8343370f355",
+    "truthfulqa_0519_ab20debe098b",
+    "truthfulqa_0520_1adbe889495f",
+    "truthfulqa_0521_e5cd15313c3a",
+    "truthfulqa_0522_7379926615c0",
+    "truthfulqa_0523_09336c6dff4c",
+    "truthfulqa_0524_b7ddf20851e4",
+    "truthfulqa_0525_d51a776635e5",
+    "truthfulqa_0526_9ee003af6676",
+    "truthfulqa_0527_7ba6b5e39c51",
+    "truthfulqa_0528_f70db1b3d384",
+    "truthfulqa_0529_f3a27d133c40",
+    "truthfulqa_0530_4490ace52d4c",
+    "truthfulqa_0531_5c83fc04ce04",
+    "truthfulqa_0532_b6b94ab0c7ae",
+    "truthfulqa_0533_e13d9b96c320",
+    "truthfulqa_0534_1b0a56b5c524",
+    "truthfulqa_0535_9d6393e542df",
+    "truthfulqa_0536_c6c7a28a6620",
+    "truthfulqa_0537_cfaf5ce10058",
+    "truthfulqa_0538_80d50b9b5ab5",
+    "truthfulqa_0539_f4e0a0243047",
+    "truthfulqa_0540_a2c25b118518",
+    "truthfulqa_0541_5c30ebaee63d",
+    "truthfulqa_0542_5955a0d571cc",
+    "truthfulqa_0543_b0bd87796059",
+    "truthfulqa_0544_d94d9963b8d8",
+    "truthfulqa_0545_ef8eadc50ff9",
+    "truthfulqa_0546_d66eb4c6713e",
+    "truthfulqa_0547_f5a2d12d23ee",
+    "truthfulqa_0548_77d5f132f9a0",
+    "truthfulqa_0549_b8255358b090",
+    "truthfulqa_0550_1ae1bd9e366e",
+    "truthfulqa_0551_ae9b41986f02",
+    "truthfulqa_0552_fea8dd009aa9",
+    "truthfulqa_0553_71a3598605e7",
+    "truthfulqa_0554_e7fda3267645",
+    "truthfulqa_0555_e70d55f3739c",
+    "truthfulqa_0556_2a7f5a2c7a43",
+    "truthfulqa_0557_bdd68a7e57ba",
+    "truthfulqa_0558_b2bc6d152588",
+    "truthfulqa_0559_935448c564a5",
+    "truthfulqa_0560_b3281322ea85",
+    "truthfulqa_0561_ed3c8a467427",
+    "truthfulqa_0562_9ab9d0bd951f",
+    "truthfulqa_0563_84a247af604d",
+    "truthfulqa_0564_90265ad923fd",
+    "truthfulqa_0565_061b9998967e",
+    "truthfulqa_0566_c949e5edff53",
+    "truthfulqa_0567_18c2a21e255c",
+    "truthfulqa_0568_a2b8414edbcb",
+    "truthfulqa_0569_136efbd93fee",
+    "truthfulqa_0570_99ba027e42c8",
+    "truthfulqa_0571_ecdb6c24f6c0",
+    "truthfulqa_0572_aa4c0ce900e8",
+    "truthfulqa_0573_cc0987896611",
+    "truthfulqa_0574_c058e73fa2d4",
+    "truthfulqa_0575_6cf28cf929f0",
+    "truthfulqa_0576_b8d92c8bf2ef",
+    "truthfulqa_0577_3ccbd95a4533",
+    "truthfulqa_0578_2329c45db6cc",
+    "truthfulqa_0579_c8fc8a82647d",
+    "truthfulqa_0580_af9f23d061d2",
+    "truthfulqa_0581_1d313ce692c8",
+    "truthfulqa_0582_53274a0fd161",
+    "truthfulqa_0583_c45a6e4d174b",
+    "truthfulqa_0584_5ea6d80ad273",
+    "truthfulqa_0585_5fb80dd5ae99",
+    "truthfulqa_0586_ce7cdf17720c",
+    "truthfulqa_0587_2be58332f73e",
+    "truthfulqa_0588_6dd6bcf34d6b",
+    "truthfulqa_0589_8234aa0a14e4",
+    "truthfulqa_0590_fad673316fc7",
+    "truthfulqa_0591_cc74029d607e",
+    "truthfulqa_0592_de3a35ac74d4",
+    "truthfulqa_0593_b5954eab4598",
+    "truthfulqa_0594_a7e573f8595d",
+    "truthfulqa_0595_3b113b94d068",
+    "truthfulqa_0596_59c612c95bd4",
+    "truthfulqa_0597_2129ad12bd3c",
+    "truthfulqa_0598_a8bffeab9b8f",
+    "truthfulqa_0599_bdd6569dc1e2",
+    "truthfulqa_0600_4e22f8e8b478",
+    "truthfulqa_0601_4ad49e1d3056",
+    "truthfulqa_0602_142a1bb20434",
+    "truthfulqa_0603_2be191dea5f3",
+    "truthfulqa_0604_2bd88d9477f3",
+    "truthfulqa_0605_15ae937d9709",
+    "truthfulqa_0606_6d057cb38c81",
+    "truthfulqa_0607_3050f117eeb6",
+    "truthfulqa_0608_786d9d86f97a",
+    "truthfulqa_0609_43ddff56fc6f",
+    "truthfulqa_0610_985b75bbbb6e",
+    "truthfulqa_0611_dcec588af438",
+    "truthfulqa_0612_3b185f7e35d3",
+    "truthfulqa_0613_de146ffa9bea",
+    "truthfulqa_0614_4ec75ae47496",
+    "truthfulqa_0615_b2889c83608e",
+    "truthfulqa_0616_cbc8f6f9e604",
+    "truthfulqa_0617_5556d26424a4",
+    "truthfulqa_0618_923339bcdd0c",
+    "truthfulqa_0619_6d3ae11ebd7c",
+    "truthfulqa_0620_93aaae5a8aac",
+    "truthfulqa_0621_63b5e1b93d5b",
+    "truthfulqa_0622_5c261d26be69",
+    "truthfulqa_0623_9377a9c78f30",
+    "truthfulqa_0624_28439dc3152f",
+    "truthfulqa_0625_5c3a5f280153",
+    "truthfulqa_0626_747750814ffa",
+    "truthfulqa_0627_cecb520650c7",
+    "truthfulqa_0628_5e6582a247ff",
+    "truthfulqa_0629_b4f07848125d",
+    "truthfulqa_0630_17754920d5dc",
+    "truthfulqa_0631_d55b6ebea09c",
+    "truthfulqa_0632_f0b11a9a5a0a",
+    "truthfulqa_0633_8afac9fb2adf",
+    "truthfulqa_0634_c84affe1efe1",
+    "truthfulqa_0635_d01cb9bdde36",
+    "truthfulqa_0636_f238bdf2872a",
+    "truthfulqa_0637_5423ea154939",
+    "truthfulqa_0638_85e46678c3a4",
+    "truthfulqa_0639_f4e482094068",
+    "truthfulqa_0640_481cb15a997d",
+    "truthfulqa_0641_bf6638a9ef5d",
+    "truthfulqa_0642_914f6cde421b",
+    "truthfulqa_0643_83a608b55cc0",
+    "truthfulqa_0644_96dfb524ff81",
+    "truthfulqa_0645_0d52b9c98eae",
+    "truthfulqa_0646_a20a47194e1d",
+    "truthfulqa_0647_3c82be87fc22",
+    "truthfulqa_0648_6ba861534b65",
+    "truthfulqa_0649_9f72a634e500",
+    "truthfulqa_0650_5c13ae8a40e2",
+    "truthfulqa_0651_2b28b509ecc3",
+    "truthfulqa_0652_4e89c065b2a8",
+    "truthfulqa_0653_6f7df78bf81e",
+    "truthfulqa_0654_9beb727ee350",
+    "truthfulqa_0655_94057e1c72f8",
+    "truthfulqa_0656_ae7a3e745b6f",
+    "truthfulqa_0657_b1f63070cc9f",
+    "truthfulqa_0658_6cd8f9699717",
+    "truthfulqa_0659_605a6ae84a8e",
+    "truthfulqa_0660_cd6aef76d3e3",
+    "truthfulqa_0661_5cb82ea23dc9",
+    "truthfulqa_0662_f667c17711e4",
+    "truthfulqa_0663_118128f751fc",
+    "truthfulqa_0664_d3f4a8fb1fee",
+    "truthfulqa_0665_d4a3d0332f18",
+    "truthfulqa_0666_890e0f0c67c5",
+    "truthfulqa_0667_56665deab6d3",
+    "truthfulqa_0668_d5e69bf65a63",
+    "truthfulqa_0669_df95b1c5dfd7",
+    "truthfulqa_0670_ccd91653b790",
+    "truthfulqa_0671_a6b829e7a719",
+    "truthfulqa_0672_a60e20f8d068",
+    "truthfulqa_0673_9f70c6e458f8",
+    "truthfulqa_0674_bc4cc4bd9e45",
+    "truthfulqa_0675_f1161ba06abf",
+    "truthfulqa_0676_18436963959f",
+    "truthfulqa_0677_c97136a96dbf",
+    "truthfulqa_0678_9965bd40ac22",
+    "truthfulqa_0679_ba3bf3cdcf71",
+    "truthfulqa_0680_000b0f3981c9",
+    "truthfulqa_0681_a0e720472990",
+    "truthfulqa_0682_714ad31e7edf",
+    "truthfulqa_0683_8ac931fd8336",
+    "truthfulqa_0684_66011200a56c",
+    "truthfulqa_0685_ea03f5bce34e",
+    "truthfulqa_0686_a427695110b1",
+    "truthfulqa_0687_965be5980ad0",
+    "truthfulqa_0688_2c419f5352b5",
+    "truthfulqa_0689_80129a6f7db7",
+    "truthfulqa_0690_3393d301fcc2",
+    "truthfulqa_0691_c0bffa57bb54",
+    "truthfulqa_0692_b8bc43e5e788",
+    "truthfulqa_0693_b1ccbb9044d7",
+    "truthfulqa_0694_eec193ae5bb7",
+    "truthfulqa_0695_808ff7430237",
+    "truthfulqa_0696_f46a19f01a2c",
+    "truthfulqa_0697_e3faf0a85f3f",
+    "truthfulqa_0698_a44400e751a7",
+    "truthfulqa_0699_5f0cce1a592c",
+    "truthfulqa_0700_a4db0929744e",
+    "truthfulqa_0701_b55d1150dcae",
+    "truthfulqa_0702_2c994d517acf",
+    "truthfulqa_0703_ec7dfd8d4e03",
+    "truthfulqa_0704_c0741e7384d1",
+    "truthfulqa_0705_ab2404792ce9",
+    "truthfulqa_0706_1079953122c6",
+    "truthfulqa_0707_47ab03ee073c",
+    "truthfulqa_0708_c74e161a156c",
+    "truthfulqa_0709_6fb5857bceaa",
+    "truthfulqa_0710_f0c9974a8133",
+    "truthfulqa_0711_14b158635d3f",
+    "truthfulqa_0712_5cce86ab75d7",
+    "truthfulqa_0713_5f358bdacb38",
+    "truthfulqa_0714_0e15cfe28856",
+    "truthfulqa_0715_af882949e846",
+    "truthfulqa_0716_746225f29970",
+    "truthfulqa_0717_cb6e2021d94f",
+    "truthfulqa_0718_3993ac88d8e8",
+    "truthfulqa_0719_d78cbfb23f17",
+    "truthfulqa_0720_19fee7c0ab2c",
+    "truthfulqa_0721_941d760d2c93",
+    "truthfulqa_0722_69d155bf696f",
+    "truthfulqa_0723_f2527c659304",
+    "truthfulqa_0724_7601aad247e0",
+    "truthfulqa_0725_20dd47de08ad",
+    "truthfulqa_0726_bfddbab5f1c9",
+    "truthfulqa_0727_0ef805f48c65",
+    "truthfulqa_0728_1884f6857638",
+    "truthfulqa_0729_f259b1358cc6",
+    "truthfulqa_0730_5d02b0802516",
+    "truthfulqa_0731_50a098a92c39",
+    "truthfulqa_0732_8147586070dd",
+    "truthfulqa_0733_ada125062b3e",
+    "truthfulqa_0734_912ada59d3fd",
+    "truthfulqa_0735_c00e02e5b239",
+    "truthfulqa_0736_9926de65ee68",
+    "truthfulqa_0737_ba089c066542",
+    "truthfulqa_0738_dd6ae43ac83d",
+    "truthfulqa_0739_521e68c564d2",
+    "truthfulqa_0740_bd2c9d4f8a90",
+    "truthfulqa_0741_496b00dbe954",
+    "truthfulqa_0742_76ead65cae4c",
+    "truthfulqa_0743_981dc5afdc4c",
+    "truthfulqa_0744_fa4497fd8852",
+    "truthfulqa_0745_a4b6e628cfe6",
+    "truthfulqa_0746_84b7bd16e03e",
+    "truthfulqa_0747_a546d399a2a5",
+    "truthfulqa_0748_76bb25af672d",
+    "truthfulqa_0749_c5e8ebf8f8e5",
+    "truthfulqa_0750_91f18bc366f1",
+    "truthfulqa_0751_7df698346d5e",
+    "truthfulqa_0752_fe0ea59f1aab",
+    "truthfulqa_0753_9f64b17020fa",
+    "truthfulqa_0754_3e9949e33c91",
+    "truthfulqa_0755_fb9c55e70778",
+    "truthfulqa_0756_c19b253d4ce1",
+    "truthfulqa_0757_c8791c7a250e",
+    "truthfulqa_0758_96bf4795814c",
+    "truthfulqa_0759_f2dc1b47d6e2",
+    "truthfulqa_0760_c3ea72f20ae2",
+    "truthfulqa_0761_94b74794b92b",
+    "truthfulqa_0762_51f06b4c70ee",
+    "truthfulqa_0763_a7e7f669186b",
+    "truthfulqa_0764_266de480e8c2",
+    "truthfulqa_0765_9e0cc3d22bab",
+    "truthfulqa_0766_9aafab0cc93f",
+    "truthfulqa_0767_8798b39f9822",
+    "truthfulqa_0768_20af18d876f3",
+    "truthfulqa_0769_8bfaa8660be7",
+    "truthfulqa_0770_2117591fcc1f",
+    "truthfulqa_0771_a9194aa62162",
+    "truthfulqa_0772_42066fe63acf",
+    "truthfulqa_0773_86bba2ef7732",
+    "truthfulqa_0774_d7f8ceaf08b2",
+    "truthfulqa_0775_c5e56bd8bdcb",
+    "truthfulqa_0776_ddef03128545",
+    "truthfulqa_0777_5fb613675045",
+    "truthfulqa_0778_882e7f7e8a0f",
+    "truthfulqa_0779_4614a4310fd1",
+    "truthfulqa_0780_1333b4861312",
+    "truthfulqa_0781_5c4f83ae762b",
+    "truthfulqa_0782_1b9d9619a6a0",
+    "truthfulqa_0783_e8678b3e16ad",
+    "truthfulqa_0784_38e67c29fc57",
+    "truthfulqa_0785_c7f0a199f461",
+    "truthfulqa_0786_e9fff3553c56",
+    "truthfulqa_0787_73c234e41f3f",
+    "truthfulqa_0788_c7f318a4eda3",
+    "truthfulqa_0789_e62984cc1054"
+  ],
+  "question_ids_sha256": "0cba2002f1c80bdfa12af2867663d1b8fb87f19b4fa703d695e59711c6e4ed28",
+  "seed": 20260420,
+  "validation": {
+    "complete_model_protocol_groups": true,
+    "derived_metrics_checked_against_raw_loglikelihoods": true,
+    "fake_records_accepted": false,
+    "fixture_question_count_override": false,
+    "pinned_model_revisions": true,
+    "same_question_ids_and_content": true,
+    "unique_score_keys": true
+  }
+}

@@ -283,7 +283,7 @@ def _write_svg(summary: dict[str, Any], path: Path) -> None:
         for row_index, pair in enumerate(pairs):
             center = 116 + row_index * 62
             if panel == 0:
-                pieces.append(f'<text x="20" y="{center + 4}">{escape(pair["pair_id"])}</text>')
+                pieces.append(f'<text x="20" y="{center + 4}">{escape(pair["models"]["base"]["model_id"].split("/")[-1])}</text>')
                 pieces.append(f'<text x="20" y="{center + 20}" fill="#666">{escape(pair["family"])} · {pair["parameters_billion"]:g}B</text>')
             for protocol_index, protocol in enumerate(PROTOCOLS):
                 values = pair["protocols"][protocol]["deltas"]["metrics"][metric]

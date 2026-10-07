@@ -1,0 +1,16 @@
+{
+  "calibration_fraction": 0.5,
+  "ece_bins": 10,
+  "plots": [
+    "results/cross_family/qwen2_5_0_5b/calibration/stage2_instruct_calibration_repair.svg",
+    "results/cross_family/qwen2_5_0_5b/calibration/stage2_reliability_instruct_shared_prompt.svg"
+  ],
+  "seed": 20260420,
+  "summary": "results/cross_family/qwen2_5_0_5b/calibration/stage2_temperature_calibration_summary.csv",
+  "temperatures": {
+    "native_prompt_ab_label/base": 30.348000293655556,
+    "native_prompt_ab_label/instruct": 199.99999999999991,
+    "shared_plain_ab_label/base": 30.348000293655556,
+    "shared_plain_ab_label/instruct": 199.99999999999991
+  }
+}
