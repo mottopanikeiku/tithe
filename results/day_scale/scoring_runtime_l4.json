@@ -1,0 +1,8 @@
+{
+  "decisions": [],
+  "gpu_type": "L4",
+  "selected_pairs": [
+    "mistral_7b_v0_3"
+  ],
+  "cloud_scoring_seconds": 417.73152663
+}
