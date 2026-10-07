@@ -396,3 +396,36 @@ def score(optional: bool = False, pairs: str = "", out: str = "results/day_scale
         for key in ("base", "instruct"):
             (destination / f".{pair_id}_{key}.json.gz").unlink()
         print(f"Saved complete pair {pair_id} to {out}/{pair_id}")
+
+
+@app.function(image=modal.Image.debian_slim(python_version="3.11"), cpu=1, memory=1024,
+              timeout=120, max_containers=1, volumes={"/cache": volume})
+def delete_checkpoint_cache():
+    import datetime as dt
+    import shutil
+
+    deleted_bytes = 0
+    deleted_files = 0
+    for name in ("models", "huggingface"):
+        directory = Path("/cache") / name
+        if directory.exists():
+            for path in directory.rglob("*"):
+                if path.is_file():
+                    deleted_bytes += path.stat().st_size
+                    deleted_files += 1
+            shutil.rmtree(directory)
+    volume.commit()
+    return {"volume": "alignmenttax-day-weights", "deleted_file_bytes": deleted_bytes,
+            "deleted_files": deleted_files, "removed_directories": ["models", "huggingface"],
+            "kept_directories": [name for name in ("data", "datasets", "results")
+                                 if (Path("/cache") / name).is_dir()],
+            "completed_at_utc": dt.datetime.now(dt.timezone.utc).isoformat()}
+
+
+@app.local_entrypoint()
+def cleanup(out: str = "results/day_scale"):
+    result = delete_checkpoint_cache.remote()
+    destination = ROOT / out
+    destination.mkdir(parents=True, exist_ok=True)
+    (destination / "cache_cleanup.json").write_text(json.dumps(result, indent=2) + "\n")
+    print(json.dumps(result, indent=2))
