@@ -1,0 +1,383 @@
+{
+  "dataset": {
+    "path": "data/processed/truthfulqa_binary.jsonl",
+    "seed": 20260420,
+    "variant": "binary_best_vs_best_incorrect"
+  },
+  "scoring": {
+    "protocols": [
+      "shared_plain_ab_label",
+      "native_prompt_ab_label"
+    ],
+    "batch_size": 1
+  },
+  "analysis": {
+    "bootstrap_iterations": 10000,
+    "confidence_level": 0.95,
+    "ece_bins": 10,
+    "binning": "equal_frequency",
+    "bootstrap_seed": 20260420,
+    "standard_metrics": [
+      "mc1_accuracy",
+      "mc2",
+      "mc1_mean_confidence",
+      "mc1_overconfidence_gap",
+      "mc1_brier",
+      "mc1_nll",
+      "mc1_ece"
+    ]
+  },
+  "pairs": [
+    {
+      "experiment": {
+        "pair_id": "qwen2_5_0_5b",
+        "family": "Qwen2.5",
+        "parameters_billion": 0.5
+      },
+      "models": {
+        "base": {
+          "model_id": "Qwen/Qwen2.5-0.5B",
+          "tokenizer_id": "Qwen/Qwen2.5-0.5B",
+          "revision": "060db6499f32faf8b98477b0a26969ef7d8b9987",
+          "dtype": "bf16",
+          "device": "auto",
+          "attn_implementation": "sdpa",
+          "license": "apache-2.0",
+          "license_source": "https://huggingface.co/Qwen/Qwen2.5-0.5B/tree/060db6499f32faf8b98477b0a26969ef7d8b9987"
+        },
+        "instruct": {
+          "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+          "tokenizer_id": "Qwen/Qwen2.5-0.5B-Instruct",
+          "revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+          "dtype": "bf16",
+          "device": "auto",
+          "attn_implementation": "sdpa",
+          "license": "apache-2.0",
+          "license_source": "https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct/tree/7ae557604adf67be50417f59c2c2f167def9a775"
+        }
+      }
+    },
+    {
+      "experiment": {
+        "pair_id": "qwen2_5_1_5b",
+        "family": "Qwen2.5",
+        "parameters_billion": 1.5
+      },
+      "models": {
+        "base": {
+          "model_id": "Qwen/Qwen2.5-1.5B",
+          "tokenizer_id": "Qwen/Qwen2.5-1.5B",
+          "revision": "8faed761d45a263340a0528343f099c05c9a4323",
+          "dtype": "bf16",
+          "device": "auto",
+          "attn_implementation": "sdpa",
+          "license": "apache-2.0",
+          "license_source": "https://huggingface.co/Qwen/Qwen2.5-1.5B/tree/8faed761d45a263340a0528343f099c05c9a4323"
+        },
+        "instruct": {
+          "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+          "tokenizer_id": "Qwen/Qwen2.5-1.5B-Instruct",
+          "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+          "dtype": "bf16",
+          "device": "auto",
+          "attn_implementation": "sdpa",
+          "license": "apache-2.0",
+          "license_source": "https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct/tree/989aa7980e4cf806f80c7fef2b1adb7bc71aa306"
+        }
+      }
+    },
+    {
+      "experiment": {
+        "pair_id": "qwen2_5_7b",
+        "family": "Qwen2.5",
+        "parameters_billion": 7
+      },
+      "models": {
+        "base": {
+          "model_id": "Qwen/Qwen2.5-7B",
+          "tokenizer_id": "Qwen/Qwen2.5-7B",
+          "revision": "d149729398750b98c0af14eb82c78cfe92750796",
+          "dtype": "bf16",
+          "device": "auto",
+          "attn_implementation": "sdpa",
+          "license": "apache-2.0",
+          "license_source": "https://huggingface.co/Qwen/Qwen2.5-7B/tree/d149729398750b98c0af14eb82c78cfe92750796"
+        },
+        "instruct": {
+          "model_id": "Qwen/Qwen2.5-7B-Instruct",
+          "tokenizer_id": "Qwen/Qwen2.5-7B-Instruct",
+          "revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+          "dtype": "bf16",
+          "device": "auto",
+          "attn_implementation": "sdpa",
+          "license": "apache-2.0",
+          "license_source": "https://huggingface.co/Qwen/Qwen2.5-7B-Instruct/tree/a09a35458c702b33eeacc393d103063234e8bc28"
+        }
+      }
+    },
+    {
+      "experiment": {
+        "pair_id": "olmo2_0425_1b",
+        "family": "OLMo-2",
+        "parameters_billion": 1
+      },
+      "models": {
+        "base": {
+          "model_id": "allenai/OLMo-2-0425-1B",
+          "tokenizer_id": "allenai/OLMo-2-0425-1B",
+          "revision": "a1847dff35000b4271fa70afc5db10fd29fedbdf",
+          "dtype": "bf16",
+          "device": "auto",
+          "attn_implementation": "sdpa",
+          "license": "apache-2.0",
+          "license_source": "https://huggingface.co/allenai/OLMo-2-0425-1B/tree/a1847dff35000b4271fa70afc5db10fd29fedbdf"
+        },
+        "instruct": {
+          "model_id": "allenai/OLMo-2-0425-1B-Instruct",
+          "tokenizer_id": "allenai/OLMo-2-0425-1B-Instruct",
+          "revision": "48d788eca847d4d7548f375ad03d3c9312f6139e",
+          "dtype": "bf16",
+          "device": "auto",
+          "attn_implementation": "sdpa",
+          "license": "apache-2.0",
+          "license_source": "https://huggingface.co/allenai/OLMo-2-0425-1B-Instruct/tree/48d788eca847d4d7548f375ad03d3c9312f6139e"
+        }
+      }
+    },
+    {
+      "experiment": {
+        "pair_id": "olmo2_1124_7b",
+        "family": "OLMo-2",
+        "parameters_billion": 7
+      },
+      "models": {
+        "base": {
+          "model_id": "allenai/OLMo-2-1124-7B",
+          "tokenizer_id": "allenai/OLMo-2-1124-7B",
+          "revision": "7df9a82518afdecae4e8c026b27adccc8c1f0032",
+          "dtype": "bf16",
+          "device": "auto",
+          "attn_implementation": "sdpa",
+          "license": "apache-2.0",
+          "license_source": "https://huggingface.co/allenai/OLMo-2-1124-7B/tree/7df9a82518afdecae4e8c026b27adccc8c1f0032"
+        },
+        "instruct": {
+          "model_id": "allenai/OLMo-2-1124-7B-Instruct",
+          "tokenizer_id": "allenai/OLMo-2-1124-7B-Instruct",
+          "revision": "470b1fba1ae01581f270116362ee4aa1b97f4c84",
+          "dtype": "bf16",
+          "device": "auto",
+          "attn_implementation": "sdpa",
+          "license": "apache-2.0",
+          "license_source": "https://huggingface.co/allenai/OLMo-2-1124-7B-Instruct/tree/470b1fba1ae01581f270116362ee4aa1b97f4c84"
+        }
+      }
+    },
+    {
+      "experiment": {
+        "pair_id": "smollm2_1_7b",
+        "family": "SmolLM2",
+        "parameters_billion": 1.7
+      },
+      "models": {
+        "base": {
+          "model_id": "HuggingFaceTB/SmolLM2-1.7B",
+          "tokenizer_id": "HuggingFaceTB/SmolLM2-1.7B",
+          "revision": "effd688a12921b4cc83e3312b6feb579f70f9c71",
+          "dtype": "bf16",
+          "device": "auto",
+          "attn_implementation": "sdpa",
+          "license": "apache-2.0",
+          "license_source": "https://huggingface.co/HuggingFaceTB/SmolLM2-1.7B/tree/effd688a12921b4cc83e3312b6feb579f70f9c71"
+        },
+        "instruct": {
+          "model_id": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+          "tokenizer_id": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+          "revision": "31b70e2e869a7173562077fd711b654946d38674",
+          "dtype": "bf16",
+          "device": "auto",
+          "attn_implementation": "sdpa",
+          "license": "apache-2.0",
+          "license_source": "https://huggingface.co/HuggingFaceTB/SmolLM2-1.7B-Instruct/tree/31b70e2e869a7173562077fd711b654946d38674"
+        }
+      }
+    },
+    {
+      "experiment": {
+        "pair_id": "mistral_7b_v0_3",
+        "family": "Mistral v0.3",
+        "parameters_billion": 7
+      },
+      "models": {
+        "base": {
+          "model_id": "mistralai/Mistral-7B-v0.3",
+          "tokenizer_id": "mistralai/Mistral-7B-v0.3",
+          "revision": "caa1feb0e54d415e2df31207e5f4e273e33509b1",
+          "dtype": "bf16",
+          "device": "auto",
+          "attn_implementation": "sdpa",
+          "license": "apache-2.0",
+          "license_source": "https://huggingface.co/mistralai/Mistral-7B-v0.3/tree/caa1feb0e54d415e2df31207e5f4e273e33509b1"
+        },
+        "instruct": {
+          "model_id": "mistralai/Mistral-7B-Instruct-v0.3",
+          "tokenizer_id": "mistralai/Mistral-7B-Instruct-v0.3",
+          "revision": "c170c708c41dac9275d15a8fff4eca08d52bab71",
+          "dtype": "bf16",
+          "device": "auto",
+          "attn_implementation": "sdpa",
+          "license": "apache-2.0",
+          "license_source": "https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3/tree/c170c708c41dac9275d15a8fff4eca08d52bab71"
+        }
+      }
+    },
+    {
+      "experiment": {
+        "pair_id": "qwen2_5_14b",
+        "family": "Qwen2.5",
+        "parameters_billion": 14
+      },
+      "models": {
+        "base": {
+          "model_id": "Qwen/Qwen2.5-14B",
+          "tokenizer_id": "Qwen/Qwen2.5-14B",
+          "revision": "97e1e76335b7017d8f67c08a19d103c0504298c9",
+          "dtype": "bf16",
+          "device": "auto",
+          "attn_implementation": "sdpa",
+          "license": "apache-2.0",
+          "license_source": "https://huggingface.co/Qwen/Qwen2.5-14B/tree/97e1e76335b7017d8f67c08a19d103c0504298c9"
+        },
+        "instruct": {
+          "model_id": "Qwen/Qwen2.5-14B-Instruct",
+          "tokenizer_id": "Qwen/Qwen2.5-14B-Instruct",
+          "revision": "cf98f3b3bbb457ad9e2bb7baf9a0125b6b88caa8",
+          "dtype": "bf16",
+          "device": "auto",
+          "attn_implementation": "sdpa",
+          "license": "apache-2.0",
+          "license_source": "https://huggingface.co/Qwen/Qwen2.5-14B-Instruct/tree/cf98f3b3bbb457ad9e2bb7baf9a0125b6b88caa8"
+        }
+      }
+    },
+    {
+      "experiment": {
+        "pair_id": "qwen2_5_32b",
+        "family": "Qwen2.5",
+        "parameters_billion": 32
+      },
+      "models": {
+        "base": {
+          "model_id": "Qwen/Qwen2.5-32B",
+          "tokenizer_id": "Qwen/Qwen2.5-32B",
+          "revision": "1818d35814b8319459f4bd55ed1ac8709630f003",
+          "dtype": "bf16",
+          "device": "auto",
+          "attn_implementation": "sdpa",
+          "license": "apache-2.0",
+          "license_source": "https://huggingface.co/Qwen/Qwen2.5-32B/tree/1818d35814b8319459f4bd55ed1ac8709630f003"
+        },
+        "instruct": {
+          "model_id": "Qwen/Qwen2.5-32B-Instruct",
+          "tokenizer_id": "Qwen/Qwen2.5-32B-Instruct",
+          "revision": "5ede1c97bbab6ce5cda5812749b4c0bdf79b18dd",
+          "dtype": "bf16",
+          "device": "auto",
+          "attn_implementation": "sdpa",
+          "license": "apache-2.0",
+          "license_source": "https://huggingface.co/Qwen/Qwen2.5-32B-Instruct/tree/5ede1c97bbab6ce5cda5812749b4c0bdf79b18dd"
+        }
+      }
+    }
+  ],
+  "optional_pairs": [
+    {
+      "experiment": {
+        "pair_id": "olmo2_0325_32b",
+        "family": "OLMo-2",
+        "parameters_billion": 32
+      },
+      "models": {
+        "base": {
+          "model_id": "allenai/OLMo-2-0325-32B",
+          "tokenizer_id": "allenai/OLMo-2-0325-32B",
+          "revision": "cc9d3cf9c7230b86ee6b84607b37db1c01e3f1ed",
+          "dtype": "bf16",
+          "device": "auto",
+          "attn_implementation": "sdpa",
+          "license": "apache-2.0",
+          "license_source": "https://huggingface.co/allenai/OLMo-2-0325-32B/tree/cc9d3cf9c7230b86ee6b84607b37db1c01e3f1ed"
+        },
+        "instruct": {
+          "model_id": "allenai/OLMo-2-0325-32B-Instruct",
+          "tokenizer_id": "allenai/OLMo-2-0325-32B-Instruct",
+          "revision": "b96024342a77a69aa0dda815c3454a671f477463",
+          "dtype": "bf16",
+          "device": "auto",
+          "attn_implementation": "sdpa",
+          "license": "apache-2.0",
+          "license_source": "https://huggingface.co/allenai/OLMo-2-0325-32B-Instruct/tree/b96024342a77a69aa0dda815c3454a671f477463"
+        }
+      }
+    },
+    {
+      "experiment": {
+        "pair_id": "mistral_small_24b_2501",
+        "family": "Mistral Small 2501",
+        "parameters_billion": 24
+      },
+      "models": {
+        "base": {
+          "model_id": "mistralai/Mistral-Small-24B-Base-2501",
+          "tokenizer_id": "mistralai/Mistral-Small-24B-Base-2501",
+          "revision": "b0a2e4ed093c26997495ae625528f81ea04b749f",
+          "dtype": "bf16",
+          "device": "auto",
+          "attn_implementation": "sdpa",
+          "license": "apache-2.0",
+          "license_source": "https://huggingface.co/mistralai/Mistral-Small-24B-Base-2501/tree/b0a2e4ed093c26997495ae625528f81ea04b749f"
+        },
+        "instruct": {
+          "model_id": "mistralai/Mistral-Small-24B-Instruct-2501",
+          "tokenizer_id": "mistralai/Mistral-Small-24B-Instruct-2501",
+          "revision": "9527884be6e5616bdd54de542f9ae13384489724",
+          "dtype": "bf16",
+          "device": "auto",
+          "attn_implementation": "sdpa",
+          "license": "apache-2.0",
+          "license_source": "https://huggingface.co/mistralai/Mistral-Small-24B-Instruct-2501/tree/9527884be6e5616bdd54de542f9ae13384489724"
+        }
+      }
+    }
+  ],
+  "standard_dataset": {
+    "dataset_id": "truthfulqa/truthful_qa",
+    "revision": "741b8276f2d1982aa3d5b832d3ee81ed3b896490",
+    "config": "multiple_choice",
+    "split": "validation",
+    "expected_questions": 817,
+    "path": "data/processed/truthfulqa_standard.jsonl",
+    "license": "apache-2.0",
+    "harness_revision": "d6de81643928d653435c431bae19945d41d32520",
+    "harness_tasks": [
+      "truthfulqa_mc1",
+      "truthfulqa_mc2"
+    ],
+    "shared_prompt": "exact_six_example_harness_qa",
+    "native_prompt": "instruct_user_chat_wrapping_entire_harness_prompt_base_unchanged",
+    "target_delimiter": " ",
+    "add_bos_token": null,
+    "likelihood": "sum_token_logprobs_no_length_normalization"
+  },
+  "standard_scoring": {
+    "question_batch_size_small": 16,
+    "question_batch_size_large": 4,
+    "continuation_batch_size": 16,
+    "logit_chunk_size": 64,
+    "cache_reference_questions": 4,
+    "numerical_audit": "Report full-forward/cached LL and MC differences on first four questions for every model; exact toy FP32 tests must pass. BF16 is not bitwise invariant across batch shapes; differences are disclosed, not silently threshold-relaxed.",
+    "cache_reference_max_abs_probability_error": 0.02,
+    "cache_reference_max_mean_token_logprob_error": 0.05,
+    "cache_reference_max_mc1_disagreements": 0
+  }
+}
