@@ -1,0 +1,8 @@
+{
+  "decisions": [],
+  "gpu_type": "H100",
+  "selected_pairs": [
+    "qwen2_5_32b"
+  ],
+  "cloud_scoring_seconds": 732.748470557
+}

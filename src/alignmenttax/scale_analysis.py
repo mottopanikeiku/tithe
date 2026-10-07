@@ -396,6 +396,7 @@ def _write_svg(summary: dict[str, Any], path: Path) -> None:
 def analyze_scale(
     root: str | Path, out: str | Path, old_binary_root: str | Path = "results/cross_family",
     iterations: int = 10000, seed: int = 20260420, *,
+    allow_incomplete: bool = False,
     _expected_pairs: list[dict[str, Any]] | None = None,
     _expected_question_counts: dict[str, int] | None = None,
 ) -> dict[str, Any]:
@@ -424,8 +425,9 @@ def analyze_scale(
         (directory / name).exists() for name in ("standard_scores.jsonl.gz", "standard_metadata.json", "binary_scores.jsonl.gz", "binary_metadata.json")
     )}
     mandatory = {config["experiment"]["pair_id"] for config in required}
-    if not mandatory <= present or not present <= set(expected):
-        raise ValueError(f"Day-scale pair set differs from manifest: missing={sorted(mandatory - present)}, unexpected={sorted(present - set(expected))}")
+    missing = sorted(mandatory - present)
+    if not present or (missing and not allow_incomplete) or not present <= set(expected):
+        raise ValueError(f"Day-scale pair set differs from manifest: missing={missing}, unexpected={sorted(present - set(expected))}")
     loaded: dict[str, dict[str, Any]] = {benchmark: {} for benchmark in counts}
     pairs = []
     seen_models = set()
@@ -475,6 +477,10 @@ def analyze_scale(
     summary = {
         "pair_count": len(pairs), "iterations": iterations, "seed": seed, "confidence_level": 0.95,
         "manifest_source": "configs/day_scale.json" if _expected_pairs is None else "private unit fixture override",
+        "coverage": {"planned_required_pairs": sorted(mandatory),
+                     "completed_required_pairs": sorted(mandatory & present),
+                     "missing_required_pairs": missing,
+                     "allow_incomplete": allow_incomplete},
         "benchmarks": benchmarks, "pairs": pairs, "outcome_counts": outcome_counts,
         "protocol_roles": {SHARED_PLAIN_PROTOCOL: "primary", NATIVE_PROMPT_PROTOCOL: "sensitivity"},
         "bootstrap": {"unit": "question_id", "interval": "percentile", "quantile_method": "linear",
@@ -518,8 +524,11 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--old-binary-root", type=Path, default=Path("results/cross_family"))
     parser.add_argument("--iterations", type=int, default=10000)
     parser.add_argument("--seed", type=int, default=20260420)
+    parser.add_argument("--allow-incomplete", action="store_true",
+                        help="Analyze only complete pairs after a cut-short run; list missing required pairs.")
     args = parser.parse_args(argv)
-    analyze_scale(args.root, args.out, args.old_binary_root, args.iterations, args.seed)
+    analyze_scale(args.root, args.out, args.old_binary_root, args.iterations, args.seed,
+                  allow_incomplete=args.allow_incomplete)
     return 0
 
 

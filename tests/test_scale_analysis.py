@@ -338,6 +338,44 @@ class ScaleAnalysisTest(unittest.TestCase):
                     self.analyze(root, out, old, configs)
                 self.assertFalse(out.exists())
 
+    def test_cut_short_run_requires_opt_in_and_reports_missing_pairs(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root, old, out = (Path(temporary) / x for x in ("day", "old", "out"))
+            config, metadata, rows = fixture()
+            missing, _metadata, _rows = fixture("fixture_b", 14.0)
+            write_pair(root, old, config, metadata, rows)
+            with self.assertRaises(ValueError):
+                self.analyze(root, out, old, [config, missing])
+            summary = analyze_scale(
+                root, out, old, iterations=3, allow_incomplete=True,
+                _expected_pairs=[config, missing], _expected_question_counts=COUNTS,
+            )
+            self.assertEqual(summary["pair_count"], 1)
+            self.assertEqual(summary["coverage"], {
+                "planned_required_pairs": ["fixture_a", "fixture_b"],
+                "completed_required_pairs": ["fixture_a"],
+                "missing_required_pairs": ["fixture_b"],
+                "allow_incomplete": True,
+            })
+            self.assertTrue(summary["validation"]["complete_model_protocol_groups"])
+
+    def test_cut_short_mode_still_rejects_empty_partial_and_unexpected_data(self) -> None:
+        for issue in ("empty", "partial", "unexpected"):
+            with self.subTest(issue=issue), tempfile.TemporaryDirectory() as temporary:
+                root, old, out = (Path(temporary) / x for x in ("day", "old", "out"))
+                config, metadata, rows = fixture()
+                if issue == "empty":
+                    root.mkdir()
+                else:
+                    if issue == "partial":
+                        rows["standard"].pop()
+                    write_pair(root, old, config, metadata, rows)
+                expected = [fixture("fixture_b", 14.0)[0]] if issue == "unexpected" else [config]
+                with self.assertRaises(ValueError):
+                    analyze_scale(root, out, old, iterations=3, allow_incomplete=True,
+                                  _expected_pairs=expected, _expected_question_counts=COUNTS)
+                self.assertFalse(out.exists())
+
     def test_optional_manifest_pairs_absent_or_complete_not_partial(self) -> None:
         for state in ("absent", "complete", "partial"):
             with self.subTest(state=state), tempfile.TemporaryDirectory() as temporary:
@@ -380,8 +418,10 @@ class ScaleAnalysisTest(unittest.TestCase):
             root, old, out = (Path(temporary) / x for x in ("day", "old", "out"))
             config, metadata, rows = fixture()
             write_pair(root, old, config, metadata, rows)
-            with self.assertRaises(ValueError):
-                analyze_scale(root, out, old, iterations=3, _expected_pairs=[config])
+            for allow_incomplete in (False, True):
+                with self.subTest(allow_incomplete=allow_incomplete), self.assertRaises(ValueError):
+                    analyze_scale(root, out, old, iterations=3, allow_incomplete=allow_incomplete,
+                                  _expected_pairs=[config])
             for args in ("--expected-question-count", "--expected-standard-count", "--expected-pairs"):
                 with self.subTest(option=args), self.assertRaises(SystemExit):
                     main(["--root", str(root), "--out", str(out), args, "13"])
