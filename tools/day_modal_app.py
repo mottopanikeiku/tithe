@@ -1,4 +1,4 @@
-"""Prepare pinned checkpoints on CPU, then score offline on one BF16 H100."""
+"""Prepare pinned checkpoints on CPU, then score offline on one BF16 GPU."""
 from __future__ import annotations
 
 import gzip
@@ -8,8 +8,10 @@ from pathlib import Path
 
 import modal
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parent.parent
 MINUTES = int(os.environ.get("ALIGNMENTTAX_MINUTES", "25"))
+GPU = os.environ.get("ALIGNMENTTAX_GPU", "H100")
+GPU_HOURLY_USD = {"L4": 0.7992, "H100": 3.9492}[GPU]
 app = modal.App("alignmenttax-day-scale")
 volume = modal.Volume.from_name("alignmenttax-day-weights", create_if_missing=True)
 cpu_image = (
@@ -117,15 +119,15 @@ gpu_image = (
     )
     .env({"PYTHONPATH": "/project/src", "OMP_NUM_THREADS": "2", "MKL_NUM_THREADS": "2",
           "HF_HOME": "/cache/huggingface", "TOKENIZERS_PARALLELISM": "false",
-          "HF_HUB_OFFLINE": "1", "TRANSFORMERS_OFFLINE": "1"})
+          "HF_HUB_OFFLINE": "1", "TRANSFORMERS_OFFLINE": "1", "ALIGNMENTTAX_GPU": GPU})
     .add_local_dir(ROOT / "src", remote_path="/project/src", copy=True)
     .add_local_dir(ROOT / "configs", remote_path="/project/configs", copy=True)
 )
 
 
-@app.function(image=gpu_image, gpu="H100", cpu=2, memory=16384,
+@app.function(image=gpu_image, gpu=GPU, cpu=2, memory=16384,
               timeout=MINUTES * 60, max_containers=1, volumes={"/cache": volume})
-def score_checkpoints(include_optional: bool):
+def score_checkpoints(include_optional: bool, pair_ids: list[str]):
     import datetime as dt
     import gc
     import importlib.metadata
@@ -145,7 +147,13 @@ def score_checkpoints(include_optional: bool):
 
     os.chdir("/project")
     import hashlib
-    scorer_source_sha256 = hashlib.sha256(Path("src/alignmenttax/standard.py").read_bytes()).hexdigest()
+    source_hash = hashlib.sha256()
+    for name in ("standard.py", "scoring.py"):
+        source_hash.update(name.encode() + b"\0")
+        source_hash.update((Path("src/alignmenttax") / name).read_bytes())
+    scorer_source_sha256 = source_hash.hexdigest()
+    packages = {name: importlib.metadata.version(name) for name in
+                ("torch", "transformers", "accelerate", "huggingface-hub", "numpy", "pyyaml")}
     torch.set_num_threads(2)
     torch.set_num_interop_threads(2)
     torch.backends.cuda.matmul.allow_bf16_reduced_precision_reduction = False
@@ -163,6 +171,13 @@ def score_checkpoints(include_optional: bool):
     pair_times = {}
     decisions = []
     selected = manifest["pairs"] + (manifest["optional_pairs"] if include_optional else [])
+    if pair_ids:
+        requested = set(pair_ids)
+        known = {pair["experiment"]["pair_id"] for pair in selected}
+        if requested - known:
+            raise ValueError(f"Unknown requested pairs: {sorted(requested - known)}")
+        selected = [pair for pair in selected if pair["experiment"]["pair_id"] in requested]
+    optional_ids = {pair["experiment"]["pair_id"] for pair in manifest["optional_pairs"]}
     existing_binary = {pair["experiment"]["pair_id"] for pair in manifest["pairs"][:7]}
 
     def probabilities(values):
@@ -170,15 +185,19 @@ def score_checkpoints(include_optional: bool):
         weights = np.exp(values - values.max())
         return weights / weights.sum()
 
-    def audit(cached, model_key, protocol):
+    def audit(cached, model_key, protocol, batch_size):
         checks = []
-        records = standard[:settings["cache_reference_questions"]]
+        reference_count = settings["cache_reference_questions"]
+        records = standard[:max(reference_count, batch_size)]
         prompts = [build_standard_prompt(item, model_key=model_key, protocol=protocol,
-                                         tokenizer=cached.scorer.tokenizer) for item in records]
+                                         tokenizer=cached.scorer.tokenizer,
+                                         template_date=manifest["scoring"]["template_date"]) for item in records]
         choices = [list(dict.fromkeys(" " + answer for answer in
                                       item["mc1_choices"] + item["mc2_choices"])) for item in records]
         accelerated = cached.score_question_batch(prompts, choices)
-        for item, prompt, continuations, actual in zip(records, prompts, choices, accelerated, strict=True):
+        for item, prompt, continuations, actual in zip(
+                records[:reference_count], prompts[:reference_count], choices[:reference_count],
+                accelerated[:reference_count], strict=True):
             reference = [cached.score_reference(prompt, continuation) for continuation in continuations]
             counts = [len(cached.encode_pair(prompt, continuation)[1]) for continuation in continuations]
             actual_map, reference_map = dict(zip(continuations, actual)), dict(zip(continuations, reference))
@@ -208,11 +227,12 @@ def score_checkpoints(include_optional: bool):
                      and row["mc1_winner_disagreement"] <= settings["cache_reference_max_mc1_disagreements"]
                      for row in checks)
         return {"model_key": model_key, "protocol": protocol, "passed": passed,
+                "cached_batch_question_count": len(records), "reference_question_count": len(checks),
                 "execution": "prefix_cache" if passed else "full_forward_reference", "checks": checks}
 
-    for index, pair in enumerate(selected):
+    for pair in selected:
         pair_id = pair["experiment"]["pair_id"]
-        optional_pair = index >= len(manifest["pairs"])
+        optional_pair = pair_id in optional_ids
         if optional_pair:
             remaining = soft_deadline - time.perf_counter()
             reference_seconds = pair_times.get("qwen2_5_32b", float("inf"))
@@ -234,7 +254,10 @@ def score_checkpoints(include_optional: bool):
                 saved = json.loads(gzip.decompress(saved_bytes))
                 if (saved["config"]["models"][model_key] != public_config or
                         saved["config"]["standard_dataset"] != manifest["standard_dataset"] or
+                        saved["config"]["scoring"] != manifest["scoring"] or
+                        saved["config"]["standard_scoring"] != manifest["standard_scoring"] or
                         saved["runtime"]["scorer_source_sha256"] != scorer_source_sha256 or
+                        saved["runtime"]["packages"] != packages or
                         len(saved["standard"]) != 1634 or
                         len(saved["binary"]) != (0 if pair_id in existing_binary else 1580)):
                     raise ValueError(f"{pair_id}/{model_key}: saved unit does not match this run.")
@@ -254,6 +277,7 @@ def score_checkpoints(include_optional: bool):
                 scorer, continuation_batch_size=settings["continuation_batch_size"],
                 logit_chunk_size=settings["logit_chunk_size"],
                 add_bos_token=manifest["standard_dataset"]["add_bos_token"],
+                template_date=manifest["scoring"]["template_date"],
             )
             batch_size = settings["question_batch_size_large" if
                                   pair["experiment"]["parameters_billion"] >= 14 else "question_batch_size_small"]
@@ -261,7 +285,7 @@ def score_checkpoints(include_optional: bool):
             protocols = [SHARED_PLAIN_PROTOCOL] if model_key == "base" else [
                 SHARED_PLAIN_PROTOCOL, NATIVE_PROMPT_PROTOCOL]
             for protocol in protocols:
-                check = audit(cached, model_key, protocol)
+                check = audit(cached, model_key, protocol, batch_size)
                 numerical_checks.append(check)
                 standard_rows.extend(cached.standard_records(
                     standard, model_key=model_key, protocol=protocol, batch_size=batch_size,
@@ -270,7 +294,8 @@ def score_checkpoints(include_optional: bool):
                 if pair_id not in existing_binary:
                     for item in binary:
                         prompt = build_prompt(item, protocol=protocol, model_key=model_key,
-                                              tokenizer=scorer.tokenizer)
+                                              tokenizer=scorer.tokenizer,
+                                              template_date=manifest["scoring"]["template_date"])
                         row_started = time.perf_counter()
                         logprob_a, logprob_b, counts = scorer.score_prompt(prompt)
                         binary_rows.append(_score_row(
@@ -290,11 +315,12 @@ def score_checkpoints(include_optional: bool):
                                         reused_from_protocol=SHARED_PLAIN_PROTOCOL)
                                    for row in list(binary_rows))
             elapsed = time.perf_counter() - model_started
-            config = {key: manifest[key] for key in ("dataset", "scoring", "analysis", "standard_dataset")}
+            config = {key: manifest[key] for key in
+                      ("dataset", "scoring", "analysis", "standard_dataset", "standard_scoring")}
             config.update(pair)
             runtime = {
                 "created_at_utc": dt.datetime.now(dt.timezone.utc).isoformat(),
-                "gpu": torch.cuda.get_device_name(), "gpu_type": "H100", "cpu_cores": 2,
+                "gpu": torch.cuda.get_device_name(), "gpu_type": GPU, "cpu_cores": 2,
                 "memory_gib": 16, "cloud_model_seconds": elapsed,
                 "cloud_elapsed_seconds": time.perf_counter() - started,
                 "model_key": model_key, "model_id": public_config["model_id"],
@@ -303,42 +329,45 @@ def score_checkpoints(include_optional: bool):
                 "continuation_batch_size": settings["continuation_batch_size"],
                 "numerical_checks": numerical_checks, "base_native_rows_reuse_shared_plain": model_key == "base",
                 "bf16_reduced_precision_reduction": False,
+                "template_date": manifest["scoring"]["template_date"],
                 "scorer_source_sha256": scorer_source_sha256,
                 "peak_cuda_memory_allocated_bytes": torch.cuda.max_memory_allocated(),
-                "packages": {name: importlib.metadata.version(name) for name in
-                             ("torch", "transformers", "accelerate", "huggingface-hub", "numpy", "pyyaml")},
+                "packages": packages,
                 "python": sys.version,
-                "cost_basis": "H100 $3.9492/hour + 2 CPU cores $0.047160/core-hour + 16 GiB $0.007992/GiB-hour",
+                "cost_basis": f"{GPU} ${GPU_HOURLY_USD}/hour + 2 CPU cores $0.047160/core-hour + 16 GiB $0.007992/GiB-hour",
             }
             payload = {"pair_id": pair_id, "model_key": model_key,
                        "standard": standard_rows, "binary": binary_rows, "runtime": runtime, "config": config}
             cloud_out = Path("/cache/results/day_scale") / pair_id
             cloud_out.mkdir(parents=True, exist_ok=True)
             payload_bytes = json.dumps(payload, sort_keys=True).encode()
-            (cloud_out / f"{model_key}.json.gz").write_bytes(gzip.compress(payload_bytes, mtime=0))
+            compressed_payload = gzip.compress(payload_bytes, mtime=0)
+            (cloud_out / f"{model_key}.json.gz").write_bytes(compressed_payload)
             volume.commit()
             del cached, scorer
             gc.collect()
             torch.cuda.empty_cache()
             torch.cuda.reset_peak_memory_stats()
             pair_measured_seconds += elapsed
-            yield gzip.compress(payload_bytes, mtime=0)
+            yield compressed_payload
             print(f"Completed {pair_id}/{model_key}: {len(standard_rows)} standard rows, "
                   f"{len(binary_rows)} new binary rows", flush=True)
         pair_times[pair_id] = max(pair_measured_seconds, time.perf_counter() - pair_started)
-    yield gzip.compress(json.dumps({"decisions": decisions,
+    yield gzip.compress(json.dumps({"decisions": decisions, "gpu_type": GPU,
+                                   "selected_pairs": [pair["experiment"]["pair_id"] for pair in selected],
                                    "cloud_scoring_seconds": time.perf_counter() - started}).encode(), mtime=0)
 
 
 @app.local_entrypoint()
-def score(optional: bool = False, out: str = "results/day_scale"):
+def score(optional: bool = False, pairs: str = "", out: str = "results/day_scale"):
     destination = ROOT / out
     destination.mkdir(parents=True, exist_ok=True)
     pending = {}
-    for compressed in score_checkpoints.remote_gen(optional):
+    pair_ids = [value.strip() for value in pairs.split(",") if value.strip()]
+    for compressed in score_checkpoints.remote_gen(optional, pair_ids):
         payload = json.loads(gzip.decompress(compressed))
         if "decisions" in payload:
-            (destination / "scoring_runtime.json").write_text(json.dumps(payload, indent=2) + "\n")
+            (destination / f"scoring_runtime_{GPU.lower()}.json").write_text(json.dumps(payload, indent=2) + "\n")
             continue
         pair_id, role = payload["pair_id"], payload["model_key"]
         pending.setdefault(pair_id, {})[role] = payload

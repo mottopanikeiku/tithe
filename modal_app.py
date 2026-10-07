@@ -71,7 +71,9 @@ def score_pairs(pair_ids: list[str], limit: int | None, check_parity: bool):
                 scorer = TransformerLabelScorer(model_key=model_key, model_config=model_config)
                 for protocol in configured_protocols(config):
                     prompts = [build_prompt(item, protocol=protocol, model_key=model_key,
-                                            tokenizer=scorer.tokenizer) for item in records[:8]]
+                                            tokenizer=scorer.tokenizer,
+                                            template_date=config["scoring"].get("template_date"))
+                               for item in records[:8]]
                     scalar = [scorer.score_prompt(prompt) for prompt in prompts]
                     batch = scorer.score_prompts(prompts)
                     errors = [abs(s[i] - b[i]) for s, b in zip(scalar, batch) for i in (0, 1)]

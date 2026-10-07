@@ -1,0 +1,88 @@
+{
+  "analysis": {
+    "binning": "equal_frequency",
+    "bootstrap_iterations": 10000,
+    "bootstrap_seed": 20260420,
+    "confidence_level": 0.95,
+    "ece_bins": 10,
+    "standard_metrics": [
+      "mc1_accuracy",
+      "mc2",
+      "mc1_mean_confidence",
+      "mc1_overconfidence_gap",
+      "mc1_brier",
+      "mc1_nll",
+      "mc1_ece"
+    ]
+  },
+  "dataset": {
+    "path": "data/processed/truthfulqa_binary.jsonl",
+    "seed": 20260420,
+    "variant": "binary_best_vs_best_incorrect"
+  },
+  "experiment": {
+    "family": "OLMo-2",
+    "pair_id": "olmo2_0425_1b",
+    "parameters_billion": 1
+  },
+  "models": {
+    "base": {
+      "attn_implementation": "sdpa",
+      "device": "auto",
+      "dtype": "bf16",
+      "license": "apache-2.0",
+      "license_source": "https://huggingface.co/allenai/OLMo-2-0425-1B/tree/a1847dff35000b4271fa70afc5db10fd29fedbdf",
+      "model_id": "allenai/OLMo-2-0425-1B",
+      "revision": "a1847dff35000b4271fa70afc5db10fd29fedbdf",
+      "tokenizer_id": "allenai/OLMo-2-0425-1B"
+    },
+    "instruct": {
+      "attn_implementation": "sdpa",
+      "device": "auto",
+      "dtype": "bf16",
+      "license": "apache-2.0",
+      "license_source": "https://huggingface.co/allenai/OLMo-2-0425-1B-Instruct/tree/48d788eca847d4d7548f375ad03d3c9312f6139e",
+      "model_id": "allenai/OLMo-2-0425-1B-Instruct",
+      "revision": "48d788eca847d4d7548f375ad03d3c9312f6139e",
+      "tokenizer_id": "allenai/OLMo-2-0425-1B-Instruct"
+    }
+  },
+  "scoring": {
+    "batch_size": 1,
+    "protocols": [
+      "shared_plain_ab_label",
+      "native_prompt_ab_label"
+    ],
+    "template_date": "2026-10-07"
+  },
+  "standard_dataset": {
+    "add_bos_token": null,
+    "config": "multiple_choice",
+    "dataset_id": "truthfulqa/truthful_qa",
+    "expected_questions": 817,
+    "harness_revision": "d6de81643928d653435c431bae19945d41d32520",
+    "harness_tasks": [
+      "truthfulqa_mc1",
+      "truthfulqa_mc2"
+    ],
+    "license": "apache-2.0",
+    "likelihood": "sum_token_logprobs_no_length_normalization",
+    "native_prompt": "instruct_user_chat_wrapping_entire_harness_prompt_base_unchanged",
+    "path": "data/processed/truthfulqa_standard.jsonl",
+    "revision": "741b8276f2d1982aa3d5b832d3ee81ed3b896490",
+    "shared_prompt": "exact_six_example_harness_qa",
+    "split": "validation",
+    "target_delimiter": " "
+  },
+  "standard_scoring": {
+    "cache_reference_max_abs_mean_logprob_error": 0.05,
+    "cache_reference_max_abs_probability_error": 0.02,
+    "cache_reference_max_mc1_disagreements": 0,
+    "cache_reference_questions": 4,
+    "continuation_batch_size": 16,
+    "logit_chunk_size": 64,
+    "numerical_audit": "Report full-forward/cached LL and MC differences on first four questions for every model; exact toy FP32 tests must pass. BF16 is not bitwise invariant across batch shapes; differences are disclosed, not silently threshold-relaxed.",
+    "question_batch_size_large": 4,
+    "question_batch_size_small": 16
+  }
+}

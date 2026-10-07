@@ -7,7 +7,7 @@ import tempfile
 import unittest
 from pathlib import Path
 from types import SimpleNamespace
-from unittest.mock import Mock, patch
+from unittest.mock import ANY, Mock, patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from alignmenttax import standard
@@ -45,7 +45,7 @@ class ToyTokenizer:
     def decode(self, token):
         return "<bos>" if token == self.bos_token_id else "<eos>"
 
-    def apply_chat_template(self, messages, tokenize, add_generation_prompt):
+    def apply_chat_template(self, messages, tokenize, add_generation_prompt, **kwargs):
         assert tokenize is False and add_generation_prompt is True
         return "<user>" + messages[0]["content"] + "<assistant>\n"
 
@@ -103,7 +103,10 @@ class StandardMetricTests(unittest.TestCase):
         self.assertEqual(standard.build_standard_prompt(record, model_key="instruct",
                          protocol=NATIVE_PROMPT_PROTOCOL, tokenizer=tokenizer), "wrapped")
         tokenizer.apply_chat_template.assert_called_once_with(
-            [{"role": "user", "content": plain}], tokenize=False, add_generation_prompt=True)
+            [{"role": "user", "content": plain}], tokenize=False, add_generation_prompt=True,
+            strftime_now=ANY)
+        self.assertEqual(tokenizer.apply_chat_template.call_args.kwargs["strftime_now"]("%Y-%m-%d"),
+                         "2026-10-07")
         tokenizer.apply_chat_template.side_effect = ValueError("broken chat template")
         with self.assertRaisesRegex(ValueError, "broken chat template"):
             standard.build_standard_prompt(record, model_key="instruct",
@@ -326,6 +329,47 @@ class CachedStandardTests(unittest.TestCase):
         self.assertEqual(reference[0]["prompt_format"], "plain")
         for observed, target in zip(plain[0]["mc1_loglikelihoods"], reference[0]["mc1_loglikelihoods"]):
             self.assertAlmostEqual(observed, target, places=5)
+
+
+class DateTemplateIntegrationTests(unittest.TestCase):
+    def test_native_standard_and_binary_templates_pin_wall_clock_helper(self):
+        try:
+            import transformers
+        except ImportError:
+            self.skipTest("Transformers chat rendering is exercised in CI")
+        import datetime as dt
+        from tokenizers import Tokenizer
+        from tokenizers.models import WordLevel
+        from transformers import PreTrainedTokenizerFast
+        from transformers.utils import chat_template_utils
+        from alignmenttax.scoring import build_prompt
+
+        tokenizer = PreTrainedTokenizerFast(
+            tokenizer_object=Tokenizer(WordLevel(
+                {"<unk>": 0, "<s>": 1, "</s>": 2}, unk_token="<unk>")),
+            bos_token="<s>", eos_token="</s>", unk_token="<unk>",
+            # This is the dated helper used by Mistral Small's pinned template.
+            chat_template="{% set today = strftime_now('%Y-%m-%d') %}"
+                          "{{bos_token}}Date={{today}}\n{{messages[0]['content']}}",
+        )
+        item = {"question": "What is true?", "choices": {"A": "True", "B": "False"}}
+        observed = []
+        for wall_date in ("2030-01-02", "2040-03-04"):
+            with patch.object(chat_template_utils, "datetime") as clock:
+                clock.now.return_value = dt.datetime.fromisoformat(wall_date)
+                control = tokenizer.apply_chat_template(
+                    [{"role": "user", "content": "control"}], tokenize=False,
+                    add_generation_prompt=True)
+                self.assertIn(f"Date={wall_date}", control)
+                standard_prompt = standard.build_standard_prompt(
+                    item, model_key="instruct", protocol=NATIVE_PROMPT_PROTOCOL, tokenizer=tokenizer)
+                binary_prompt = build_prompt(
+                    item, model_key="instruct", protocol=NATIVE_PROMPT_PROTOCOL, tokenizer=tokenizer,
+                    template_date="2026-10-07")
+                self.assertIn("Date=2026-10-07", standard_prompt)
+                self.assertIn("Date=2026-10-07", binary_prompt)
+                observed.append((standard_prompt, binary_prompt))
+        self.assertEqual(observed[0], observed[1])
 
 
 @unittest.skipIf(torch is None, "torch optional dependency is not installed")

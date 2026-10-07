@@ -1,0 +1,1625 @@
+{
+  "binary_dataset_sha256": "73657092e60bf182a207fa7db9bac5743661d2388bc57c13c2f4bf37eb510430",
+  "cloud_preparation_seconds": 2802.537730109,
+  "cpu_cores": 2,
+  "created_at_utc": "2026-10-07T19:59:04.828595+00:00",
+  "dataset_fingerprint": "8ba81adae744fd06",
+  "downloads": [
+    {
+      "cloud_download_seconds": 1.2435650950000001,
+      "files": [
+        {
+          "bytes": 11343,
+          "name": "LICENSE"
+        },
+        {
+          "bytes": 3850,
+          "name": "README.md"
+        },
+        {
+          "bytes": 681,
+          "name": "config.json"
+        },
+        {
+          "bytes": 138,
+          "name": "generation_config.json"
+        },
+        {
+          "bytes": 1671839,
+          "name": "merges.txt"
+        },
+        {
+          "bytes": 988097824,
+          "name": "model.safetensors"
+        },
+        {
+          "bytes": 7031645,
+          "name": "tokenizer.json"
+        },
+        {
+          "bytes": 7228,
+          "name": "tokenizer_config.json"
+        },
+        {
+          "bytes": 2776833,
+          "name": "vocab.json"
+        }
+      ],
+      "license": "apache-2.0",
+      "model_id": "Qwen/Qwen2.5-0.5B",
+      "model_key": "base",
+      "pair_id": "qwen2_5_0_5b",
+      "revision": "060db6499f32faf8b98477b0a26969ef7d8b9987"
+    },
+    {
+      "cloud_download_seconds": 0.8855589649999995,
+      "files": [
+        {
+          "bytes": 11343,
+          "name": "LICENSE"
+        },
+        {
+          "bytes": 4917,
+          "name": "README.md"
+        },
+        {
+          "bytes": 659,
+          "name": "config.json"
+        },
+        {
+          "bytes": 242,
+          "name": "generation_config.json"
+        },
+        {
+          "bytes": 1671839,
+          "name": "merges.txt"
+        },
+        {
+          "bytes": 988097824,
+          "name": "model.safetensors"
+        },
+        {
+          "bytes": 7031645,
+          "name": "tokenizer.json"
+        },
+        {
+          "bytes": 7305,
+          "name": "tokenizer_config.json"
+        },
+        {
+          "bytes": 2776833,
+          "name": "vocab.json"
+        }
+      ],
+      "license": "apache-2.0",
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "model_key": "instruct",
+      "pair_id": "qwen2_5_0_5b",
+      "revision": "7ae557604adf67be50417f59c2c2f167def9a775"
+    },
+    {
+      "cloud_download_seconds": 0.7665191670000002,
+      "files": [
+        {
+          "bytes": 11343,
+          "name": "LICENSE"
+        },
+        {
+          "bytes": 3850,
+          "name": "README.md"
+        },
+        {
+          "bytes": 684,
+          "name": "config.json"
+        },
+        {
+          "bytes": 138,
+          "name": "generation_config.json"
+        },
+        {
+          "bytes": 1671839,
+          "name": "merges.txt"
+        },
+        {
+          "bytes": 3087467144,
+          "name": "model.safetensors"
+        },
+        {
+          "bytes": 7031645,
+          "name": "tokenizer.json"
+        },
+        {
+          "bytes": 7228,
+          "name": "tokenizer_config.json"
+        },
+        {
+          "bytes": 2776833,
+          "name": "vocab.json"
+        }
+      ],
+      "license": "apache-2.0",
+      "model_id": "Qwen/Qwen2.5-1.5B",
+      "model_key": "base",
+      "pair_id": "qwen2_5_1_5b",
+      "revision": "8faed761d45a263340a0528343f099c05c9a4323"
+    },
+    {
+      "cloud_download_seconds": 0.9725821799999999,
+      "files": [
+        {
+          "bytes": 11343,
+          "name": "LICENSE"
+        },
+        {
+          "bytes": 4917,
+          "name": "README.md"
+        },
+        {
+          "bytes": 660,
+          "name": "config.json"
+        },
+        {
+          "bytes": 242,
+          "name": "generation_config.json"
+        },
+        {
+          "bytes": 1671839,
+          "name": "merges.txt"
+        },
+        {
+          "bytes": 3087467144,
+          "name": "model.safetensors"
+        },
+        {
+          "bytes": 7031645,
+          "name": "tokenizer.json"
+        },
+        {
+          "bytes": 7305,
+          "name": "tokenizer_config.json"
+        },
+        {
+          "bytes": 2776833,
+          "name": "vocab.json"
+        }
+      ],
+      "license": "apache-2.0",
+      "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+      "model_key": "instruct",
+      "pair_id": "qwen2_5_1_5b",
+      "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306"
+    },
+    {
+      "cloud_download_seconds": 58.762077119999994,
+      "files": [
+        {
+          "bytes": 11343,
+          "name": "LICENSE"
+        },
+        {
+          "bytes": 3819,
+          "name": "README.md"
+        },
+        {
+          "bytes": 686,
+          "name": "config.json"
+        },
+        {
+          "bytes": 138,
+          "name": "generation_config.json"
+        },
+        {
+          "bytes": 1671839,
+          "name": "merges.txt"
+        },
+        {
+          "bytes": 3945441440,
+          "name": "model-00001-of-00004.safetensors"
+        },
+        {
+          "bytes": 3864726352,
+          "name": "model-00002-of-00004.safetensors"
+        },
+        {
+          "bytes": 3864726424,
+          "name": "model-00003-of-00004.safetensors"
+        },
+        {
+          "bytes": 3556377672,
+          "name": "model-00004-of-00004.safetensors"
+        },
+        {
+          "bytes": 27752,
+          "name": "model.safetensors.index.json"
+        },
+        {
+          "bytes": 7031645,
+          "name": "tokenizer.json"
+        },
+        {
+          "bytes": 7228,
+          "name": "tokenizer_config.json"
+        },
+        {
+          "bytes": 2776833,
+          "name": "vocab.json"
+        }
+      ],
+      "license": "apache-2.0",
+      "model_id": "Qwen/Qwen2.5-7B",
+      "model_key": "base",
+      "pair_id": "qwen2_5_7b",
+      "revision": "d149729398750b98c0af14eb82c78cfe92750796"
+    },
+    {
+      "cloud_download_seconds": 59.81735822400002,
+      "files": [
+        {
+          "bytes": 11343,
+          "name": "LICENSE"
+        },
+        {
+          "bytes": 6240,
+          "name": "README.md"
+        },
+        {
+          "bytes": 663,
+          "name": "config.json"
+        },
+        {
+          "bytes": 243,
+          "name": "generation_config.json"
+        },
+        {
+          "bytes": 1671839,
+          "name": "merges.txt"
+        },
+        {
+          "bytes": 3945441440,
+          "name": "model-00001-of-00004.safetensors"
+        },
+        {
+          "bytes": 3864726352,
+          "name": "model-00002-of-00004.safetensors"
+        },
+        {
+          "bytes": 3864726424,
+          "name": "model-00003-of-00004.safetensors"
+        },
+        {
+          "bytes": 3556377672,
+          "name": "model-00004-of-00004.safetensors"
+        },
+        {
+          "bytes": 27752,
+          "name": "model.safetensors.index.json"
+        },
+        {
+          "bytes": 7031645,
+          "name": "tokenizer.json"
+        },
+        {
+          "bytes": 7305,
+          "name": "tokenizer_config.json"
+        },
+        {
+          "bytes": 2776833,
+          "name": "vocab.json"
+        }
+      ],
+      "license": "apache-2.0",
+      "model_id": "Qwen/Qwen2.5-7B-Instruct",
+      "model_key": "instruct",
+      "pair_id": "qwen2_5_7b",
+      "revision": "a09a35458c702b33eeacc393d103063234e8bc28"
+    },
+    {
+      "cloud_download_seconds": 30.857129051000015,
+      "files": [
+        {
+          "bytes": 12892,
+          "name": "README.md"
+        },
+        {
+          "bytes": 623,
+          "name": "config.json"
+        },
+        {
+          "bytes": 121,
+          "name": "generation_config.json"
+        },
+        {
+          "bytes": 916646,
+          "name": "merges.txt"
+        },
+        {
+          "bytes": 4983360992,
+          "name": "model-00001-of-00002.safetensors"
+        },
+        {
+          "bytes": 956326560,
+          "name": "model-00002-of-00002.safetensors"
+        },
+        {
+          "bytes": 14873,
+          "name": "model.safetensors.index.json"
+        },
+        {
+          "bytes": 125,
+          "name": "special_tokens_map.json"
+        },
+        {
+          "bytes": 7137177,
+          "name": "tokenizer.json"
+        },
+        {
+          "bytes": 4345,
+          "name": "tokenizer_config.json"
+        },
+        {
+          "bytes": 1611056,
+          "name": "vocab.json"
+        }
+      ],
+      "license": "apache-2.0",
+      "model_id": "allenai/OLMo-2-0425-1B",
+      "model_key": "base",
+      "pair_id": "olmo2_0425_1b",
+      "revision": "a1847dff35000b4271fa70afc5db10fd29fedbdf"
+    },
+    {
+      "cloud_download_seconds": 14.145011796000006,
+      "files": [
+        {
+          "bytes": 6161,
+          "name": "README.md"
+        },
+        {
+          "bytes": 625,
+          "name": "config.json"
+        },
+        {
+          "bytes": 121,
+          "name": "generation_config.json"
+        },
+        {
+          "bytes": 916646,
+          "name": "merges.txt"
+        },
+        {
+          "bytes": 2969854224,
+          "name": "model.safetensors"
+        },
+        {
+          "bytes": 581,
+          "name": "special_tokens_map.json"
+        },
+        {
+          "bytes": 7137177,
+          "name": "tokenizer.json"
+        },
+        {
+          "bytes": 4884,
+          "name": "tokenizer_config.json"
+        },
+        {
+          "bytes": 1611056,
+          "name": "vocab.json"
+        }
+      ],
+      "license": "apache-2.0",
+      "model_id": "allenai/OLMo-2-0425-1B-Instruct",
+      "model_key": "instruct",
+      "pair_id": "olmo2_0425_1b",
+      "revision": "48d788eca847d4d7548f375ad03d3c9312f6139e"
+    },
+    {
+      "cloud_download_seconds": 114.49419852799997,
+      "files": [
+        {
+          "bytes": 12098,
+          "name": "README.md"
+        },
+        {
+          "bytes": 623,
+          "name": "config.json"
+        },
+        {
+          "bytes": 126,
+          "name": "generation_config.json"
+        },
+        {
+          "bytes": 916646,
+          "name": "merges.txt"
+        },
+        {
+          "bytes": 4949546184,
+          "name": "model-00001-of-00006.safetensors"
+        },
+        {
+          "bytes": 4991622816,
+          "name": "model-00002-of-00006.safetensors"
+        },
+        {
+          "bytes": 4924546896,
+          "name": "model-00003-of-00006.safetensors"
+        },
+        {
+          "bytes": 4857404928,
+          "name": "model-00004-of-00006.safetensors"
+        },
+        {
+          "bytes": 4857404928,
+          "name": "model-00005-of-00006.safetensors"
+        },
+        {
+          "bytes": 4613984792,
+          "name": "model-00006-of-00006.safetensors"
+        },
+        {
+          "bytes": 29594,
+          "name": "model.safetensors.index.json"
+        },
+        {
+          "bytes": 125,
+          "name": "special_tokens_map.json"
+        },
+        {
+          "bytes": 7137177,
+          "name": "tokenizer.json"
+        },
+        {
+          "bytes": 4345,
+          "name": "tokenizer_config.json"
+        },
+        {
+          "bytes": 1611056,
+          "name": "vocab.json"
+        }
+      ],
+      "license": "apache-2.0",
+      "model_id": "allenai/OLMo-2-1124-7B",
+      "model_key": "base",
+      "pair_id": "olmo2_1124_7b",
+      "revision": "7df9a82518afdecae4e8c026b27adccc8c1f0032"
+    },
+    {
+      "cloud_download_seconds": 57.659201462,
+      "files": [
+        {
+          "bytes": 9345,
+          "name": "README.md"
+        },
+        {
+          "bytes": 679,
+          "name": "config.json"
+        },
+        {
+          "bytes": 126,
+          "name": "generation_config.json"
+        },
+        {
+          "bytes": 916646,
+          "name": "merges.txt"
+        },
+        {
+          "bytes": 4970591184,
+          "name": "model-00001-of-00003.safetensors"
+        },
+        {
+          "bytes": 4981161496,
+          "name": "model-00002-of-00003.safetensors"
+        },
+        {
+          "bytes": 4645523448,
+          "name": "model-00003-of-00003.safetensors"
+        },
+        {
+          "bytes": 29594,
+          "name": "model.safetensors.index.json"
+        },
+        {
+          "bytes": 581,
+          "name": "special_tokens_map.json"
+        },
+        {
+          "bytes": 7137177,
+          "name": "tokenizer.json"
+        },
+        {
+          "bytes": 4884,
+          "name": "tokenizer_config.json"
+        },
+        {
+          "bytes": 1611056,
+          "name": "vocab.json"
+        }
+      ],
+      "license": "apache-2.0",
+      "model_id": "allenai/OLMo-2-1124-7B-Instruct",
+      "model_key": "instruct",
+      "pair_id": "olmo2_1124_7b",
+      "revision": "470b1fba1ae01581f270116362ee4aa1b97f4c84"
+    },
+    {
+      "cloud_download_seconds": 15.80203566800003,
+      "files": [
+        {
+          "bytes": 7201,
+          "name": "README.md"
+        },
+        {
+          "bytes": 635,
+          "name": "config.json"
+        },
+        {
+          "bytes": 111,
+          "name": "generation_config.json"
+        },
+        {
+          "bytes": 466391,
+          "name": "merges.txt"
+        },
+        {
+          "bytes": 3422777952,
+          "name": "model.safetensors"
+        },
+        {
+          "bytes": 831,
+          "name": "special_tokens_map.json"
+        },
+        {
+          "bytes": 2104556,
+          "name": "tokenizer.json"
+        },
+        {
+          "bytes": 3658,
+          "name": "tokenizer_config.json"
+        },
+        {
+          "bytes": 800662,
+          "name": "vocab.json"
+        }
+      ],
+      "license": "apache-2.0",
+      "model_id": "HuggingFaceTB/SmolLM2-1.7B",
+      "model_key": "base",
+      "pair_id": "smollm2_1_7b",
+      "revision": "effd688a12921b4cc83e3312b6feb579f70f9c71"
+    },
+    {
+      "cloud_download_seconds": 17.704345488000058,
+      "files": [
+        {
+          "bytes": 14928,
+          "name": "README.md"
+        },
+        {
+          "bytes": 785,
+          "name": "all_results.json"
+        },
+        {
+          "bytes": 908,
+          "name": "config.json"
+        },
+        {
+          "bytes": 587,
+          "name": "eval_results.json"
+        },
+        {
+          "bytes": 132,
+          "name": "generation_config.json"
+        },
+        {
+          "bytes": 466391,
+          "name": "merges.txt"
+        },
+        {
+          "bytes": 3422777952,
+          "name": "model.safetensors"
+        },
+        {
+          "bytes": 655,
+          "name": "special_tokens_map.json"
+        },
+        {
+          "bytes": 2104556,
+          "name": "tokenizer.json"
+        },
+        {
+          "bytes": 3764,
+          "name": "tokenizer_config.json"
+        },
+        {
+          "bytes": 232,
+          "name": "train_results.json"
+        },
+        {
+          "bytes": 86369,
+          "name": "trainer_state.json"
+        },
+        {
+          "bytes": 800662,
+          "name": "vocab.json"
+        }
+      ],
+      "license": "apache-2.0",
+      "model_id": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+      "model_key": "instruct",
+      "pair_id": "smollm2_1_7b",
+      "revision": "31b70e2e869a7173562077fd711b654946d38674"
+    },
+    {
+      "cloud_download_seconds": 62.71859931999995,
+      "files": [
+        {
+          "bytes": 3580,
+          "name": "README.md"
+        },
+        {
+          "bytes": 601,
+          "name": "config.json"
+        },
+        {
+          "bytes": 116,
+          "name": "generation_config.json"
+        },
+        {
+          "bytes": 4949453792,
+          "name": "model-00001-of-00003.safetensors"
+        },
+        {
+          "bytes": 4999819336,
+          "name": "model-00002-of-00003.safetensors"
+        },
+        {
+          "bytes": 4546807800,
+          "name": "model-00003-of-00003.safetensors"
+        },
+        {
+          "bytes": 23950,
+          "name": "model.safetensors.index.json"
+        },
+        {
+          "bytes": 202,
+          "name": "params.json"
+        },
+        {
+          "bytes": 414,
+          "name": "special_tokens_map.json"
+        },
+        {
+          "bytes": 1961548,
+          "name": "tokenizer.json"
+        },
+        {
+          "bytes": 587404,
+          "name": "tokenizer.model"
+        },
+        {
+          "bytes": 587404,
+          "name": "tokenizer.model.v3"
+        },
+        {
+          "bytes": 136697,
+          "name": "tokenizer_config.json"
+        }
+      ],
+      "license": "apache-2.0",
+      "model_id": "mistralai/Mistral-7B-v0.3",
+      "model_key": "base",
+      "pair_id": "mistral_7b_v0_3",
+      "revision": "caa1feb0e54d415e2df31207e5f4e273e33509b1"
+    },
+    {
+      "cloud_download_seconds": 57.42342644099995,
+      "files": [
+        {
+          "bytes": 7893,
+          "name": "README.md"
+        },
+        {
+          "bytes": 601,
+          "name": "config.json"
+        },
+        {
+          "bytes": 116,
+          "name": "generation_config.json"
+        },
+        {
+          "bytes": 4949453792,
+          "name": "model-00001-of-00003.safetensors"
+        },
+        {
+          "bytes": 4999819336,
+          "name": "model-00002-of-00003.safetensors"
+        },
+        {
+          "bytes": 4546807800,
+          "name": "model-00003-of-00003.safetensors"
+        },
+        {
+          "bytes": 23950,
+          "name": "model.safetensors.index.json"
+        },
+        {
+          "bytes": 202,
+          "name": "params.json"
+        },
+        {
+          "bytes": 414,
+          "name": "special_tokens_map.json"
+        },
+        {
+          "bytes": 1961548,
+          "name": "tokenizer.json"
+        },
+        {
+          "bytes": 587404,
+          "name": "tokenizer.model"
+        },
+        {
+          "bytes": 587404,
+          "name": "tokenizer.model.v3"
+        },
+        {
+          "bytes": 140874,
+          "name": "tokenizer_config.json"
+        }
+      ],
+      "license": "apache-2.0",
+      "model_id": "mistralai/Mistral-7B-Instruct-v0.3",
+      "model_key": "instruct",
+      "pair_id": "mistral_7b_v0_3",
+      "revision": "c170c708c41dac9275d15a8fff4eca08d52bab71"
+    },
+    {
+      "cloud_download_seconds": 114.98954181199997,
+      "files": [
+        {
+          "bytes": 11343,
+          "name": "LICENSE"
+        },
+        {
+          "bytes": 3795,
+          "name": "README.md"
+        },
+        {
+          "bytes": 664,
+          "name": "config.json"
+        },
+        {
+          "bytes": 138,
+          "name": "generation_config.json"
+        },
+        {
+          "bytes": 1671839,
+          "name": "merges.txt"
+        },
+        {
+          "bytes": 3885134104,
+          "name": "model-00001-of-00008.safetensors"
+        },
+        {
+          "bytes": 3995327992,
+          "name": "model-00002-of-00008.safetensors"
+        },
+        {
+          "bytes": 3995328064,
+          "name": "model-00003-of-00008.safetensors"
+        },
+        {
+          "bytes": 3995348776,
+          "name": "model-00004-of-00008.safetensors"
+        },
+        {
+          "bytes": 3979614448,
+          "name": "model-00005-of-00008.safetensors"
+        },
+        {
+          "bytes": 3995328064,
+          "name": "model-00006-of-00008.safetensors"
+        },
+        {
+          "bytes": 3995328064,
+          "name": "model-00007-of-00008.safetensors"
+        },
+        {
+          "bytes": 1698724408,
+          "name": "model-00008-of-00008.safetensors"
+        },
+        {
+          "bytes": 47472,
+          "name": "model.safetensors.index.json"
+        },
+        {
+          "bytes": 7031645,
+          "name": "tokenizer.json"
+        },
+        {
+          "bytes": 7228,
+          "name": "tokenizer_config.json"
+        },
+        {
+          "bytes": 2776833,
+          "name": "vocab.json"
+        }
+      ],
+      "license": "apache-2.0",
+      "model_id": "Qwen/Qwen2.5-14B",
+      "model_key": "base",
+      "pair_id": "qwen2_5_14b",
+      "revision": "97e1e76335b7017d8f67c08a19d103c0504298c9"
+    },
+    {
+      "cloud_download_seconds": 120.19592058600006,
+      "files": [
+        {
+          "bytes": 11343,
+          "name": "LICENSE"
+        },
+        {
+          "bytes": 6010,
+          "name": "README.md"
+        },
+        {
+          "bytes": 663,
+          "name": "config.json"
+        },
+        {
+          "bytes": 242,
+          "name": "generation_config.json"
+        },
+        {
+          "bytes": 1671839,
+          "name": "merges.txt"
+        },
+        {
+          "bytes": 3885154816,
+          "name": "model-00001-of-00008.safetensors"
+        },
+        {
+          "bytes": 3995327992,
+          "name": "model-00002-of-00008.safetensors"
+        },
+        {
+          "bytes": 3995328080,
+          "name": "model-00003-of-00008.safetensors"
+        },
+        {
+          "bytes": 3995338432,
+          "name": "model-00004-of-00008.safetensors"
+        },
+        {
+          "bytes": 3979624824,
+          "name": "model-00005-of-00008.safetensors"
+        },
+        {
+          "bytes": 3995328080,
+          "name": "model-00006-of-00008.safetensors"
+        },
+        {
+          "bytes": 3995328080,
+          "name": "model-00007-of-00008.safetensors"
+        },
+        {
+          "bytes": 1698703696,
+          "name": "model-00008-of-00008.safetensors"
+        },
+        {
+          "bytes": 47472,
+          "name": "model.safetensors.index.json"
+        },
+        {
+          "bytes": 7031645,
+          "name": "tokenizer.json"
+        },
+        {
+          "bytes": 7305,
+          "name": "tokenizer_config.json"
+        },
+        {
+          "bytes": 2776833,
+          "name": "vocab.json"
+        }
+      ],
+      "license": "apache-2.0",
+      "model_id": "Qwen/Qwen2.5-14B-Instruct",
+      "model_key": "instruct",
+      "pair_id": "qwen2_5_14b",
+      "revision": "cf98f3b3bbb457ad9e2bb7baf9a0125b6b88caa8"
+    },
+    {
+      "cloud_download_seconds": 244.92658899999992,
+      "files": [
+        {
+          "bytes": 11343,
+          "name": "LICENSE"
+        },
+        {
+          "bytes": 3795,
+          "name": "README.md"
+        },
+        {
+          "bytes": 664,
+          "name": "config.json"
+        },
+        {
+          "bytes": 138,
+          "name": "generation_config.json"
+        },
+        {
+          "bytes": 1671839,
+          "name": "merges.txt"
+        },
+        {
+          "bytes": 3916519128,
+          "name": "model-00001-of-00017.safetensors"
+        },
+        {
+          "bytes": 3900847488,
+          "name": "model-00002-of-00017.safetensors"
+        },
+        {
+          "bytes": 3900847488,
+          "name": "model-00003-of-00017.safetensors"
+        },
+        {
+          "bytes": 3900847536,
+          "name": "model-00004-of-00017.safetensors"
+        },
+        {
+          "bytes": 3900847536,
+          "name": "model-00005-of-00017.safetensors"
+        },
+        {
+          "bytes": 3900847536,
+          "name": "model-00006-of-00017.safetensors"
+        },
+        {
+          "bytes": 3900847536,
+          "name": "model-00007-of-00017.safetensors"
+        },
+        {
+          "bytes": 3900847536,
+          "name": "model-00008-of-00017.safetensors"
+        },
+        {
+          "bytes": 3900847536,
+          "name": "model-00009-of-00017.safetensors"
+        },
+        {
+          "bytes": 3900847536,
+          "name": "model-00010-of-00017.safetensors"
+        },
+        {
+          "bytes": 3900847536,
+          "name": "model-00011-of-00017.safetensors"
+        },
+        {
+          "bytes": 3900847536,
+          "name": "model-00012-of-00017.safetensors"
+        },
+        {
+          "bytes": 3900847536,
+          "name": "model-00013-of-00017.safetensors"
+        },
+        {
+          "bytes": 3900847536,
+          "name": "model-00014-of-00017.safetensors"
+        },
+        {
+          "bytes": 3900847536,
+          "name": "model-00015-of-00017.safetensors"
+        },
+        {
+          "bytes": 3900847536,
+          "name": "model-00016-of-00017.safetensors"
+        },
+        {
+          "bytes": 3098609680,
+          "name": "model-00017-of-00017.safetensors"
+        },
+        {
+          "bytes": 63248,
+          "name": "model.safetensors.index.json"
+        },
+        {
+          "bytes": 7031645,
+          "name": "tokenizer.json"
+        },
+        {
+          "bytes": 7228,
+          "name": "tokenizer_config.json"
+        },
+        {
+          "bytes": 2776833,
+          "name": "vocab.json"
+        }
+      ],
+      "license": "apache-2.0",
+      "model_id": "Qwen/Qwen2.5-32B",
+      "model_key": "base",
+      "pair_id": "qwen2_5_32b",
+      "revision": "1818d35814b8319459f4bd55ed1ac8709630f003"
+    },
+    {
+      "cloud_download_seconds": 239.2151515380001,
+      "files": [
+        {
+          "bytes": 11343,
+          "name": "LICENSE"
+        },
+        {
+          "bytes": 6010,
+          "name": "README.md"
+        },
+        {
+          "bytes": 663,
+          "name": "config.json"
+        },
+        {
+          "bytes": 242,
+          "name": "generation_config.json"
+        },
+        {
+          "bytes": 1671839,
+          "name": "merges.txt"
+        },
+        {
+          "bytes": 3916539832,
+          "name": "model-00001-of-00017.safetensors"
+        },
+        {
+          "bytes": 3900847496,
+          "name": "model-00002-of-00017.safetensors"
+        },
+        {
+          "bytes": 3900847480,
+          "name": "model-00003-of-00017.safetensors"
+        },
+        {
+          "bytes": 3900847544,
+          "name": "model-00004-of-00017.safetensors"
+        },
+        {
+          "bytes": 3900847544,
+          "name": "model-00005-of-00017.safetensors"
+        },
+        {
+          "bytes": 3900847544,
+          "name": "model-00006-of-00017.safetensors"
+        },
+        {
+          "bytes": 3900847544,
+          "name": "model-00007-of-00017.safetensors"
+        },
+        {
+          "bytes": 3900847544,
+          "name": "model-00008-of-00017.safetensors"
+        },
+        {
+          "bytes": 3900847544,
+          "name": "model-00009-of-00017.safetensors"
+        },
+        {
+          "bytes": 3900847544,
+          "name": "model-00010-of-00017.safetensors"
+        },
+        {
+          "bytes": 3900847544,
+          "name": "model-00011-of-00017.safetensors"
+        },
+        {
+          "bytes": 3900847544,
+          "name": "model-00012-of-00017.safetensors"
+        },
+        {
+          "bytes": 3900847544,
+          "name": "model-00013-of-00017.safetensors"
+        },
+        {
+          "bytes": 3900847544,
+          "name": "model-00014-of-00017.safetensors"
+        },
+        {
+          "bytes": 3900847544,
+          "name": "model-00015-of-00017.safetensors"
+        },
+        {
+          "bytes": 3900847544,
+          "name": "model-00016-of-00017.safetensors"
+        },
+        {
+          "bytes": 3098588976,
+          "name": "model-00017-of-00017.safetensors"
+        },
+        {
+          "bytes": 63248,
+          "name": "model.safetensors.index.json"
+        },
+        {
+          "bytes": 7031645,
+          "name": "tokenizer.json"
+        },
+        {
+          "bytes": 7305,
+          "name": "tokenizer_config.json"
+        },
+        {
+          "bytes": 2776833,
+          "name": "vocab.json"
+        }
+      ],
+      "license": "apache-2.0",
+      "model_id": "Qwen/Qwen2.5-32B-Instruct",
+      "model_key": "instruct",
+      "pair_id": "qwen2_5_32b",
+      "revision": "5ede1c97bbab6ce5cda5812749b4c0bdf79b18dd"
+    },
+    {
+      "cloud_download_seconds": 504.128255784,
+      "files": [
+        {
+          "bytes": 13039,
+          "name": "README.md"
+        },
+        {
+          "bytes": 649,
+          "name": "config.json"
+        },
+        {
+          "bytes": 147,
+          "name": "generation_config.json"
+        },
+        {
+          "bytes": 916646,
+          "name": "merges.txt"
+        },
+        {
+          "bytes": 4823541920,
+          "name": "model-00001-of-00029.safetensors"
+        },
+        {
+          "bytes": 4467067512,
+          "name": "model-00002-of-00029.safetensors"
+        },
+        {
+          "bytes": 4718792208,
+          "name": "model-00003-of-00029.safetensors"
+        },
+        {
+          "bytes": 4467067512,
+          "name": "model-00004-of-00029.safetensors"
+        },
+        {
+          "bytes": 4467067520,
+          "name": "model-00005-of-00029.safetensors"
+        },
+        {
+          "bytes": 4718792240,
+          "name": "model-00006-of-00029.safetensors"
+        },
+        {
+          "bytes": 4467067536,
+          "name": "model-00007-of-00029.safetensors"
+        },
+        {
+          "bytes": 4467067528,
+          "name": "model-00008-of-00029.safetensors"
+        },
+        {
+          "bytes": 4718792240,
+          "name": "model-00009-of-00029.safetensors"
+        },
+        {
+          "bytes": 4467067536,
+          "name": "model-00010-of-00029.safetensors"
+        },
+        {
+          "bytes": 4467067528,
+          "name": "model-00011-of-00029.safetensors"
+        },
+        {
+          "bytes": 4718792240,
+          "name": "model-00012-of-00029.safetensors"
+        },
+        {
+          "bytes": 4467067536,
+          "name": "model-00013-of-00029.safetensors"
+        },
+        {
+          "bytes": 4467067528,
+          "name": "model-00014-of-00029.safetensors"
+        },
+        {
+          "bytes": 4718792240,
+          "name": "model-00015-of-00029.safetensors"
+        },
+        {
+          "bytes": 4467067536,
+          "name": "model-00016-of-00029.safetensors"
+        },
+        {
+          "bytes": 4467067528,
+          "name": "model-00017-of-00029.safetensors"
+        },
+        {
+          "bytes": 4718792240,
+          "name": "model-00018-of-00029.safetensors"
+        },
+        {
+          "bytes": 4467067536,
+          "name": "model-00019-of-00029.safetensors"
+        },
+        {
+          "bytes": 4467067528,
+          "name": "model-00020-of-00029.safetensors"
+        },
+        {
+          "bytes": 4718792240,
+          "name": "model-00021-of-00029.safetensors"
+        },
+        {
+          "bytes": 4467067536,
+          "name": "model-00022-of-00029.safetensors"
+        },
+        {
+          "bytes": 4467067528,
+          "name": "model-00023-of-00029.safetensors"
+        },
+        {
+          "bytes": 4718792240,
+          "name": "model-00024-of-00029.safetensors"
+        },
+        {
+          "bytes": 4467067536,
+          "name": "model-00025-of-00029.safetensors"
+        },
+        {
+          "bytes": 4467067528,
+          "name": "model-00026-of-00029.safetensors"
+        },
+        {
+          "bytes": 4718792240,
+          "name": "model-00027-of-00029.safetensors"
+        },
+        {
+          "bytes": 3649173440,
+          "name": "model-00028-of-00029.safetensors"
+        },
+        {
+          "bytes": 2055209088,
+          "name": "model-00029-of-00029.safetensors"
+        },
+        {
+          "bytes": 59035,
+          "name": "model.safetensors.index.json"
+        },
+        {
+          "bytes": 581,
+          "name": "special_tokens_map.json"
+        },
+        {
+          "bytes": 7137177,
+          "name": "tokenizer.json"
+        },
+        {
+          "bytes": 4345,
+          "name": "tokenizer_config.json"
+        },
+        {
+          "bytes": 1611056,
+          "name": "vocab.json"
+        }
+      ],
+      "license": "apache-2.0",
+      "model_id": "allenai/OLMo-2-0325-32B",
+      "model_key": "base",
+      "pair_id": "olmo2_0325_32b",
+      "revision": "cc9d3cf9c7230b86ee6b84607b37db1c01e3f1ed"
+    },
+    {
+      "cloud_download_seconds": 241.91277541599993,
+      "files": [
+        {
+          "bytes": 10326,
+          "name": "README.md"
+        },
+        {
+          "bytes": 699,
+          "name": "config.json"
+        },
+        {
+          "bytes": 147,
+          "name": "generation_config.json"
+        },
+        {
+          "bytes": 916646,
+          "name": "merges.txt"
+        },
+        {
+          "bytes": 4991358312,
+          "name": "model-00001-of-00014.safetensors"
+        },
+        {
+          "bytes": 4938975944,
+          "name": "model-00002-of-00014.safetensors"
+        },
+        {
+          "bytes": 4876048688,
+          "name": "model-00003-of-00014.safetensors"
+        },
+        {
+          "bytes": 4876048704,
+          "name": "model-00004-of-00014.safetensors"
+        },
+        {
+          "bytes": 4876048704,
+          "name": "model-00005-of-00014.safetensors"
+        },
+        {
+          "bytes": 4876048704,
+          "name": "model-00006-of-00014.safetensors"
+        },
+        {
+          "bytes": 4876048704,
+          "name": "model-00007-of-00014.safetensors"
+        },
+        {
+          "bytes": 4876048704,
+          "name": "model-00008-of-00014.safetensors"
+        },
+        {
+          "bytes": 4876048704,
+          "name": "model-00009-of-00014.safetensors"
+        },
+        {
+          "bytes": 4876048704,
+          "name": "model-00010-of-00014.safetensors"
+        },
+        {
+          "bytes": 4876048704,
+          "name": "model-00011-of-00014.safetensors"
+        },
+        {
+          "bytes": 4876048704,
+          "name": "model-00012-of-00014.safetensors"
+        },
+        {
+          "bytes": 4750216928,
+          "name": "model-00013-of-00014.safetensors"
+        },
+        {
+          "bytes": 1027604608,
+          "name": "model-00014-of-00014.safetensors"
+        },
+        {
+          "bytes": 59034,
+          "name": "model.safetensors.index.json"
+        },
+        {
+          "bytes": 581,
+          "name": "special_tokens_map.json"
+        },
+        {
+          "bytes": 7137177,
+          "name": "tokenizer.json"
+        },
+        {
+          "bytes": 4869,
+          "name": "tokenizer_config.json"
+        },
+        {
+          "bytes": 1611056,
+          "name": "vocab.json"
+        }
+      ],
+      "license": "apache-2.0",
+      "model_id": "allenai/OLMo-2-0325-32B-Instruct",
+      "model_key": "instruct",
+      "pair_id": "olmo2_0325_32b",
+      "revision": "b96024342a77a69aa0dda815c3454a671f477463"
+    },
+    {
+      "cloud_download_seconds": 188.81773320999991,
+      "files": [
+        {
+          "bytes": 4316,
+          "name": "README.md"
+        },
+        {
+          "bytes": 623,
+          "name": "config.json"
+        },
+        {
+          "bytes": 116,
+          "name": "generation_config.json"
+        },
+        {
+          "bytes": 4781571736,
+          "name": "model-00001-of-00010.safetensors"
+        },
+        {
+          "bytes": 4781592784,
+          "name": "model-00002-of-00010.safetensors"
+        },
+        {
+          "bytes": 4781592800,
+          "name": "model-00003-of-00010.safetensors"
+        },
+        {
+          "bytes": 4886471600,
+          "name": "model-00004-of-00010.safetensors"
+        },
+        {
+          "bytes": 4781592824,
+          "name": "model-00005-of-00010.safetensors"
+        },
+        {
+          "bytes": 4781592816,
+          "name": "model-00006-of-00010.safetensors"
+        },
+        {
+          "bytes": 4886471600,
+          "name": "model-00007-of-00010.safetensors"
+        },
+        {
+          "bytes": 4781592824,
+          "name": "model-00008-of-00010.safetensors"
+        },
+        {
+          "bytes": 4781592816,
+          "name": "model-00009-of-00010.safetensors"
+        },
+        {
+          "bytes": 3900777072,
+          "name": "model-00010-of-00010.safetensors"
+        },
+        {
+          "bytes": 29894,
+          "name": "model.safetensors.index.json"
+        },
+        {
+          "bytes": 270,
+          "name": "params.json"
+        },
+        {
+          "bytes": 146969,
+          "name": "special_tokens_map.json"
+        },
+        {
+          "bytes": 14801223,
+          "name": "tekken.json"
+        },
+        {
+          "bytes": 17078037,
+          "name": "tokenizer.json"
+        },
+        {
+          "bytes": 198051,
+          "name": "tokenizer_config.json"
+        }
+      ],
+      "license": "apache-2.0",
+      "model_id": "mistralai/Mistral-Small-24B-Base-2501",
+      "model_key": "base",
+      "pair_id": "mistral_small_24b_2501",
+      "revision": "b0a2e4ed093c26997495ae625528f81ea04b749f"
+    },
+    {
+      "cloud_download_seconds": 180.5768809819997,
+      "files": [
+        {
+          "bytes": 14757,
+          "name": "README.md"
+        },
+        {
+          "bytes": 623,
+          "name": "config.json"
+        },
+        {
+          "bytes": 160,
+          "name": "generation_config.json"
+        },
+        {
+          "bytes": 4781571736,
+          "name": "model-00001-of-00010.safetensors"
+        },
+        {
+          "bytes": 4781592784,
+          "name": "model-00002-of-00010.safetensors"
+        },
+        {
+          "bytes": 4781592800,
+          "name": "model-00003-of-00010.safetensors"
+        },
+        {
+          "bytes": 4886471600,
+          "name": "model-00004-of-00010.safetensors"
+        },
+        {
+          "bytes": 4781592824,
+          "name": "model-00005-of-00010.safetensors"
+        },
+        {
+          "bytes": 4781592816,
+          "name": "model-00006-of-00010.safetensors"
+        },
+        {
+          "bytes": 4886471600,
+          "name": "model-00007-of-00010.safetensors"
+        },
+        {
+          "bytes": 4781592824,
+          "name": "model-00008-of-00010.safetensors"
+        },
+        {
+          "bytes": 4781592816,
+          "name": "model-00009-of-00010.safetensors"
+        },
+        {
+          "bytes": 3900777072,
+          "name": "model-00010-of-00010.safetensors"
+        },
+        {
+          "bytes": 29894,
+          "name": "model.safetensors.index.json"
+        },
+        {
+          "bytes": 270,
+          "name": "params.json"
+        },
+        {
+          "bytes": 21311,
+          "name": "special_tokens_map.json"
+        },
+        {
+          "bytes": 14801223,
+          "name": "tekken.json"
+        },
+        {
+          "bytes": 17078037,
+          "name": "tokenizer.json"
+        },
+        {
+          "bytes": 199695,
+          "name": "tokenizer_config.json"
+        }
+      ],
+      "license": "apache-2.0",
+      "model_id": "mistralai/Mistral-Small-24B-Instruct-2501",
+      "model_key": "instruct",
+      "pair_id": "mistral_small_24b_2501",
+      "revision": "9527884be6e5616bdd54de542f9ae13384489724"
+    }
+  ],
+  "memory_gib": 4,
+  "packages": {
+    "datasets": "3.6.0",
+    "huggingface-hub": "0.36.2",
+    "numpy": "2.2.6"
+  },
+  "standard_dataset": {
+    "add_bos_token": null,
+    "config": "multiple_choice",
+    "dataset_id": "truthfulqa/truthful_qa",
+    "expected_questions": 817,
+    "harness_revision": "d6de81643928d653435c431bae19945d41d32520",
+    "harness_tasks": [
+      "truthfulqa_mc1",
+      "truthfulqa_mc2"
+    ],
+    "license": "apache-2.0",
+    "likelihood": "sum_token_logprobs_no_length_normalization",
+    "native_prompt": "instruct_user_chat_wrapping_entire_harness_prompt_base_unchanged",
+    "path": "data/processed/truthfulqa_standard.jsonl",
+    "revision": "741b8276f2d1982aa3d5b832d3ee81ed3b896490",
+    "shared_prompt": "exact_six_example_harness_qa",
+    "split": "validation",
+    "target_delimiter": " "
+  },
+  "standard_dataset_sha256": "7227261a9b0b49f041d112fc9337216a67658fc599c3bde060b82dfbc114d16c",
+  "standard_question_count": 817,
+  "volume": "alignmenttax-day-weights"
+}

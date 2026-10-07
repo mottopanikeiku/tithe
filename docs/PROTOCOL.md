@@ -1,6 +1,6 @@
-# Experiment protocol
+# Binary comparison protocol
 
-This is a matched base/instruct comparison, not a causal estimate of reinforcement learning. Model weights and TruthfulQA revisions are pinned; neither the original 1.5B experiment nor its model outputs were published before this change.
+I compare matched base/instruct checkpoints, not a causal effect of reinforcement learning. This document describes the 790-question binary derivative and its earlier CPU/L4 runs. The separate 817-question standard MC1/MC2 comparison, larger checkpoints and CPU-first offline H100 method are in [the scale plan](DAY_SCALE_PLAN.md); both datasets and their scores remain separate.
 
 ## Dataset
 

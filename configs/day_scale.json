@@ -9,7 +9,8 @@
       "shared_plain_ab_label",
       "native_prompt_ab_label"
     ],
-    "batch_size": 1
+    "batch_size": 1,
+    "template_date": "2026-10-07"
   },
   "analysis": {
     "bootstrap_iterations": 10000,

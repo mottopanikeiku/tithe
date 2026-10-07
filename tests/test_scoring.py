@@ -29,6 +29,22 @@ class ScoringTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "chat template"):
             scoring.build_native_prompt(ITEM, model_key="instruct")
 
+    def test_configured_template_date_reaches_native_rendering(self):
+        config = {"models": {"instruct": CONFIG["models"]["instruct"]},
+                  "scoring": {"protocols": [scoring.NATIVE_PROMPT_PROTOCOL],
+                              "template_date": "2026-10-07"}}
+        scorer = Mock()
+        scorer.model_id, scorer.revision = "instruct", "instruct-sha"
+        scorer.device, scorer.dtype = "cpu", "bf16"
+        scorer.tokenizer.apply_chat_template.return_value = "dated prompt"
+        scorer.score_prompt.return_value = (-1.0, -2.0, {"A": 1, "B": 1})
+        scorer.torch.cuda.is_available.return_value = False
+        with patch.object(scoring, "TransformerLabelScorer", return_value=scorer):
+            rows = list(scoring.transformer_score_records([ITEM], config=config))
+        self.assertEqual(len(rows), 1)
+        helper = scorer.tokenizer.apply_chat_template.call_args.kwargs["strftime_now"]
+        self.assertEqual(helper("%Y-%m-%d"), "2026-10-07")
+
     def test_resume_skips_before_loading_completed_model_and_scoring_row(self):
         completed = {(ITEM["id"], "base", p) for p in CONFIG["scoring"]["protocols"]}
         completed.add((ITEM["id"], "instruct", scoring.SHARED_PLAIN_PROTOCOL))

@@ -15,6 +15,8 @@ If the measured throughput and remaining budget permit complete additional pairs
 
 The standard native sensitivity wraps that same complete harness Q/A prompt in the instruct checkpoint's user chat template, with an assistant generation prefix. Base checkpoints remain plain. These sensitivity scores are not the harness's default prompt setting. The inherited protocol identifiers are retained for pairing, but standard rows explicitly contain answer-string likelihood arrays rather than A/B label likelihoods.
 
+I will fix date-sensitive native templates to 2026-10-07 for both the standard and new binary scores. Mistral Small's pinned template otherwise inserts the wall-clock date into its default system message. The configured date will be recorded with each run and included in the identity checked before reusing a completed cloud unit.
+
 For standard MC1, I additionally report maximum answer-set probability, the overconfidence gap, equal-frequency ECE, NLL of the best answer and multiclass Brier `sum((p - y)^2)`. This Brier definition is not the binary derivative's one-probability Brier. MC2 is a truth-mass metric, not a hard classification accuracy; I will not reuse MC1 confidence to claim MC2 calibration.
 
 ## Computation and numerical checks
@@ -23,6 +25,8 @@ I will download pinned weights into a persistent cloud volume from a CPU contain
 
 I will test the cached method against an independent full-forward FP32 toy reference, including variable question/answer lengths, cache expansion, padding and token boundaries. On the first four questions of each real model/protocol I will save cached and full-forward likelihoods and derived scores. The planned BF16 audit limits are 0.05 maximum absolute difference in mean token log likelihood (summed-likelihood difference divided by continuation length), 0.02 maximum answer-probability or MC2-mass difference, and no MC1 winner changes. These are numerical checks on fixed examples, not a proof for every question. If they fail, I will retain the failure and use the full-forward reference path for that model, not increase the threshold. The remaining budget must still support the full task; otherwise I will state the missing prerequisite rather than present incomplete scores as a complete comparison.
 
+For the cached side of this audit I will use the production question-batch size: 16 for smaller checkpoints and four for 14B and above. I will compare the first four questions with scalar full forwards; the additional questions only set the batch shapes and are not selected based on their scores.
+
 The additional compute cap is $2.00. A roughly 25-minute H100 job plus cheap CPU preparation is the starting budget estimate, not a measured result. Optional pairs require enough projected time for their full tasks with 20% headroom; required pairs take priority. Runtime and conservative cost estimates, including unsuccessful attempts, will be saved separately from model metrics.
 
 ## Analysis and answer
@@ -30,3 +34,9 @@ The additional compute cap is $2.00. A roughly 25-minute H100 job plus cheap CPU
 I will use 10,000 question-paired bootstrap resamples, PCG64 seed 20260420, with 95% percentile intervals. Each draw is shared across base/instruct, metrics, protocols and checkpoint pairs within a task. ECE is recomputed inside every draw with stable confidence ordering and 10 equal-frequency bins. The 790-question binary task and 817-question standard task are never pooled.
 
 I will show base/instruct values and instruct-minus-base intervals for every metric. The headline counts will distinguish resolved truthfulness gains with worse MC1 ECE, simultaneous improvements, simultaneous worsening and uncertain comparisons. MC1 and MC2 will have separate gain counts. A sign is resolved only if its interval excludes zero. These are pointwise intervals with no multiplicity adjustment, for fixed checkpoints and one benchmark—not a causal estimate of reinforcement learning or a claim about model families in general. I will report any disagreement between ECE and proper scoring rules instead of choosing the friendliest metric.
+
+## Execution change after the first H100 run
+
+The first H100 function reached its 24-minute limit after four complete pairs and the OLMo-2-7B base checkpoint. Eleven of the twelve audits in the four complete pairs rejected cached BF16 scoring, so I kept the predeclared scalar full-forward results for those conditions rather than changing the limits. Completed model units are saved before the next checkpoint starts.
+
+My additional compute cap is now $4.00, including that attempt. I will run the remaining checkpoints of 7B and below on an L4 and reserve the H100 for the required 14B and 32B pairs. I will not score the optional OLMo-32B or Mistral-24B pairs. Runtime files record each model's device; the OLMo-7B comparison consequently uses an H100 base result and an L4 instruct result, adding a hardware difference to its limitations. Scoring formulas, BF16 precision and numerical limits are unchanged.
