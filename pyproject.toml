@@ -10,19 +10,28 @@ readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
     "pyyaml>=6.0",
+    "numpy>=2.0,<3",
 ]
 
 [project.optional-dependencies]
 models = [
     "torch>=2.1",
     "transformers>=4.49,<5",
+    "accelerate>=1.10,<2",
+    "sentencepiece>=0.2,<1",
 ]
 plots = [
     "matplotlib>=3.8",
 ]
+dev = [
+    "pytest>=8",
+    "pytest-subtests>=0.14",
+]
 full = [
     "torch>=2.1",
     "transformers>=4.49,<5",
+    "accelerate>=1.10,<2",
+    "sentencepiece>=0.2,<1",
     "matplotlib>=3.8",
 ]
 
