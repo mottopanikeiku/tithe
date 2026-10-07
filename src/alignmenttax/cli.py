@@ -37,7 +37,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
 
     analyze = subparsers.add_parser("analyze", help="Analyze a score run.")
-    analyze.add_argument("--run", required=True, help="Run directory containing scores.jsonl, or a scores file.")
+    analyze.add_argument("--run", required=True, help="Run directory, or a plain/gzipped scores JSONL file.")
     analyze.add_argument("--out", required=True, help="Report output directory.")
     analyze.add_argument(
         "--bootstrap-iterations",
@@ -50,7 +50,7 @@ def build_parser() -> argparse.ArgumentParser:
         "calibrate",
         help="Run held-out post-hoc calibration analysis from existing scores.",
     )
-    calibrate.add_argument("--run", required=True, help="Run directory containing scores.jsonl.")
+    calibrate.add_argument("--run", required=True, help="Run directory containing plain/gzipped scores JSONL.")
     calibrate.add_argument("--out", required=True, help="Report output directory.")
     calibrate.add_argument("--seed", type=int, default=20260420, help="Deterministic split seed.")
     calibrate.add_argument(

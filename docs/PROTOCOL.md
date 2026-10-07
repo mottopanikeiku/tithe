@@ -12,7 +12,7 @@ The default CSV comes from the immutable URL in `data.py`. Its known checksum mu
 
 `shared_plain_ab_label` uses identical plain prompts for both models. `native_prompt_ab_label` keeps the base model's plain prompt and applies the instruct tokenizer's chat template. Template errors stop scoring instead of silently changing the prompt. Each row records both the requested `prompt_protocol` and the actual `prompt_format` (`plain`, `chat_template`, or `synthetic` for fake tests), plus `model_revision`.
 
-The scorer evaluates the continuations ` A` and ` B` and normalizes their likelihoods over those two choices. It does not measure an unrestricted probability of giving a truthful answer. If both continuations are single tokens, only the last-position logits are materialized and the attention cache is disabled. Multi-token continuations are scored token by token. Models are loaded sequentially and released between models. `--resume` skips completed question/model/protocol keys before inference, including avoiding a model load if all of its keys exist. Resume only with the same configuration and dataset; an output file is not a cross-experiment cache.
+The scorer evaluates the continuations ` A` and ` B` and normalizes their likelihoods over those two choices. It does not measure an unrestricted probability of giving a truthful answer. Label logits are normalized in float32, including when weights are bf16. Batched execution uses attention masks and logical position IDs; multi-token labels retain the separately tokenized continuation semantics. Models that support suffix-only logits avoid materializing unneeded positions; older architectures use the full-logits forward path. Attention caching is disabled. Models are loaded sequentially and released between models. `--resume` skips completed question/model/protocol keys before inference, including avoiding a model load if all of its keys exist. Resume only with the same configuration and dataset; an output file is not a cross-experiment cache.
 
 `--fake` creates deterministic synthetic scores for tests. Those rows are marked `device=fake`, `dtype=fake`, and `prompt_format=synthetic`; they are not model evidence.
 
@@ -22,10 +22,18 @@ The scorer evaluates the continuations ` A` and ` B` and normalizes their likeli
 
 `calibrate` assigns questions to calibration or test sets using a hash of the question ID and seed, so the same split is used across models and protocols. It fits a separate positive scalar temperature for each model/protocol by minimizing calibration-set NLL with a bounded logarithmic grid search. Metrics are reported separately on calibration and held-out test questions, before and after scaling. A temperature does not change the predicted label or repair accuracy.
 
+The [cross-family plan](CROSS_FAMILY_PLAN.md) fixes the model pairs and interpretation before scoring. Its vectorized analysis uses NumPy PCG64 with the same paired-resampling and percentile definitions as the original Python implementation, but a different random-number stream. All pairs and protocols share draws over sorted question IDs. The summary records the generator, seed, binning and interval conventions. Compressed `scores.jsonl.gz` files preserve every full score row and are accepted by analysis, calibration and presentation commands.
+
 ## Local execution
 
 The CPU configuration is `configs/qwen2_5_0_5b.yaml`. `tools/run_cpu.py` runs it under `nice -n 19`, using two CPU threads, bf16 weights, one loaded model at a time, and a two-hour wall-time limit. It checks available memory before starting and samples RSS every 10 ms, stopping at 1.45 GB to leave headroom below the 1.5 GB budget. This is a sampled stop guard, not a kernel-enforced memory limit. It writes the actual command, environment versions, sampled peak RSS, runtime, and completion status to `results/qwen2_5_0_5b/runtime.json`.
 
-The original pinned 1.5B configuration is retained for another machine; it must not be run under this laptop's limits. Scoring requires public model downloads but no paid service. Analysis reads saved scores and does not load models.
+The original pinned 1.5B CPU configuration is retained for another machine; it must not be run under the earlier laptop's limits. Analysis reads saved scores and does not load models.
 
 The stopped attempt and proposed hardware allowance are described in [NEXT.md](NEXT.md).
+
+## Cloud execution
+
+`modal_app.py` runs the pinned cross-family configuration on one L4 with two CPU cores and 16 GiB host memory. The image pins package versions, downloads weights inside the container, and returns full scores plus dataset and runtime metadata. Set `ALIGNMENTTAX_MINUTES` to the job's limit. A small pilot checks scalar/batch likelihood differences under bf16 before the full run; its tolerance and observed differences are saved, not treated as bitwise equality.
+
+The cloud runtime estimates GPU, CPU and memory charges. The separate cost summary includes run wall time and overhead at the same resource rates with a ten-percent allowance. It is a conservative estimate, not an invoice. The stopped local attempt remains historical evidence; it is not mixed with completed cloud scores.

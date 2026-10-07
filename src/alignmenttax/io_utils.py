@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import gzip
 import json
 from pathlib import Path
 from typing import Any, Iterable
@@ -11,9 +12,22 @@ def ensure_parent(path: str | Path) -> Path:
     return resolved
 
 
+def scores_path(run: str | Path) -> Path:
+    path = Path(run)
+    if not path.is_dir():
+        return path
+    candidates = [path / name for name in ("scores.jsonl", "scores.jsonl.gz")]
+    existing = [candidate for candidate in candidates if candidate.exists()]
+    if len(existing) > 1:
+        raise ValueError(f"Both compressed and plain scores exist in {run}.")
+    return existing[0] if existing else candidates[0]
+
+
 def read_jsonl(path: str | Path) -> list[dict[str, Any]]:
     records: list[dict[str, Any]] = []
-    with Path(path).open("r", encoding="utf-8") as handle:
+    source = Path(path)
+    opener = gzip.open if source.suffix == ".gz" else open
+    with opener(source, "rt", encoding="utf-8") as handle:
         for line_number, line in enumerate(handle, start=1):
             stripped = line.strip()
             if not stripped:

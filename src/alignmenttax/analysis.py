@@ -6,7 +6,7 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Any
 
-from .io_utils import ensure_parent, read_jsonl, write_json
+from .io_utils import ensure_parent, read_jsonl, scores_path, write_json
 from .metrics import (
     METRIC_NAMES,
     calibration_bins,
@@ -17,13 +17,6 @@ from .metrics import (
 
 def _safe_name(value: str) -> str:
     return re.sub(r"[^A-Za-z0-9_.-]+", "_", value).strip("_")
-
-
-def _scores_path(run: str | Path) -> Path:
-    run_path = Path(run)
-    if run_path.is_dir():
-        return run_path / "scores.jsonl"
-    return run_path
 
 
 def _load_run_config(run: str | Path) -> dict[str, Any]:
@@ -253,7 +246,7 @@ def analyze_run(
     bootstrap_iterations: int | None = None,
     no_plots: bool = False,
 ) -> dict[str, Any]:
-    scores = read_jsonl(_scores_path(run))
+    scores = read_jsonl(scores_path(run))
     if not scores:
         raise ValueError("No scores found to analyze.")
     config = _load_run_config(run)

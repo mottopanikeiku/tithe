@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from .io_utils import ensure_parent, read_jsonl
+from .io_utils import ensure_parent, read_jsonl, scores_path
 
 
 def _write_csv(path: str | Path, rows: list[dict[str, Any]], fieldnames: list[str]) -> None:
@@ -223,7 +223,7 @@ def build_presentation_artifacts(
     run_path = Path(run_dir)
     output_dir = Path(report_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
-    scores = read_jsonl(run_path / "scores.jsonl")
+    scores = read_jsonl(scores_path(run_path))
     summary = _load_summary(output_dir / "summary.csv")
     paired_rows = _paired_shared_rows(scores, protocol)
 

@@ -7,7 +7,7 @@ import math
 from pathlib import Path
 from typing import Any
 
-from .io_utils import ensure_parent, read_jsonl
+from .io_utils import ensure_parent, read_jsonl, scores_path
 from .metrics import METRIC_NAMES, calibration_bins, metric_summary, two_way_softmax
 
 
@@ -223,7 +223,7 @@ def run_calibration_stage(
         raise ValueError("Calibration fraction must be between 0 and 1.")
     output_dir = Path(report_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
-    scores = read_jsonl(Path(run_dir) / "scores.jsonl")
+    scores = read_jsonl(scores_path(run_dir))
     grouped = _group_scores(scores, calibration_fraction=calibration_fraction, seed=seed)
 
     temperatures: dict[tuple[str, str], float] = {}
