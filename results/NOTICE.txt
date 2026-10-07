@@ -1,0 +1,3 @@
+The questions and answer texts in these result files come from TruthfulQA by Stephanie Lin, Jacob Hilton and Owain Evans, https://github.com/sylinrl/TruthfulQA, at commit d71c110897f5d31c5d7f309e7bc316c152f6f031. The source is licensed under Apache License 2.0; a copy is in TRUTHFULQA_LICENSE.txt.
+
+I changed the data's representation: I selected Best Answer and Best Incorrect Answer, assigned them to A/B with seed 20260420, added stable question IDs, and attached model likelihoods and derived metrics. These are binary comparisons, not the original MC1/MC2 evaluation. No model weights are redistributed.

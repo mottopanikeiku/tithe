@@ -1,0 +1,19 @@
+{
+  "status": "failed_before_pilot_scores",
+  "source": "Modal exception output from the real scalar/batch comparison",
+  "modal_app_url": "https://modal.com/apps/mottopanikeiku/main/ap-iBWZ2tCHB4GxqyGSGU0VsY",
+  "gpu_type": "L4",
+  "model_id": "Qwen/Qwen2.5-0.5B",
+  "model_revision": "060db6499f32faf8b98477b0a26969ef7d8b9987",
+  "model_key": "base",
+  "protocol": "shared_plain_ab_label",
+  "n": 8,
+  "max_abs_logprob_error": 0.10703837871551514,
+  "max_abs_logprob_error_tolerance": 0.08,
+  "label_mismatches": 0,
+  "label_token_counts": {"A": 1, "B": 1},
+  "checks_completed": 1,
+  "other_models_and_protocols_checked": false,
+  "full_pair_scores_written": false,
+  "decision": "Use scalar batch_size=1 for all published full-pair measurements; do not raise the failed tolerance."
+}
