@@ -1,3 +1,7 @@
 The questions and answer texts in these result files come from TruthfulQA by Stephanie Lin, Jacob Hilton and Owain Evans, https://github.com/sylinrl/TruthfulQA, at commit d71c110897f5d31c5d7f309e7bc316c152f6f031. The source is licensed under Apache License 2.0; a copy is in TRUTHFULQA_LICENSE.txt.
 
-I changed the data's representation: I selected Best Answer and Best Incorrect Answer, assigned them to A/B with seed 20260420, added stable question IDs, and attached model likelihoods and derived metrics. These are binary comparisons, not the original MC1/MC2 evaluation. No model weights are redistributed.
+For the binary derivative, I selected Best Answer and Best Incorrect Answer, assigned them to A/B with seed 20260420, added stable question IDs, and attached model likelihoods and derived metrics. Those files are binary comparisons, not the original MC1/MC2 evaluation.
+
+For the standard comparison under day_scale, I retained all 817 multiple-choice validation questions and their answer order from truthfulqa/truthful_qa at revision 741b8276f2d1982aa3d5b832d3ee81ed3b896490, https://huggingface.co/datasets/truthfulqa/truthful_qa. That dataset is also Apache-2.0 licensed. I added IDs and model likelihoods. The shared prompt and MC1/MC2 definitions, and the tokenization boundary rule in src/alignmenttax/standard.py, are adapted from EleutherAI's MIT-licensed lm-evaluation-harness at d6de81643928d653435c431bae19945d41d32520; its copyright and permission notice are in LM_EVALUATION_HARNESS_LICENSE.txt. Native chat wrapping is my sensitivity comparison, not the harness's default prompt.
+
+No model weights are redistributed. Model repository revisions and individual Apache-2.0 license-source links are in configs/day_scale.json.

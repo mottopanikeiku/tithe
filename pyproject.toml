@@ -19,6 +19,7 @@ models = [
     "transformers>=4.49,<5",
     "accelerate>=1.10,<2",
     "sentencepiece>=0.2,<1",
+    "datasets>=3.6,<4",
 ]
 plots = [
     "matplotlib>=3.8",
@@ -32,6 +33,7 @@ full = [
     "transformers>=4.49,<5",
     "accelerate>=1.10,<2",
     "sentencepiece>=0.2,<1",
+    "datasets>=3.6,<4",
     "matplotlib>=3.8",
 ]
 

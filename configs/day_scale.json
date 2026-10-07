@@ -377,7 +377,7 @@
     "cache_reference_questions": 4,
     "numerical_audit": "Report full-forward/cached LL and MC differences on first four questions for every model; exact toy FP32 tests must pass. BF16 is not bitwise invariant across batch shapes; differences are disclosed, not silently threshold-relaxed.",
     "cache_reference_max_abs_probability_error": 0.02,
-    "cache_reference_max_mean_token_logprob_error": 0.05,
+    "cache_reference_max_abs_mean_logprob_error": 0.05,
     "cache_reference_max_mc1_disagreements": 0
   }
 }
