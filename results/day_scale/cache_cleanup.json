@@ -1,0 +1,15 @@
+{
+  "volume": "alignmenttax-day-weights",
+  "deleted_file_bytes": 605256228799,
+  "deleted_files": 1058,
+  "removed_directories": [
+    "models",
+    "huggingface"
+  ],
+  "kept_directories": [
+    "data",
+    "datasets",
+    "results"
+  ],
+  "completed_at_utc": "2026-10-07T21:29:45.499447+00:00"
+}

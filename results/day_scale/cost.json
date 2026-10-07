@@ -1,0 +1,122 @@
+{
+  "currency": "USD",
+  "combined_budget_usd": 7.0,
+  "previous_binary_study": {
+    "source": "../cross_family/cost.json",
+    "conservative_total_usd": 1.0501
+  },
+  "conservative_day_total_usd": 5.0608,
+  "conservative_project_total_usd": 6.1109,
+  "rounded_up_project_total_usd": 6.12,
+  "method": "Completed client wall time, including builds, startup, failures, scoring and cleanup, multiplied by all requested resource rates and a ten-percent allowance. Each run is rounded to four decimals before summing. This is a conservative compute estimate, not an invoice; it excludes storage and network charges.",
+  "allowance_multiplier": 1.1,
+  "hourly_rates_usd": {
+    "gpu": {
+      "none": 0.0,
+      "L4": 0.7992,
+      "H100": 3.9492
+    },
+    "per_cpu_core": 0.04716,
+    "per_memory_gib": 0.007992
+  },
+  "pricing_source": "https://modal.com/pricing",
+  "runs": [
+    {
+      "purpose": "cpu_download",
+      "status": "interrupted_client_before_preparation_finished",
+      "gpu_type": "none",
+      "containers": 1,
+      "cpu_cores": 2.0,
+      "memory_gib": 4.0,
+      "limit_minutes": 90.0,
+      "wall_minutes": 12.72,
+      "conservative_cost_usd": 0.0294,
+      "exit_code": 1
+    },
+    {
+      "purpose": "cpu_download_resume",
+      "status": "completed_all_22_pinned_checkpoints_and_817_questions",
+      "gpu_type": "none",
+      "containers": 1,
+      "cpu_cores": 2.0,
+      "memory_gib": 4.0,
+      "limit_minutes": 90.0,
+      "wall_minutes": 47.19,
+      "conservative_cost_usd": 0.1093,
+      "exit_code": 0
+    },
+    {
+      "purpose": "initial_standard_scoring",
+      "status": "saved_four_complete_pairs_and_olmo7_base_then_timeout",
+      "gpu_type": "H100",
+      "containers": 1,
+      "cpu_cores": 2.0,
+      "memory_gib": 16.0,
+      "limit_minutes": 24.0,
+      "wall_minutes": 24.36,
+      "conservative_cost_usd": 1.8632,
+      "exit_code": 1
+    },
+    {
+      "purpose": "required_large_pairs",
+      "status": "saved_qwen14_pair_and_qwen32_base_then_timeout",
+      "gpu_type": "H100",
+      "containers": 1,
+      "cpu_cores": 2.0,
+      "memory_gib": 16.0,
+      "limit_minutes": 19.0,
+      "wall_minutes": 19.47,
+      "conservative_cost_usd": 1.4886,
+      "exit_code": 1
+    },
+    {
+      "purpose": "remaining_small_pairs",
+      "status": "saved_olmo7_instruct_and_smollm2_pair_then_timeout",
+      "gpu_type": "L4",
+      "containers": 1,
+      "cpu_cores": 2.0,
+      "memory_gib": 16.0,
+      "limit_minutes": 24.0,
+      "wall_minutes": 24.38,
+      "conservative_cost_usd": 0.4565,
+      "exit_code": 1
+    },
+    {
+      "purpose": "qwen32_instruct_completion",
+      "status": "completed_full_qwen32_pair_reusing_saved_base",
+      "gpu_type": "H100",
+      "containers": 1,
+      "cpu_cores": 2.0,
+      "memory_gib": 16.0,
+      "limit_minutes": 19.0,
+      "wall_minutes": 12.74,
+      "conservative_cost_usd": 0.9741,
+      "exit_code": 0
+    },
+    {
+      "purpose": "mistral_standard_completion",
+      "status": "completed_full_mistral_pair",
+      "gpu_type": "L4",
+      "containers": 1,
+      "cpu_cores": 2.0,
+      "memory_gib": 16.0,
+      "limit_minutes": 25.0,
+      "wall_minutes": 7.45,
+      "conservative_cost_usd": 0.1395,
+      "exit_code": 0
+    },
+    {
+      "purpose": "checkpoint_cache_cleanup",
+      "status": "removed_model_weights_kept_data_and_results",
+      "gpu_type": "none",
+      "containers": 1,
+      "cpu_cores": 1.0,
+      "memory_gib": 1.0,
+      "limit_minutes": 2.0,
+      "wall_minutes": 0.16,
+      "conservative_cost_usd": 0.0002,
+      "exit_code": 0
+    }
+  ],
+  "volume_cleanup_source": "cache_cleanup.json"
+}

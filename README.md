@@ -1,61 +1,53 @@
 # AlignmentTax
 
-I compare truthfulness and confidence calibration in matched base/instruct checkpoints on a binary derivative of [TruthfulQA](https://github.com/sylinrl/TruthfulQA).
+**I find opposite calibration changes under two TruthfulQA scoring definitions.** With shared prompts, six of nine binary comparisons gain accuracy but worsen ECE. On standard MC1, four improve both and none show that resolved tradeoff. These are checkpoint comparisons, not a causal effect of reinforcement learning.
 
-Does instruction tuning consistently trade calibration for truthfulness?
+I completed nine pinned base/instruct pairs across Qwen2.5 (0.5/1.5/7/14/32B), OLMo-2 (1/7B), SmolLM2 (1.7B) and Mistral (7B). The [plan was committed before scoring](https://github.com/mottopanikeiku/alignmenttax/commit/457f8c2). I retain **29,412 standard rows and 28,440 binary rows** under shared and native protocols; base-native rows reuse unchanged shared prompts. [Counts, raw sources and every metric](results/day_scale/analysis/summary.json).
 
-I score leading-space A/B label likelihoods with [scoring.py](src/alignmenttax/scoring.py), compare paired questions with [cross_family.py](src/alignmenttax/cross_family.py), and run the pinned checkpoints on one L4 with [modal_app.py](modal_app.py).
+## Standard TruthfulQA result
 
-**Calibration usually worsens, but not consistently in exchange for better truthfulness.** With shared plain prompts, four of seven pairs gain accuracy and increase expected calibration error (ECE); two lose accuracy and worsen ECE. Qwen2.5-0.5B loses accuracy, with an uncertain ECE change. These are task-specific checkpoint comparisons, not a causal effect of reinforcement learning.
+I use all 817 questions and the [pinned lm-evaluation-harness definitions](https://github.com/EleutherAI/lm-evaluation-harness/tree/d6de81643928d653435c431bae19945d41d32520/lm_eval/tasks/truthfulqa): the exact six-example Q/A primer, space-delimited full answers and summed token log likelihoods without length normalization. MC1 is best-answer accuracy; MC2 is probability mass assigned to true answers, **not hard accuracy**. MC1 confidence is normalized over its candidate answers.
 
-## Cross-family result
+Instruct minus base, in percentage points. Brackets are pointwise 95% paired-bootstrap intervals from 10,000 question resamples; positive ΔECE is worse. Counts require both marginal intervals to exclude zero, not a joint significance test. [Full table](results/day_scale/analysis/summary.csv):
 
-I completed all [22,120 score rows](results/cross_family/analysis/environment.json) across seven pairs, two protocols and [790 questions](results/cross_family/analysis/summary.json), including the previously blocked pinned 0.5B pair. My [analysis plan was committed before scoring](https://github.com/mottopanikeiku/alignmenttax/commit/e299861).
+| Pair | ΔMC1 [95% CI] | ΔMC2 [95% CI] | ΔMC1 ECE [95% CI] |
+|---|---:|---:|---:|
+| [Mistral-7B-v0.3](results/day_scale/mistral_7b_v0_3) | +14.32 [+11.63, +17.14] | +17.60 [+15.27, +19.95] | -6.66 [-9.56, -3.73] |
+| [OLMo-2-1B](results/day_scale/olmo2_0425_1b) | +8.45 [+5.75, +11.02] | +11.43 [+8.91, +13.92] | -1.63 [-4.48, +1.33] |
+| [OLMo-2-7B](results/day_scale/olmo2_1124_7b) | +10.16 [+7.47, +12.85] | +11.18 [+8.79, +13.57] | -1.43 [-4.26, +1.42] |
+| [Qwen2.5-0.5B](results/day_scale/qwen2_5_0_5b) | +1.47 [-0.37, +3.30] | +2.11 [+0.82, +3.43] | -0.73 [-2.69, +1.21] |
+| [Qwen2.5-1.5B](results/day_scale/qwen2_5_1_5b) | +0.49 [-0.86, +1.72] | +0.24 [-0.70, +1.16] | +1.03 [-0.49, +2.61] |
+| [Qwen2.5-7B](results/day_scale/qwen2_5_7b) | +9.18 [+6.73, +11.75] | +8.45 [+6.48, +10.44] | -3.31 [-6.00, -0.61] |
+| [Qwen2.5-14B](results/day_scale/qwen2_5_14b) | +11.38 [+8.69, +14.08] | +10.57 [+8.74, +12.42] | -5.47 [-8.15, -2.80] |
+| [Qwen2.5-32B](results/day_scale/qwen2_5_32b) | +8.20 [+5.75, +10.65] | +7.89 [+6.08, +9.69] | -3.48 [-6.08, -0.89] |
+| [SmolLM2-1.7B](results/day_scale/smollm2_1_7b) | +1.47 [-0.37, +3.18] | +3.35 [+2.04, +4.65] | -0.35 [-2.41, +1.73] |
 
-Shared-prompt results below are instruct minus base. Brackets are 95% paired-bootstrap intervals from 10,000 question resamples. Accuracy columns are percentages; deltas are percentage points. Positive ΔECE is worse. [Full table and intervals](results/cross_family/analysis/summary.csv):
+![Standard MC1 accuracy, MC2 truth mass and MC1 ECE changes under shared and native prompts](results/day_scale/analysis/day_scale.svg)
 
-| Pair | Base accuracy | Instruct accuracy | Δaccuracy [95% CI] | ΔECE [95% CI] |
-|---|---:|---:|---:|---:|
-| [Qwen2.5-0.5B](results/cross_family/qwen2_5_0_5b) | 50.51 | 46.46 | -4.05 [-6.71, -1.39] | -2.93 [-4.98, +0.42] |
-| [Qwen2.5-1.5B](results/cross_family/qwen2_5_1_5b) | 53.92 | 58.73 | +4.81 [+1.52, +8.23] | +7.96 [+4.75, +11.02] |
-| [Qwen2.5-7B](results/cross_family/qwen2_5_7b) | 69.49 | 77.85 | +8.35 [+5.70, +11.01] | +7.07 [+3.97, +9.65] |
-| [OLMo-2-0425-1B](results/cross_family/olmo2_0425_1b) | 49.87 | 45.95 | -3.92 [-7.72, -0.25] | +12.84 [+8.60, +15.62] |
-| [OLMo-2-1124-7B](results/cross_family/olmo2_1124_7b) | 63.04 | 68.35 | +5.32 [+2.53, +8.23] | +10.66 [+7.49, +13.10] |
-| [SmolLM2-1.7B](results/cross_family/smollm2_1_7b) | 54.43 | 38.61 | -15.82 [-19.62, -12.03] | +32.50 [+28.36, +35.80] |
-| [Mistral-7B-v0.3](results/cross_family/mistral_7b_v0_3) | 66.58 | 75.82 | +9.24 [+6.08, +12.41] | +8.72 [+4.30, +12.63] |
+Qwen14B MC1 rises from **40.02% to 51.41%**; Qwen32B rises from **40.27% to 48.47%**. Their shared-prompt ECE decreases by 5.47 and 3.48 points. In the [790-question A/B-label derivative](docs/PROTOCOL.md), the same pairs instead increase ECE by **10.15 [6.27, 11.58]** and **7.14 [3.40, 9.09]** points. That is a disagreement between measurements, not proof that answer format alone causes the reversal.
 
-![Accuracy and ECE differences across seven pairs, with shared and native prompts](results/cross_family/analysis/cross_family.svg)
-
-The larger Qwen and OLMo checkpoints show a tradeoff here, while their smallest measured counterparts do not gain accuracy. SmolLM2-1.7B loses accuracy under both protocols. With native chat templates, ECE increases for all seven pairs, but only three have an accuracy interval above zero. The OLMo-2-7B accuracy gain becomes uncertain. Native results also change the instruct prompt, so they are not a weights-only comparison.
-
-The metric matters: Qwen2.5-7B's Brier score improves while its ECE and NLL worsen. Brier and NLL mix calibration with discrimination; I report [all six metrics](results/cross_family/analysis/summary.json), not just the ones that favor a tradeoff.
-
-For the 0.5B instruct model, [held-out temperature scaling](results/cross_family/qwen2_5_0_5b/calibration/stage2_temperature_calibration_summary.csv) lowers test ECE from 25.30% to 6.52%, with accuracy unchanged at 46.53%. The fitted temperature reaches the upper bound of 200: confidence moves toward chance, not better answers. This supplementary check is not the cross-family comparison.
+Native prompts wrap the same entire harness prompt in the instruct chat template. They are sensitivity results, not the official harness default: three standard pairs improve both MC1 and ECE; six comparisons remain uncertain. The binary sensitivity has five accuracy/ECE tradeoffs. ECE and proper scores also disagree: Qwen7's standard ECE and Brier improve while NLL worsens. I report all metrics rather than select one favorable story.
 
 ## Reproduce
 
-My [conservative cloud-cost estimate is **at most $1.06**](results/cross_family/cost.json), including failed pilots, within a $2.50 budget. It includes startup, downloads, CPU/memory and a ten-percent allowance; it is not an invoice. Scoring used bf16 weights, one L4, two CPU cores and 16 GiB host memory. Model/tokenizer commits are [pinned](configs/cross_family.json); weights are downloaded only in the cloud.
-
-With a Modal account already authenticated:
+Rebuild the analysis without models:
 
 ```sh
 uv sync
-ALIGNMENTTAX_MINUTES=90 uv run --with modal==1.5.3 modal run modal_app.py
-nice -n 19 uv run python -m alignmenttax.cross_family --root results/cross_family --out results/cross_family/analysis
+uv run python -m alignmenttax.scale_analysis --root results/day_scale --out results/day_scale/analysis --old-binary-root results/cross_family
 ```
 
-Skip the second command to rebuild the table and SVG from committed scores without GPU costs. Full scores are losslessly gzipped JSONL. The [protocol](docs/PROTOCOL.md) covers scalar execution, the failed batching pilot, and held-out calibration. The [old interrupted CPU attempt](results/qwen2_5_0_5b) is retained separately, not mixed into these scores.
+For model runs, [the cloud runner](tools/day_modal_app.py) provides `::download` on CPU before offline `::score`; select pairs with `--pairs`, set `ALIGNMENTTAX_GPU=L4` for ≤7B or `H100` for 14/32B, and use Python 3.13 with Modal 1.5.3. Completed checkpoint units resume from the Volume. `::cleanup` removes weights while keeping data/results. [Pins and full methods](configs/day_scale.json), [execution plan](docs/DAY_SCALE_PLAN.md), [dataset/license attribution](results/NOTICE.txt).
 
-## Limitations
+My [conservative compute estimate is $6.12](results/day_scale/cost.json), including earlier binary work, failed runs, CPU/memory and a ten-percent allowance; it is not an invoice and excludes storage/network charges. Inference uses BF16 without quantization or CPU offload. I [deleted the weight cache](results/day_scale/cache_cleanup.json).
 
-- Best Answer versus Best Incorrect Answer is not official TruthfulQA MC1/MC2 or free-form generation.
-- Confidence is normalized over ` A` and ` B`, not verbal confidence or all possible answers. Other label continuations were not tested.
-- Base/instruct changes include different post-training stages and data. Native templates add a prompt change. Neither comparison isolates RL causally.
-- These selected checkpoints and one task are not a model-family population. Intervals are pointwise and resample questions, not training seeds. ECE depends on binning; nominal size comparisons also confound training data and releases.
-- I use scalar bf16 inference after the [batch pilot exceeded its tolerance](results/pilot/batch_parity_failure.json). No precision sweep was run; temperature scaling covers one split of the 0.5B pair only.
+## Limits
 
-## Prior work
+- These are restricted-choice probabilities, not generated-answer or verbal confidence. The 817-question standard task and 790-question derivative are never pooled; their Brier definitions differ.
+- Native prompting and post-training data/objectives are confounders. Standard runs use H100/L4; OLMo7 uses an H100 base and L4 instruct. Hardware and precision variability are not in the intervals.
+- These fixed checkpoints are not a family population. Intervals resample questions, not training seeds, and have no multiplicity correction; ECE depends on binning.
+- [21 of 27 cache audits failed](results/day_scale/numerical_audit.json), so those conditions use scalar full forwards with unchanged thresholds. Audits cover only four fixed questions per condition, not every question; no precision sweep was run.
 
-TruthfulQA is by [Lin, Hilton and Evans](https://arxiv.org/abs/2109.07958); its redistributed text retains the [Apache license and attribution](results/NOTICE.txt). I build on [Kadavath et al.](https://arxiv.org/abs/2207.05221) and [Guo et al.](https://arxiv.org/abs/1706.04599) for probability calibration and temperature scaling. [Huang, Lu and Zeng](https://arxiv.org/abs/2508.00264) already study post-training calibration on MMLU; my comparison uses a different task and paired intervals. Models come from [Qwen](https://huggingface.co/Qwen), [Allen AI](https://huggingface.co/allenai), [Hugging Face](https://huggingface.co/HuggingFaceTB) and [Mistral](https://huggingface.co/mistralai).
+TruthfulQA is by [Lin, Hilton and Evans](https://arxiv.org/abs/2109.07958). Calibration/post-training precedents include [Guo et al.](https://arxiv.org/abs/1706.04599), [Kadavath et al.](https://arxiv.org/abs/2207.05221) and [Huang, Lu and Zeng](https://arxiv.org/abs/2508.00264). [Earlier temperature-scaling results](results/cross_family/qwen2_5_0_5b/calibration) remain a separate supplement.
 
 Written with AI coding assistance.

@@ -1,0 +1,156 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="661" viewBox="0 0 1240 661" role="img" aria-labelledby="title desc">
+<title id="title">Standard TruthfulQA MC1/MC2: instruct minus base</title>
+<desc id="desc">Three panels show MC1 accuracy, MC2 true-answer probability mass, and MC1 categorical ECE changes with 95% paired-question percentile intervals. Native prompts are sensitivity, not official harness scores.</desc>
+<rect width="100%" height="100%" fill="white"/><g font-family="sans-serif" font-size="12" fill="#202020">
+<text x="20" y="26" font-size="17">TruthfulQA · instruct minus base · 95% paired-question intervals</text>
+<circle cx="27" cy="49" r="4" fill="#17649b"/><text x="39" y="53">Shared plain · primary (harness prompt)</text>
+<path d="M 390 44 l 5 5 -5 5 -5 -5 Z" fill="#b75b16"/><text x="402" y="53">Native prompt · sensitivity (not official harness)</text>
+<text x="440.0" y="84" text-anchor="middle" font-size="13">ΔMC1 (percentage points)</text>
+<line x1="341.21" x2="341.21" y1="96" y2="597" stroke="#999" stroke-dasharray="4 3"/>
+<text x="300.00" y="618" text-anchor="middle">-5.1</text>
+<text x="370.00" y="618" text-anchor="middle">3.5</text>
+<text x="440.00" y="618" text-anchor="middle">12.2</text>
+<text x="510.00" y="618" text-anchor="middle">20.8</text>
+<text x="580.00" y="618" text-anchor="middle">29.4</text>
+<text x="20" y="118">Mistral-7B-v0.3</text>
+<text x="20" y="135" fill="#666">Mistral v0.3 · 7B · existing</text>
+<path d="M 435.53 111 H 480.21 M 435.53 107 V 115 M 480.21 107 V 115" stroke="#17649b" fill="none" stroke-width="1.7"/>
+<circle cx="457.38" cy="111" r="4" fill="#17649b"/>
+<path d="M 503.05 127 H 556.67 M 503.05 123 V 131 M 556.67 123 V 131" stroke="#b75b16" fill="none" stroke-width="1.7"/>
+<path d="M 529.86 122 l 5 5 -5 5 -5 -5 Z" fill="#b75b16"/>
+<text x="20" y="172">OLMo-2-0425-1B</text>
+<text x="20" y="189" fill="#666">OLMo-2 · 1B · existing</text>
+<path d="M 387.87 165 H 430.57 M 387.87 161 V 169 M 430.57 161 V 169" stroke="#17649b" fill="none" stroke-width="1.7"/>
+<circle cx="409.72" cy="165" r="4" fill="#17649b"/>
+<path d="M 394.82 181 H 439.50 M 394.82 177 V 185 M 439.50 177 V 185" stroke="#b75b16" fill="none" stroke-width="1.7"/>
+<path d="M 417.66 176 l 5 5 -5 5 -5 -5 Z" fill="#b75b16"/>
+<text x="20" y="226">OLMo-2-1124-7B</text>
+<text x="20" y="243" fill="#666">OLMo-2 · 7B · existing</text>
+<path d="M 401.77 219 H 445.46 M 401.77 215 V 223 M 445.46 215 V 223" stroke="#17649b" fill="none" stroke-width="1.7"/>
+<circle cx="423.62" cy="219" r="4" fill="#17649b"/>
+<path d="M 403.76 235 H 452.41 M 403.76 231 V 239 M 452.41 231 V 239" stroke="#b75b16" fill="none" stroke-width="1.7"/>
+<path d="M 427.59 230 l 5 5 -5 5 -5 -5 Z" fill="#b75b16"/>
+<text x="20" y="280">Qwen2.5-0.5B</text>
+<text x="20" y="297" fill="#666">Qwen2.5 · 0.5B · existing</text>
+<path d="M 338.23 273 H 368.01 M 338.23 269 V 277 M 368.01 269 V 277" stroke="#17649b" fill="none" stroke-width="1.7"/>
+<circle cx="353.12" cy="273" r="4" fill="#17649b"/>
+<path d="M 363.05 289 H 398.79 M 363.05 285 V 293 M 398.79 285 V 293" stroke="#b75b16" fill="none" stroke-width="1.7"/>
+<path d="M 380.92 284 l 5 5 -5 5 -5 -5 Z" fill="#b75b16"/>
+<text x="20" y="334">Qwen2.5-1.5B</text>
+<text x="20" y="351" fill="#666">Qwen2.5 · 1.5B · existing</text>
+<path d="M 334.26 327 H 355.13 M 334.26 323 V 331 M 355.13 323 V 331" stroke="#17649b" fill="none" stroke-width="1.7"/>
+<circle cx="345.18" cy="327" r="4" fill="#17649b"/>
+<path d="M 323.33 343 H 357.09 M 323.33 339 V 347 M 357.09 339 V 347" stroke="#b75b16" fill="none" stroke-width="1.7"/>
+<path d="M 340.21 338 l 5 5 -5 5 -5 -5 Z" fill="#b75b16"/>
+<text x="20" y="388">Qwen2.5-7B</text>
+<text x="20" y="405" fill="#666">Qwen2.5 · 7B · existing</text>
+<path d="M 395.82 381 H 436.52 M 395.82 377 V 385 M 436.52 377 V 385" stroke="#17649b" fill="none" stroke-width="1.7"/>
+<circle cx="415.67" cy="381" r="4" fill="#17649b"/>
+<path d="M 379.93 397 H 429.57 M 379.93 393 V 401 M 429.57 393 V 401" stroke="#b75b16" fill="none" stroke-width="1.7"/>
+<path d="M 404.75 392 l 5 5 -5 5 -5 -5 Z" fill="#b75b16"/>
+<text x="20" y="442">Qwen2.5-14B</text>
+<text x="20" y="459" fill="#666">Qwen2.5 · 14B · new</text>
+<path d="M 411.70 435 H 455.39 M 411.70 431 V 439 M 455.39 431 V 439" stroke="#17649b" fill="none" stroke-width="1.7"/>
+<circle cx="433.55" cy="435" r="4" fill="#17649b"/>
+<path d="M 426.60 451 H 482.20 M 426.60 447 V 455 M 482.20 447 V 455" stroke="#b75b16" fill="none" stroke-width="1.7"/>
+<path d="M 454.40 446 l 5 5 -5 5 -5 -5 Z" fill="#b75b16"/>
+<text x="20" y="496">Qwen2.5-32B</text>
+<text x="20" y="513" fill="#666">Qwen2.5 · 32B · new</text>
+<path d="M 387.87 489 H 427.59 M 387.87 485 V 493 M 427.59 485 V 493" stroke="#17649b" fill="none" stroke-width="1.7"/>
+<circle cx="407.73" cy="489" r="4" fill="#17649b"/>
+<path d="M 410.71 505 H 462.34 M 410.71 501 V 509 M 462.34 501 V 509" stroke="#b75b16" fill="none" stroke-width="1.7"/>
+<path d="M 436.52 500 l 5 5 -5 5 -5 -5 Z" fill="#b75b16"/>
+<text x="20" y="550">SmolLM2-1.7B</text>
+<text x="20" y="567" fill="#666">SmolLM2 · 1.7B · existing</text>
+<path d="M 338.23 543 H 367.02 M 338.23 539 V 547 M 367.02 539 V 547" stroke="#17649b" fill="none" stroke-width="1.7"/>
+<circle cx="353.12" cy="543" r="4" fill="#17649b"/>
+<path d="M 380.92 559 H 421.63 M 380.92 555 V 563 M 421.63 555 V 563" stroke="#b75b16" fill="none" stroke-width="1.7"/>
+<path d="M 400.78 554 l 5 5 -5 5 -5 -5 Z" fill="#b75b16"/>
+<text x="750.0" y="84" text-anchor="middle" font-size="13">ΔMC2 (percentage points)</text>
+<line x1="643.67" x2="643.67" y1="96" y2="597" stroke="#999" stroke-dasharray="4 3"/>
+<text x="610.00" y="618" text-anchor="middle">-4.1</text>
+<text x="680.00" y="618" text-anchor="middle">4.4</text>
+<text x="750.00" y="618" text-anchor="middle">12.9</text>
+<text x="820.00" y="618" text-anchor="middle">21.5</text>
+<text x="890.00" y="618" text-anchor="middle">30.0</text>
+<path d="M 769.15 111 H 807.65 M 769.15 107 V 115 M 807.65 107 V 115" stroke="#17649b" fill="none" stroke-width="1.7"/>
+<circle cx="788.32" cy="111" r="4" fill="#17649b"/>
+<path d="M 819.46 127 H 866.67 M 819.46 123 V 131 M 866.67 123 V 131" stroke="#b75b16" fill="none" stroke-width="1.7"/>
+<path d="M 843.11 122 l 5 5 -5 5 -5 -5 Z" fill="#b75b16"/>
+<path d="M 716.91 165 H 758.07 M 716.91 161 V 169 M 758.07 161 V 169" stroke="#17649b" fill="none" stroke-width="1.7"/>
+<circle cx="737.57" cy="165" r="4" fill="#17649b"/>
+<path d="M 718.62 181 H 760.98 M 718.62 177 V 185 M 760.98 177 V 185" stroke="#b75b16" fill="none" stroke-width="1.7"/>
+<path d="M 739.96 176 l 5 5 -5 5 -5 -5 Z" fill="#b75b16"/>
+<path d="M 715.94 219 H 755.22 M 715.94 215 V 223 M 755.22 215 V 223" stroke="#17649b" fill="none" stroke-width="1.7"/>
+<circle cx="735.58" cy="219" r="4" fill="#17649b"/>
+<path d="M 726.50 235 H 770.98 M 726.50 231 V 239 M 770.98 231 V 239" stroke="#b75b16" fill="none" stroke-width="1.7"/>
+<path d="M 748.62 230 l 5 5 -5 5 -5 -5 Z" fill="#b75b16"/>
+<path d="M 650.38 273 H 671.86 M 650.38 269 V 277 M 671.86 269 V 277" stroke="#17649b" fill="none" stroke-width="1.7"/>
+<circle cx="660.98" cy="273" r="4" fill="#17649b"/>
+<path d="M 681.29 289 H 709.13 M 681.29 285 V 293 M 709.13 285 V 293" stroke="#b75b16" fill="none" stroke-width="1.7"/>
+<path d="M 695.31 284 l 5 5 -5 5 -5 -5 Z" fill="#b75b16"/>
+<path d="M 637.95 327 H 653.23 M 637.95 323 V 331 M 653.23 323 V 331" stroke="#17649b" fill="none" stroke-width="1.7"/>
+<circle cx="645.66" cy="327" r="4" fill="#17649b"/>
+<path d="M 633.33 343 H 660.49 M 633.33 339 V 347 M 660.49 339 V 347" stroke="#b75b16" fill="none" stroke-width="1.7"/>
+<path d="M 646.95 338 l 5 5 -5 5 -5 -5 Z" fill="#b75b16"/>
+<path d="M 696.96 381 H 729.45 M 696.96 377 V 385 M 729.45 377 V 385" stroke="#17649b" fill="none" stroke-width="1.7"/>
+<circle cx="713.14" cy="381" r="4" fill="#17649b"/>
+<path d="M 671.54 397 H 713.82 M 671.54 393 V 401 M 713.82 393 V 401" stroke="#b75b16" fill="none" stroke-width="1.7"/>
+<path d="M 693.11 392 l 5 5 -5 5 -5 -5 Z" fill="#b75b16"/>
+<path d="M 715.46 435 H 745.74 M 715.46 431 V 439 M 745.74 431 V 439" stroke="#17649b" fill="none" stroke-width="1.7"/>
+<circle cx="730.57" cy="435" r="4" fill="#17649b"/>
+<path d="M 715.19 451 H 757.71 M 715.19 447 V 455 M 757.71 447 V 455" stroke="#b75b16" fill="none" stroke-width="1.7"/>
+<path d="M 736.36 446 l 5 5 -5 5 -5 -5 Z" fill="#b75b16"/>
+<path d="M 693.65 489 H 723.27 M 693.65 485 V 493 M 723.27 485 V 493" stroke="#17649b" fill="none" stroke-width="1.7"/>
+<circle cx="708.47" cy="489" r="4" fill="#17649b"/>
+<path d="M 716.17 505 H 757.81 M 716.17 501 V 509 M 757.81 501 V 509" stroke="#b75b16" fill="none" stroke-width="1.7"/>
+<path d="M 736.50 500 l 5 5 -5 5 -5 -5 Z" fill="#b75b16"/>
+<path d="M 660.43 543 H 681.91 M 660.43 539 V 547 M 681.91 539 V 547" stroke="#17649b" fill="none" stroke-width="1.7"/>
+<circle cx="671.17" cy="543" r="4" fill="#17649b"/>
+<path d="M 698.05 559 H 732.20 M 698.05 555 V 563 M 732.20 555 V 563" stroke="#b75b16" fill="none" stroke-width="1.7"/>
+<path d="M 715.02 554 l 5 5 -5 5 -5 -5 Z" fill="#b75b16"/>
+<text x="1060.0" y="84" text-anchor="middle" font-size="13">ΔMC1 ECE (percentage points)</text>
+<line x1="1112.49" x2="1112.49" y1="96" y2="597" stroke="#999" stroke-dasharray="4 3"/>
+<text x="920.00" y="618" text-anchor="middle">-16.7</text>
+<text x="990.00" y="618" text-anchor="middle">-10.7</text>
+<text x="1060.00" y="618" text-anchor="middle">-4.6</text>
+<text x="1130.00" y="618" text-anchor="middle">1.5</text>
+<text x="1200.00" y="618" text-anchor="middle">7.6</text>
+<path d="M 1002.55 111 H 1069.62 M 1002.55 107 V 115 M 1069.62 107 V 115" stroke="#17649b" fill="none" stroke-width="1.7"/>
+<circle cx="1035.88" cy="111" r="4" fill="#17649b"/>
+<path d="M 943.33 127 H 1022.27 M 943.33 123 V 131 M 1022.27 123 V 131" stroke="#b75b16" fill="none" stroke-width="1.7"/>
+<path d="M 982.15 122 l 5 5 -5 5 -5 -5 Z" fill="#b75b16"/>
+<path d="M 1060.94 165 H 1127.77 M 1060.94 161 V 169 M 1127.77 161 V 169" stroke="#17649b" fill="none" stroke-width="1.7"/>
+<circle cx="1093.76" cy="165" r="4" fill="#17649b"/>
+<path d="M 1044.77 181 H 1113.69 M 1044.77 177 V 185 M 1113.69 177 V 185" stroke="#b75b16" fill="none" stroke-width="1.7"/>
+<path d="M 1079.25 176 l 5 5 -5 5 -5 -5 Z" fill="#b75b16"/>
+<path d="M 1063.55 219 H 1128.84 M 1063.55 215 V 223 M 1128.84 215 V 223" stroke="#17649b" fill="none" stroke-width="1.7"/>
+<circle cx="1096.10" cy="219" r="4" fill="#17649b"/>
+<path d="M 1066.58 235 H 1139.07 M 1066.58 231 V 239 M 1139.07 231 V 239" stroke="#b75b16" fill="none" stroke-width="1.7"/>
+<path d="M 1103.11 230 l 5 5 -5 5 -5 -5 Z" fill="#b75b16"/>
+<path d="M 1081.50 273 H 1126.43 M 1081.50 269 V 277 M 1126.43 269 V 277" stroke="#17649b" fill="none" stroke-width="1.7"/>
+<circle cx="1104.15" cy="273" r="4" fill="#17649b"/>
+<path d="M 1044.37 289 H 1102.19 M 1044.37 285 V 293 M 1102.19 285 V 293" stroke="#b75b16" fill="none" stroke-width="1.7"/>
+<path d="M 1073.45 284 l 5 5 -5 5 -5 -5 Z" fill="#b75b16"/>
+<path d="M 1106.81 327 H 1142.46 M 1106.81 323 V 331 M 1142.46 323 V 331" stroke="#17649b" fill="none" stroke-width="1.7"/>
+<circle cx="1124.36" cy="327" r="4" fill="#17649b"/>
+<path d="M 1123.44 343 H 1176.67 M 1123.44 339 V 347 M 1176.67 339 V 347" stroke="#b75b16" fill="none" stroke-width="1.7"/>
+<path d="M 1149.92 338 l 5 5 -5 5 -5 -5 Z" fill="#b75b16"/>
+<path d="M 1043.44 381 H 1105.46 M 1043.44 377 V 385 M 1105.46 377 V 385" stroke="#17649b" fill="none" stroke-width="1.7"/>
+<circle cx="1074.43" cy="381" r="4" fill="#17649b"/>
+<path d="M 1075.40 397 H 1150.14 M 1075.40 393 V 401 M 1150.14 393 V 401" stroke="#b75b16" fill="none" stroke-width="1.7"/>
+<path d="M 1113.06 392 l 5 5 -5 5 -5 -5 Z" fill="#b75b16"/>
+<path d="M 1018.75 435 H 1080.34 M 1018.75 431 V 439 M 1080.34 431 V 439" stroke="#17649b" fill="none" stroke-width="1.7"/>
+<circle cx="1049.63" cy="435" r="4" fill="#17649b"/>
+<path d="M 1038.39 451 H 1116.80 M 1038.39 447 V 455 M 1116.80 447 V 455" stroke="#b75b16" fill="none" stroke-width="1.7"/>
+<path d="M 1077.91 446 l 5 5 -5 5 -5 -5 Z" fill="#b75b16"/>
+<path d="M 1042.59 489 H 1102.25 M 1042.59 485 V 493 M 1102.25 485 V 493" stroke="#17649b" fill="none" stroke-width="1.7"/>
+<circle cx="1072.43" cy="489" r="4" fill="#17649b"/>
+<path d="M 1052.71 505 H 1126.92 M 1052.71 501 V 509 M 1126.92 501 V 509" stroke="#b75b16" fill="none" stroke-width="1.7"/>
+<path d="M 1089.94 500 l 5 5 -5 5 -5 -5 Z" fill="#b75b16"/>
+<path d="M 1084.78 543 H 1132.39 M 1084.78 539 V 547 M 1132.39 539 V 547" stroke="#17649b" fill="none" stroke-width="1.7"/>
+<circle cx="1108.49" cy="543" r="4" fill="#17649b"/>
+<path d="M 1048.13 559 H 1111.61 M 1048.13 555 V 563 M 1111.61 555 V 563" stroke="#b75b16" fill="none" stroke-width="1.7"/>
+<path d="M 1079.91 554 l 5 5 -5 5 -5 -5 Z" fill="#b75b16"/>
+<text x="20" y="642" fill="#555">Higher MC1/MC2 is better; lower MC1 ECE is better. Benchmarks are not pooled. Intervals are descriptive and not multiplicity-adjusted.</text>
+</g></svg>
