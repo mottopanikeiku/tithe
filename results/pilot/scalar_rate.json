@@ -1,0 +1,13 @@
+{
+  "source_scores": "qwen2_5_0_5b/scores.jsonl.gz",
+  "source_runtime": "qwen2_5_0_5b/runtime.json",
+  "gpu_type": "L4",
+  "batch_size": 1,
+  "score_rows": 128,
+  "cloud_inference_seconds_sum": 4.492152791000008,
+  "cloud_score_rows_per_inference_second": 28.494133204116963,
+  "median_cloud_seconds_per_score_row": 0.028378798000000316,
+  "cloud_pair_seconds_including_loading": 22.377393048000002,
+  "full_job_limit_minutes": 90,
+  "sizing_note": "The pilot measures the 0.5B pair only, not the larger pairs. I reserve 90 minutes for seven pairs to allow slower large-model forwards, fresh downloads and container startup. These are cloud execution measurements, not local benchmarks."
+}

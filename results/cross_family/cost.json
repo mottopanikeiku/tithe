@@ -1,0 +1,24 @@
+{
+  "currency": "USD",
+  "budget_usd": 2.5,
+  "conservative_total_usd": 1.0501,
+  "rounded_up_total_usd": 1.06,
+  "gpu_type": "L4",
+  "containers": 1,
+  "cpu_cores": 2,
+  "memory_gib": 16,
+  "hourly_rates_usd": {
+    "gpu": 0.7992,
+    "per_cpu_core": 0.04716,
+    "per_memory_gib": 0.007992,
+    "combined_requested_resources": 1.021392
+  },
+  "allowance_multiplier": 1.1,
+  "method": "Total client wall time, including image builds, startup, downloads, failures and completed scoring, multiplied by all requested resource rates and a ten-percent allowance. This is a conservative estimate, not an invoice. Amounts below come from completed run accounting, rounded to four decimals before summing.",
+  "runs": [
+    {"purpose": "initial_image_build", "status": "aborted_before_scoring", "limit_minutes": 5, "wall_minutes": 7.01, "conservative_cost_usd": 0.1313},
+    {"purpose": "batch_parity_pilot", "status": "failed_parity_tolerance", "limit_minutes": 5, "wall_minutes": 7.11, "conservative_cost_usd": 0.1332},
+    {"purpose": "scalar_rate_pilot", "status": "completed_128_rows", "limit_minutes": 5, "wall_minutes": 3.4, "conservative_cost_usd": 0.0636},
+    {"purpose": "full_scalar_pairs", "status": "completed_all_seven_pairs", "limit_minutes": 90, "wall_minutes": 38.55, "conservative_cost_usd": 0.722}
+  ]
+}

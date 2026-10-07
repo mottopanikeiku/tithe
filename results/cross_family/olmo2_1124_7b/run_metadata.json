@@ -1,0 +1,59 @@
+{
+  "config": {
+    "analysis": {
+      "binning": "equal_frequency",
+      "bootstrap_iterations": 10000,
+      "bootstrap_seed": 20260420,
+      "confidence_level": 0.95,
+      "ece_bins": 10
+    },
+    "dataset": {
+      "path": "data/processed/truthfulqa_binary.jsonl",
+      "seed": 20260420,
+      "variant": "binary_best_vs_best_incorrect"
+    },
+    "experiment": {
+      "family": "OLMo-2",
+      "pair_id": "olmo2_1124_7b",
+      "parameters_billion": 7
+    },
+    "models": {
+      "base": {
+        "attn_implementation": "sdpa",
+        "device": "cuda",
+        "dtype": "bf16",
+        "model_id": "allenai/OLMo-2-1124-7B",
+        "revision": "7df9a82518afdecae4e8c026b27adccc8c1f0032",
+        "tokenizer_id": "allenai/OLMo-2-1124-7B"
+      },
+      "instruct": {
+        "attn_implementation": "sdpa",
+        "device": "cuda",
+        "dtype": "bf16",
+        "model_id": "allenai/OLMo-2-1124-7B-Instruct",
+        "revision": "470b1fba1ae01581f270116362ee4aa1b97f4c84",
+        "tokenizer_id": "allenai/OLMo-2-1124-7B-Instruct"
+      }
+    },
+    "scoring": {
+      "batch_size": 1,
+      "protocols": [
+        "shared_plain_ab_label",
+        "native_prompt_ab_label"
+      ]
+    }
+  },
+  "config_path": "results/cross_family/olmo2_1124_7b/config.json",
+  "created_at_utc": "2026-10-07T10:38:53.328725+00:00",
+  "fake": false,
+  "limit": null,
+  "protocols": [
+    "shared_plain_ab_label",
+    "native_prompt_ab_label"
+  ],
+  "question_rows": 790,
+  "resume": false,
+  "score_rows_skipped": 0,
+  "score_rows_total": 3160,
+  "score_rows_written": 3160
+}

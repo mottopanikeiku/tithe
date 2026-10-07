@@ -1,0 +1,25 @@
+{
+  "cloud_elapsed_seconds": 134.90819801799998,
+  "cloud_pair_cost_estimate_usd": 0.03811706003076712,
+  "cloud_pair_seconds": 134.347455346,
+  "cost_basis": "L4 $0.7992/hour + 2 CPU cores $0.047160/core-hour + 16 GiB $0.007992/GiB-hour",
+  "cpu_cores": 2,
+  "created_at_utc": "2026-10-07T10:17:05.600545+00:00",
+  "dataset_preparation": 790,
+  "dataset_sha256": "73657092e60bf182a207fa7db9bac5743661d2388bc57c13c2f4bf37eb510430",
+  "gpu": "NVIDIA L4",
+  "gpu_type": "L4",
+  "memory_gib": 16,
+  "packages": {
+    "accelerate": "1.10.1",
+    "huggingface-hub": "0.36.2",
+    "numpy": "2.2.6",
+    "pyyaml": "6.0.3",
+    "torch": "2.6.0",
+    "transformers": "4.57.6"
+  },
+  "parity_checks": [],
+  "python": "3.11.12 (main, May 21 2025, 23:34:13) [GCC 12.2.0]",
+  "question_rows": 790,
+  "score_rows": 3160
+}

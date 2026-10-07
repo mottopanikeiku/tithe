@@ -161,7 +161,7 @@ def _plot_stage2_bars(summary_rows: list[dict[str, Any]], output_dir: Path) -> s
     ax.set_xticklabels(labels)
     ax.set_title("Raw and temperature-scaled instruct metrics on held-out test split")
     ax.legend()
-    path = output_dir / "stage2_instruct_calibration_repair.png"
+    path = output_dir / "stage2_instruct_calibration_repair.svg"
     fig.tight_layout()
     fig.savefig(path, dpi=170)
     plt.close(fig)
@@ -204,7 +204,7 @@ def _plot_stage2_reliability(
     ax.set_ylabel("Accuracy")
     ax.set_title("Stage 2 reliability on held-out test split")
     ax.legend()
-    path = output_dir / "stage2_reliability_instruct_shared_prompt.png"
+    path = output_dir / "stage2_reliability_instruct_shared_prompt.svg"
     fig.tight_layout()
     fig.savefig(path, dpi=170)
     plt.close(fig)

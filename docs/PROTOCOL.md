@@ -41,3 +41,5 @@ The cloud runtime estimates GPU, CPU and memory charges. The separate cost summa
 ### Execution decision before full scoring
 
 The Qwen2.5-0.5B base pilot found a maximum scalar/batch raw-log-likelihood difference of 0.107038 nats on eight shared-prompt questions, above the preset 0.08 tolerance, with no changed predicted labels in that subset. I did not loosen the tolerance after seeing it. I switched the full configuration to scalar execution (`batch_size: 1`) before scoring the complete pairs. The likelihood definition, bf16 weights, pinned revisions, question set and paired analysis plan did not change. The batching code remains covered by numerical reference tests, but these published measurements do not use it. [The failed pilot](../results/pilot/batch_parity_failure.json) records what was actually checked.
+
+The previous stopped CPU attempt normalized logits in bf16; the current scorer uses float32 normalization of bf16 model logits for both checkpoints. I recompute all rows rather than mix either device or normalization implementation with the historical partial file.
