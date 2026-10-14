@@ -8,6 +8,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
+from alignmenttax.analysis import _summary_rows
 from alignmenttax.metrics import (
     calibration_bins,
     metric_summary,
@@ -78,6 +79,24 @@ class MetricsTest(unittest.TestCase):
         self.assertEqual(first, second)
         self.assertEqual(first["n_pairs"], 3)
         self.assertIn("accuracy", first["metrics"])
+
+    def test_summary_delta_uses_the_bootstrap_question_pairs(self) -> None:
+        # A resumed/interrupted run can hold base rows for questions instruct has not scored.
+        base_rows = [
+            {"question_id": "q1", "correct": True, "confidence": 0.6, "p_correct": 0.6},
+            {"question_id": "q2", "correct": False, "confidence": 0.7, "p_correct": 0.3},
+        ]
+        instruct_rows = [{"question_id": "q1", "correct": True, "confidence": 0.8, "p_correct": 0.8}]
+        grouped = {("shared", "base"): base_rows, ("shared", "instruct"): instruct_rows}
+        rows = {row["metric"]: row for row in _summary_rows(grouped, ece_bins=10, binning="equal_frequency")}
+        paired = paired_bootstrap_deltas(
+            base_rows=base_rows, instruct_rows=instruct_rows, iterations=5, confidence_level=0.95, seed=1,
+        )
+        self.assertEqual((rows["n"]["base"], rows["n"]["instruct"]), (1, 1))
+        for metric, delta in paired["metrics"].items():
+            self.assertAlmostEqual(rows[metric]["delta_instruct_minus_base"], delta["point"])
+        only_base = _summary_rows({("shared", "base"): base_rows}, ece_bins=10, binning="equal_frequency")
+        self.assertEqual(only_base[0]["base"], 2)
 
 
 if __name__ == "__main__":

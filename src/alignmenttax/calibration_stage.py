@@ -77,7 +77,7 @@ def fit_temperature(rows: list[dict[str, Any]]) -> float:
 def _write_csv(path: str | Path, rows: list[dict[str, Any]], fieldnames: list[str]) -> None:
     output_path = ensure_parent(path)
     with output_path.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=fieldnames, extrasaction="ignore")
+        writer = csv.DictWriter(handle, fieldnames=fieldnames, extrasaction="ignore", lineterminator="\n")
         writer.writeheader()
         for row in rows:
             writer.writerow(row)

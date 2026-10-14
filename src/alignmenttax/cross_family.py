@@ -238,7 +238,7 @@ def _classification(deltas: dict[str, dict[str, float]]) -> dict[str, Any]:
 def _write_csv(summary: dict[str, Any], path: Path) -> None:
     fields = ["pair_id", "family", "parameters_billion", "prompt_protocol", "role", "metric", "base", "instruct", "delta", "ci_low", "ci_high", "point_sign", "ci_sign", "classification"]
     with path.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=fields)
+        writer = csv.DictWriter(handle, fieldnames=fields, lineterminator="\n")
         writer.writeheader()
         for pair in summary["pairs"]:
             for protocol, analysis in pair["protocols"].items():

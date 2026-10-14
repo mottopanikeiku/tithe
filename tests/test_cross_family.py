@@ -121,6 +121,7 @@ class CrossFamilyTest(unittest.TestCase):
                 csv_rows = list(csv.DictReader(handle))
             self.assertEqual(len(csv_rows), 2 * 2 * len(METRIC_NAMES))
             self.assertEqual({row["role"] for row in csv_rows}, {"primary", "sensitivity"})
+            self.assertNotIn(b"\r", (out / "summary.csv").read_bytes())
             svg = ElementTree.parse(out / "cross_family.svg")
             text = " ".join(svg.getroot().itertext())
             self.assertIn("Δaccuracy (percentage points)", text)

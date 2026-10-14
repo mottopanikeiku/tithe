@@ -98,6 +98,8 @@ class CLITest(unittest.TestCase):
         self.assertTrue((report_dir / "paired_bootstrap.json").exists())
         self.assertTrue((report_dir / "calibration_tables.csv").exists())
         self.assertTrue((report_dir / "category_breakdown.csv").exists())
+        for name in ("summary.csv", "calibration_tables.csv", "category_breakdown.csv"):
+            self.assertNotIn(b"\r", (report_dir / name).read_bytes())
 
 
 if __name__ == "__main__":

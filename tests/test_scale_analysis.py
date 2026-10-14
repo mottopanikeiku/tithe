@@ -184,6 +184,7 @@ class ScaleAnalysisTest(unittest.TestCase):
                 csv_rows = list(csv.DictReader(handle))
             self.assertEqual(len(csv_rows), 2 * 2 * (len(METRIC_NAMES) + len(STANDARD_METRICS)))
             self.assertEqual({row["benchmark"] for row in csv_rows}, {"binary", "standard"})
+            self.assertNotIn(b"\r", (out / "summary.csv").read_bytes())
             svg = ElementTree.parse(out / "day_scale.svg")
             text = " ".join(svg.getroot().itertext())
             for label in ("ΔMC1 (percentage points)", "ΔMC2 (percentage points)", "ΔMC1 ECE (percentage points)", "not official harness", "Fixture & family", "32B · new"):

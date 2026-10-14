@@ -6,12 +6,13 @@ from pathlib import Path
 from typing import Any
 
 from .io_utils import ensure_parent, read_jsonl, scores_path
+from .scoring import SHARED_PLAIN_PROTOCOL
 
 
 def _write_csv(path: str | Path, rows: list[dict[str, Any]], fieldnames: list[str]) -> None:
     output_path = ensure_parent(path)
     with output_path.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=fieldnames, extrasaction="ignore")
+        writer = csv.DictWriter(handle, fieldnames=fieldnames, extrasaction="ignore", lineterminator="\n")
         writer.writeheader()
         for row in rows:
             writer.writerow(row)
@@ -136,7 +137,7 @@ def _plot_headline(summary: dict[tuple[str, str], float], output_dir: Path) -> l
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
-    protocol = "shared_plain_ab_label"
+    protocol = SHARED_PLAIN_PROTOCOL
     labels = ["Accuracy", "Mean confidence", "ECE"]
     base_values = [
         summary[(protocol, "base_accuracy")],
@@ -217,7 +218,6 @@ def build_presentation_artifacts(
     *,
     run_dir: str | Path,
     report_dir: str | Path,
-    protocol: str = "shared_plain_ab_label",
     error_limit: int = 12,
 ) -> dict[str, Any]:
     run_path = Path(run_dir)
@@ -225,7 +225,7 @@ def build_presentation_artifacts(
     output_dir.mkdir(parents=True, exist_ok=True)
     scores = read_jsonl(scores_path(run_path))
     summary = _load_summary(output_dir / "summary.csv")
-    paired_rows = _paired_shared_rows(scores, protocol)
+    paired_rows = _paired_shared_rows(scores, SHARED_PLAIN_PROTOCOL)
 
     disagreement = _disagreement_rows(paired_rows)
     _write_csv(
@@ -251,7 +251,7 @@ def build_presentation_artifacts(
         ],
     )
 
-    selective = _selective_accuracy_rows(scores, protocol)
+    selective = _selective_accuracy_rows(scores, SHARED_PLAIN_PROTOCOL)
     _write_csv(
         output_dir / "selective_accuracy_shared_prompt.csv",
         selective,
@@ -271,7 +271,7 @@ def build_presentation_artifacts(
 
     manifest = {
         "paired_questions": len(paired_rows),
-        "protocol": protocol,
+        "protocol": SHARED_PLAIN_PROTOCOL,
         "artifacts": {
             "disagreement": str(output_dir / "paired_disagreement_shared_prompt.csv"),
             "overconfident_errors": str(output_dir / "overconfident_instruct_errors_shared_prompt.csv"),
