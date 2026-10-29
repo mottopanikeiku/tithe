@@ -1,0 +1,296 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="830" viewBox="0 0 1080 830" role="img" aria-labelledby="title desc">
+<title id="title">Reliability, matched_labels, native prompts (all questions)</title>
+<desc id="desc">Equal-width confidence bins; dashed line is perfect calibration. Blue base, red instruct. Right: question counts per bin, base/instruct.</desc>
+<rect width="100%" height="100%" fill="white"/><g font-family="sans-serif" font-size="12" fill="#202020">
+<text x="20" y="26" font-size="17">Reliability, matched_labels, native prompts (all questions)</text>
+<text x="20" y="45">Equal-width confidence bins; dashed line is perfect calibration. Blue base, red instruct.</text>
+<text x="20" y="61">Right: question counts per bin, base/instruct.</text>
+<text x="30" y="85">Mistral-7B-v0.3</text>
+<path d="M30 100V260H200" fill="none" stroke="#777"/>
+<text x="30" y="275" text-anchor="middle">0</text>
+<text x="24" y="263" text-anchor="end">0</text>
+<text x="115.0" y="275" text-anchor="middle">0.5</text>
+<text x="24" y="183.0" text-anchor="end">0.5</text>
+<text x="200" y="275" text-anchor="middle">1</text>
+<text x="24" y="103" text-anchor="end">1</text>
+<path d="M30 260L200 100" stroke="#aaa" stroke-dasharray="3 3"/>
+<polyline points="123.09,172.08 139.20,142.23 157.40,133.21 173.14,108.57 188.13,110.00" fill="none" stroke="#17649b"/>
+<circle cx="123.09" cy="172.08" r="3" fill="#17649b"><title>n=404</title></circle>
+<circle cx="139.20" cy="142.23" r="3" fill="#17649b"><title>n=197</title></circle>
+<circle cx="157.40" cy="133.21" r="3" fill="#17649b"><title>n=106</title></circle>
+<circle cx="173.14" cy="108.57" r="3" fill="#17649b"><title>n=56</title></circle>
+<circle cx="188.13" cy="110.00" r="3" fill="#17649b"><title>n=16</title></circle>
+<polyline points="121.61,180.00 140.67,100.00 158.36,173.85 176.52,162.22 199.27,135.75" fill="none" stroke="#b33d25"/>
+<circle cx="121.61" cy="180.00" r="3" fill="#b33d25"><title>n=8</title></circle>
+<circle cx="140.67" cy="100.00" r="3" fill="#b33d25"><title>n=6</title></circle>
+<circle cx="158.36" cy="173.85" r="3" fill="#b33d25"><title>n=13</title></circle>
+<circle cx="176.52" cy="162.22" r="3" fill="#b33d25"><title>n=18</title></circle>
+<circle cx="199.27" cy="135.75" r="3" fill="#b33d25"><title>n=734</title></circle>
+<text x="220" y="108">0.0–0.1: 0/0</text>
+<text x="220" y="123">0.1–0.2: 0/0</text>
+<text x="220" y="138">0.2–0.3: 0/0</text>
+<text x="220" y="153">0.3–0.4: 0/0</text>
+<text x="220" y="168">0.4–0.5: 0/0</text>
+<text x="220" y="183">0.5–0.6: 404/8</text>
+<text x="220" y="198">0.6–0.7: 197/6</text>
+<text x="220" y="213">0.7–0.8: 106/13</text>
+<text x="220" y="228">0.8–0.9: 56/18</text>
+<text x="220" y="243">0.9–1.0: 16/734</text>
+<text x="30" y="294">x: mean confidence · y: accuracy</text>
+<text x="390" y="85">OLMo-2-0425-1B</text>
+<path d="M390 100V260H560" fill="none" stroke="#777"/>
+<text x="390" y="275" text-anchor="middle">0</text>
+<text x="384" y="263" text-anchor="end">0</text>
+<text x="475.0" y="275" text-anchor="middle">0.5</text>
+<text x="384" y="183.0" text-anchor="end">0.5</text>
+<text x="560" y="275" text-anchor="middle">1</text>
+<text x="384" y="103" text-anchor="end">1</text>
+<path d="M390 260L560 100" stroke="#aaa" stroke-dasharray="3 3"/>
+<polyline points="483.56,182.64 500.25,182.71 517.42,185.45 534.38,160.58 546.64,180.00" fill="none" stroke="#17649b"/>
+<circle cx="483.56" cy="182.64" r="3" fill="#17649b"><title>n=242</title></circle>
+<circle cx="500.25" cy="182.71" r="3" fill="#17649b"><title>n=236</title></circle>
+<circle cx="517.42" cy="185.45" r="3" fill="#17649b"><title>n=176</title></circle>
+<circle cx="534.38" cy="160.58" r="3" fill="#17649b"><title>n=103</title></circle>
+<circle cx="546.64" cy="180.00" r="3" fill="#17649b"><title>n=22</title></circle>
+<polyline points="483.18,170.24 501.47,190.14 517.47,168.25 535.08,176.92 550.42,186.67" fill="none" stroke="#b33d25"/>
+<circle cx="483.18" cy="170.24" r="3" fill="#b33d25"><title>n=41</title></circle>
+<circle cx="501.47" cy="190.14" r="3" fill="#b33d25"><title>n=71</title></circle>
+<circle cx="517.47" cy="168.25" r="3" fill="#b33d25"><title>n=143</title></circle>
+<circle cx="535.08" cy="176.92" r="3" fill="#b33d25"><title>n=260</title></circle>
+<circle cx="550.42" cy="186.67" r="3" fill="#b33d25"><title>n=264</title></circle>
+<text x="580" y="108">0.0–0.1: 0/0</text>
+<text x="580" y="123">0.1–0.2: 0/0</text>
+<text x="580" y="138">0.2–0.3: 0/0</text>
+<text x="580" y="153">0.3–0.4: 0/0</text>
+<text x="580" y="168">0.4–0.5: 0/0</text>
+<text x="580" y="183">0.5–0.6: 242/41</text>
+<text x="580" y="198">0.6–0.7: 236/71</text>
+<text x="580" y="213">0.7–0.8: 176/143</text>
+<text x="580" y="228">0.8–0.9: 103/260</text>
+<text x="580" y="243">0.9–1.0: 22/264</text>
+<text x="390" y="294">x: mean confidence · y: accuracy</text>
+<text x="750" y="85">OLMo-2-1124-7B</text>
+<path d="M750 100V260H920" fill="none" stroke="#777"/>
+<text x="750" y="275" text-anchor="middle">0</text>
+<text x="744" y="263" text-anchor="end">0</text>
+<text x="835.0" y="275" text-anchor="middle">0.5</text>
+<text x="744" y="183.0" text-anchor="end">0.5</text>
+<text x="920" y="275" text-anchor="middle">1</text>
+<text x="744" y="103" text-anchor="end">1</text>
+<path d="M750 260L920 100" stroke="#aaa" stroke-dasharray="3 3"/>
+<polyline points="843.69,171.35 860.22,168.41 877.66,165.83 894.22,150.26 910.12,140.26" fill="none" stroke="#17649b"/>
+<circle cx="843.69" cy="171.35" r="3" fill="#17649b"><title>n=148</title></circle>
+<circle cx="860.22" cy="168.41" r="3" fill="#17649b"><title>n=145</title></circle>
+<circle cx="877.66" cy="165.83" r="3" fill="#17649b"><title>n=175</title></circle>
+<circle cx="894.22" cy="150.26" r="3" fill="#17649b"><title>n=156</title></circle>
+<circle cx="910.12" cy="140.26" r="3" fill="#17649b"><title>n=155</title></circle>
+<polyline points="843.75,186.96 859.41,161.54 877.95,159.49 895.37,159.31 915.58,149.28" fill="none" stroke="#b33d25"/>
+<circle cx="843.75" cy="186.96" r="3" fill="#b33d25"><title>n=46</title></circle>
+<circle cx="859.41" cy="161.54" r="3" fill="#b33d25"><title>n=65</title></circle>
+<circle cx="877.95" cy="159.49" r="3" fill="#b33d25"><title>n=78</title></circle>
+<circle cx="895.37" cy="159.31" r="3" fill="#b33d25"><title>n=116</title></circle>
+<circle cx="915.58" cy="149.28" r="3" fill="#b33d25"><title>n=474</title></circle>
+<text x="940" y="108">0.0–0.1: 0/0</text>
+<text x="940" y="123">0.1–0.2: 0/0</text>
+<text x="940" y="138">0.2–0.3: 0/0</text>
+<text x="940" y="153">0.3–0.4: 0/0</text>
+<text x="940" y="168">0.4–0.5: 0/0</text>
+<text x="940" y="183">0.5–0.6: 148/46</text>
+<text x="940" y="198">0.6–0.7: 145/65</text>
+<text x="940" y="213">0.7–0.8: 175/78</text>
+<text x="940" y="228">0.8–0.9: 156/116</text>
+<text x="940" y="243">0.9–1.0: 155/474</text>
+<text x="750" y="294">x: mean confidence · y: accuracy</text>
+<text x="30" y="330">Qwen2.5-0.5B</text>
+<path d="M30 345V505H200" fill="none" stroke="#777"/>
+<text x="30" y="520" text-anchor="middle">0</text>
+<text x="24" y="508" text-anchor="end">0</text>
+<text x="115.0" y="520" text-anchor="middle">0.5</text>
+<text x="24" y="428.0" text-anchor="end">0.5</text>
+<text x="200" y="520" text-anchor="middle">1</text>
+<text x="24" y="348" text-anchor="end">1</text>
+<path d="M30 505L200 345" stroke="#aaa" stroke-dasharray="3 3"/>
+<polyline points="122.81,426.04 141.78,425.00 158.32,411.79 174.66,432.32 187.74,425.00" fill="none" stroke="#17649b"/>
+<circle cx="122.81" cy="426.04" r="3" fill="#17649b"><title>n=77</title></circle>
+<circle cx="141.78" cy="425.00" r="3" fill="#17649b"><title>n=98</title></circle>
+<circle cx="158.32" cy="411.79" r="3" fill="#17649b"><title>n=218</title></circle>
+<circle cx="174.66" cy="432.32" r="3" fill="#17649b"><title>n=284</title></circle>
+<circle cx="187.74" cy="425.00" r="3" fill="#17649b"><title>n=102</title></circle>
+<polyline points="123.37,428.81 140.38,425.00 157.95,425.64 174.75,431.23 192.99,447.24" fill="none" stroke="#b33d25"/>
+<circle cx="123.37" cy="428.81" r="3" fill="#b33d25"><title>n=105</title></circle>
+<circle cx="140.38" cy="425.00" r="3" fill="#b33d25"><title>n=118</title></circle>
+<circle cx="157.95" cy="425.64" r="3" fill="#b33d25"><title>n=125</title></circle>
+<circle cx="174.75" cy="431.23" r="3" fill="#b33d25"><title>n=154</title></circle>
+<circle cx="192.99" cy="447.24" r="3" fill="#b33d25"><title>n=277</title></circle>
+<text x="220" y="353">0.0–0.1: 0/0</text>
+<text x="220" y="368">0.1–0.2: 0/0</text>
+<text x="220" y="383">0.2–0.3: 0/0</text>
+<text x="220" y="398">0.3–0.4: 0/0</text>
+<text x="220" y="413">0.4–0.5: 0/0</text>
+<text x="220" y="428">0.5–0.6: 77/105</text>
+<text x="220" y="443">0.6–0.7: 98/118</text>
+<text x="220" y="458">0.7–0.8: 218/125</text>
+<text x="220" y="473">0.8–0.9: 284/154</text>
+<text x="220" y="488">0.9–1.0: 102/277</text>
+<text x="30" y="539">x: mean confidence · y: accuracy</text>
+<text x="390" y="330">Qwen2.5-1.5B</text>
+<path d="M390 345V505H560" fill="none" stroke="#777"/>
+<text x="390" y="520" text-anchor="middle">0</text>
+<text x="384" y="508" text-anchor="end">0</text>
+<text x="475.0" y="520" text-anchor="middle">0.5</text>
+<text x="384" y="428.0" text-anchor="end">0.5</text>
+<text x="560" y="520" text-anchor="middle">1</text>
+<text x="384" y="348" text-anchor="end">1</text>
+<path d="M390 505L560 345" stroke="#aaa" stroke-dasharray="3 3"/>
+<polyline points="483.76,426.86 500.57,429.16 518.11,405.30 534.74,408.16 549.35,428.14" fill="none" stroke="#17649b"/>
+<circle cx="483.76" cy="426.86" r="3" fill="#17649b"><title>n=172</title></circle>
+<circle cx="500.57" cy="429.16" r="3" fill="#17649b"><title>n=154</title></circle>
+<circle cx="518.11" cy="405.30" r="3" fill="#17649b"><title>n=199</title></circle>
+<circle cx="534.74" cy="408.16" r="3" fill="#17649b"><title>n=152</title></circle>
+<circle cx="549.35" cy="428.14" r="3" fill="#17649b"><title>n=102</title></circle>
+<polyline points="482.46,404.43 500.57,425.00 518.75,438.02 535.37,443.06 557.91,406.62" fill="none" stroke="#b33d25"/>
+<circle cx="482.46" cy="404.43" r="3" fill="#b33d25"><title>n=35</title></circle>
+<circle cx="500.57" cy="425.00" r="3" fill="#b33d25"><title>n=34</title></circle>
+<circle cx="518.75" cy="438.02" r="3" fill="#b33d25"><title>n=43</title></circle>
+<circle cx="535.37" cy="443.06" r="3" fill="#b33d25"><title>n=62</title></circle>
+<circle cx="557.91" cy="406.62" r="3" fill="#b33d25"><title>n=605</title></circle>
+<text x="580" y="353">0.0–0.1: 0/0</text>
+<text x="580" y="368">0.1–0.2: 0/0</text>
+<text x="580" y="383">0.2–0.3: 0/0</text>
+<text x="580" y="398">0.3–0.4: 0/0</text>
+<text x="580" y="413">0.4–0.5: 0/0</text>
+<text x="580" y="428">0.5–0.6: 172/35</text>
+<text x="580" y="443">0.6–0.7: 154/34</text>
+<text x="580" y="458">0.7–0.8: 199/43</text>
+<text x="580" y="473">0.8–0.9: 152/62</text>
+<text x="580" y="488">0.9–1.0: 102/605</text>
+<text x="390" y="539">x: mean confidence · y: accuracy</text>
+<text x="750" y="330">Qwen2.5-7B</text>
+<path d="M750 345V505H920" fill="none" stroke="#777"/>
+<text x="750" y="520" text-anchor="middle">0</text>
+<text x="744" y="508" text-anchor="end">0</text>
+<text x="835.0" y="520" text-anchor="middle">0.5</text>
+<text x="744" y="428.0" text-anchor="end">0.5</text>
+<text x="920" y="520" text-anchor="middle">1</text>
+<text x="744" y="348" text-anchor="end">1</text>
+<path d="M750 505L920 345" stroke="#aaa" stroke-dasharray="3 3"/>
+<polyline points="843.40,409.23 860.56,400.13 878.24,409.64 895.44,382.11 909.84,376.46" fill="none" stroke="#17649b"/>
+<circle cx="843.40" cy="409.23" r="3" fill="#17649b"><title>n=137</title></circle>
+<circle cx="860.56" cy="400.13" r="3" fill="#17649b"><title>n=119</title></circle>
+<circle cx="878.24" cy="409.64" r="3" fill="#17649b"><title>n=151</title></circle>
+<circle cx="895.44" cy="382.11" r="3" fill="#17649b"><title>n=194</title></circle>
+<circle cx="909.84" cy="376.46" r="3" fill="#17649b"><title>n=178</title></circle>
+<polyline points="841.89,377.00 860.26,451.67 876.40,413.57 898.58,445.00 919.54,378.82" fill="none" stroke="#b33d25"/>
+<circle cx="841.89" cy="377.00" r="3" fill="#b33d25"><title>n=5</title></circle>
+<circle cx="860.26" cy="451.67" r="3" fill="#b33d25"><title>n=6</title></circle>
+<circle cx="876.40" cy="413.57" r="3" fill="#b33d25"><title>n=14</title></circle>
+<circle cx="898.58" cy="445.00" r="3" fill="#b33d25"><title>n=16</title></circle>
+<circle cx="919.54" cy="378.82" r="3" fill="#b33d25"><title>n=738</title></circle>
+<text x="940" y="353">0.0–0.1: 0/0</text>
+<text x="940" y="368">0.1–0.2: 0/0</text>
+<text x="940" y="383">0.2–0.3: 0/0</text>
+<text x="940" y="398">0.3–0.4: 0/0</text>
+<text x="940" y="413">0.4–0.5: 0/0</text>
+<text x="940" y="428">0.5–0.6: 137/5</text>
+<text x="940" y="443">0.6–0.7: 119/6</text>
+<text x="940" y="458">0.7–0.8: 151/14</text>
+<text x="940" y="473">0.8–0.9: 194/16</text>
+<text x="940" y="488">0.9–1.0: 178/738</text>
+<text x="750" y="539">x: mean confidence · y: accuracy</text>
+<text x="30" y="575">Qwen2.5-14B</text>
+<path d="M30 590V750H200" fill="none" stroke="#777"/>
+<text x="30" y="765" text-anchor="middle">0</text>
+<text x="24" y="753" text-anchor="end">0</text>
+<text x="115.0" y="765" text-anchor="middle">0.5</text>
+<text x="24" y="673.0" text-anchor="end">0.5</text>
+<text x="200" y="765" text-anchor="middle">1</text>
+<text x="24" y="593" text-anchor="end">1</text>
+<path d="M30 750L200 590" stroke="#aaa" stroke-dasharray="3 3"/>
+<polyline points="124.48,652.12 141.02,646.47 158.26,636.25 175.60,623.51 192.39,610.11" fill="none" stroke="#17649b"/>
+<circle cx="124.48" cy="652.12" r="3" fill="#17649b"><title>n=85</title></circle>
+<circle cx="141.02" cy="646.47" r="3" fill="#17649b"><title>n=68</title></circle>
+<circle cx="158.26" cy="636.25" r="3" fill="#17649b"><title>n=128</title></circle>
+<circle cx="175.60" cy="623.51" r="3" fill="#17649b"><title>n=148</title></circle>
+<circle cx="192.39" cy="610.11" r="3" fill="#17649b"><title>n=350</title></circle>
+<polyline points="120.31,750.00 142.31,696.67 157.27,681.43 174.82,710.00 199.80,608.85" fill="none" stroke="#b33d25"/>
+<circle cx="120.31" cy="750.00" r="3" fill="#b33d25"><title>n=1</title></circle>
+<circle cx="142.31" cy="696.67" r="3" fill="#b33d25"><title>n=3</title></circle>
+<circle cx="157.27" cy="681.43" r="3" fill="#b33d25"><title>n=7</title></circle>
+<circle cx="174.82" cy="710.00" r="3" fill="#b33d25"><title>n=4</title></circle>
+<circle cx="199.80" cy="608.85" r="3" fill="#b33d25"><title>n=764</title></circle>
+<text x="220" y="598">0.0–0.1: 0/0</text>
+<text x="220" y="613">0.1–0.2: 0/0</text>
+<text x="220" y="628">0.2–0.3: 0/0</text>
+<text x="220" y="643">0.3–0.4: 0/0</text>
+<text x="220" y="658">0.4–0.5: 0/0</text>
+<text x="220" y="673">0.5–0.6: 85/1</text>
+<text x="220" y="688">0.6–0.7: 68/3</text>
+<text x="220" y="703">0.7–0.8: 128/7</text>
+<text x="220" y="718">0.8–0.9: 148/4</text>
+<text x="220" y="733">0.9–1.0: 350/764</text>
+<text x="30" y="784">x: mean confidence · y: accuracy</text>
+<text x="390" y="575">Qwen2.5-32B</text>
+<path d="M390 590V750H560" fill="none" stroke="#777"/>
+<text x="390" y="765" text-anchor="middle">0</text>
+<text x="384" y="753" text-anchor="end">0</text>
+<text x="475.0" y="765" text-anchor="middle">0.5</text>
+<text x="384" y="673.0" text-anchor="end">0.5</text>
+<text x="560" y="765" text-anchor="middle">1</text>
+<text x="384" y="593" text-anchor="end">1</text>
+<path d="M390 750L560 590" stroke="#aaa" stroke-dasharray="3 3"/>
+<polyline points="483.62,659.46 500.55,640.61 518.24,624.74 535.05,622.00 549.81,609.20" fill="none" stroke="#17649b"/>
+<circle cx="483.62" cy="659.46" r="3" fill="#17649b"><title>n=129</title></circle>
+<circle cx="500.55" cy="640.61" r="3" fill="#17649b"><title>n=98</title></circle>
+<circle cx="518.24" cy="624.74" r="3" fill="#17649b"><title>n=152</title></circle>
+<circle cx="535.05" cy="622.00" r="3" fill="#17649b"><title>n=175</title></circle>
+<circle cx="549.81" cy="609.20" r="3" fill="#17649b"><title>n=225</title></circle>
+<polyline points="487.28,590.00 500.64,590.00 518.23,686.00 535.95,643.33 559.78,608.23" fill="none" stroke="#b33d25"/>
+<circle cx="487.28" cy="590.00" r="3" fill="#b33d25"><title>n=6</title></circle>
+<circle cx="500.64" cy="590.00" r="3" fill="#b33d25"><title>n=2</title></circle>
+<circle cx="518.23" cy="686.00" r="3" fill="#b33d25"><title>n=10</title></circle>
+<circle cx="535.95" cy="643.33" r="3" fill="#b33d25"><title>n=6</title></circle>
+<circle cx="559.78" cy="608.23" r="3" fill="#b33d25"><title>n=755</title></circle>
+<text x="580" y="598">0.0–0.1: 0/0</text>
+<text x="580" y="613">0.1–0.2: 0/0</text>
+<text x="580" y="628">0.2–0.3: 0/0</text>
+<text x="580" y="643">0.3–0.4: 0/0</text>
+<text x="580" y="658">0.4–0.5: 0/0</text>
+<text x="580" y="673">0.5–0.6: 129/6</text>
+<text x="580" y="688">0.6–0.7: 98/2</text>
+<text x="580" y="703">0.7–0.8: 152/10</text>
+<text x="580" y="718">0.8–0.9: 175/6</text>
+<text x="580" y="733">0.9–1.0: 225/755</text>
+<text x="390" y="784">x: mean confidence · y: accuracy</text>
+<text x="750" y="575">SmolLM2-1.7B</text>
+<path d="M750 590V750H920" fill="none" stroke="#777"/>
+<text x="750" y="765" text-anchor="middle">0</text>
+<text x="744" y="753" text-anchor="end">0</text>
+<text x="835.0" y="765" text-anchor="middle">0.5</text>
+<text x="744" y="673.0" text-anchor="end">0.5</text>
+<text x="920" y="765" text-anchor="middle">1</text>
+<text x="744" y="593" text-anchor="end">1</text>
+<path d="M750 750L920 590" stroke="#aaa" stroke-dasharray="3 3"/>
+<polyline points="843.49,665.34 859.64,660.57 875.67,664.42 891.36,674.71 904.68,590.00" fill="none" stroke="#17649b"/>
+<circle cx="843.49" cy="665.34" r="3" fill="#17649b"><title>n=446</title></circle>
+<circle cx="859.64" cy="660.57" r="3" fill="#17649b"><title>n=229</title></circle>
+<circle cx="875.67" cy="664.42" r="3" fill="#17649b"><title>n=86</title></circle>
+<circle cx="891.36" cy="674.71" r="3" fill="#17649b"><title>n=17</title></circle>
+<circle cx="904.68" cy="590.00" r="3" fill="#17649b"><title>n=1</title></circle>
+<polyline points="843.65,671.37 860.65,679.63 877.16,682.57 894.70,697.11 911.88,695.26" fill="none" stroke="#b33d25"/>
+<circle cx="843.65" cy="671.37" r="3" fill="#b33d25"><title>n=175</title></circle>
+<circle cx="860.65" cy="679.63" r="3" fill="#b33d25"><title>n=191</title></circle>
+<circle cx="877.16" cy="682.57" r="3" fill="#b33d25"><title>n=140</title></circle>
+<circle cx="894.70" cy="697.11" r="3" fill="#b33d25"><title>n=121</title></circle>
+<circle cx="911.88" cy="695.26" r="3" fill="#b33d25"><title>n=152</title></circle>
+<text x="940" y="598">0.0–0.1: 0/0</text>
+<text x="940" y="613">0.1–0.2: 0/0</text>
+<text x="940" y="628">0.2–0.3: 0/0</text>
+<text x="940" y="643">0.3–0.4: 0/0</text>
+<text x="940" y="658">0.4–0.5: 0/0</text>
+<text x="940" y="673">0.5–0.6: 446/175</text>
+<text x="940" y="688">0.6–0.7: 229/191</text>
+<text x="940" y="703">0.7–0.8: 86/140</text>
+<text x="940" y="718">0.8–0.9: 17/121</text>
+<text x="940" y="733">0.9–1.0: 1/152</text>
+<text x="750" y="784">x: mean confidence · y: accuracy</text>
+</g></svg>
