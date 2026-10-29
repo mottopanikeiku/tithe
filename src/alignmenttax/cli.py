@@ -12,7 +12,7 @@ from .scoring import score_run
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog="alignmenttax",
+        prog="tithe",
         description="Run TruthfulQA honesty and calibration experiments.",
     )
     subparsers = parser.add_subparsers(dest="command", required=True)
