@@ -45,7 +45,7 @@ The larger-checkpoint run completed the full Qwen-14B pair and Qwen-32B base, th
 
 The L4 function also reached its 24-minute limit after finishing OLMo-7B-Instruct and the SmolLM2 pair; Mistral-7B remained unfinished. I have one final L4 booking of at most 25 minutes for the full Mistral standard pair, after the Qwen-32B run stops. The combined compute cap is $7.00 including the earlier binary study and all attempts. Mistral's existing binary rows are reused; I will not replace an incomplete standard pair with a shorter question set.
 
-I completed all nine required pairs after committing the [plan](https://github.com/mottopanikeiku/alignmenttax/commit/457f8c2) before scoring. I retain **29,412 standard rows and 28,440 binary rows** under shared and native protocols; base-native rows reuse unchanged shared prompts. I report [counts, raw sources and every metric](../results/day_scale/analysis/summary.json).
+I completed all nine required pairs after committing the [plan](https://github.com/mottopanikeiku/tithe/commit/457f8c2) before scoring. I retain **29,412 standard rows and 28,440 binary rows** under shared and native protocols; base-native rows reuse unchanged shared prompts. I report [counts, raw sources and every metric](../results/day_scale/analysis/summary.json).
 
 For model runs, I use [the cloud runner](../tools/day_modal_app.py): `::download` on CPU before offline `::score`. I select pairs with `--pairs`, set `ALIGNMENTTAX_GPU=L4` for ≤7B or `H100` for 14/32B, and use Python 3.13 with Modal 1.5.3. Completed checkpoint units resume from the Volume. `::cleanup` removes weights while keeping data/results. I keep revisions and full methods in [the manifest](../configs/day_scale.json).
 
