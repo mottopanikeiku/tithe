@@ -38,6 +38,7 @@ full = [
 ]
 
 [project.scripts]
+tithe = "alignmenttax.cli:main"
 alignmenttax = "alignmenttax.cli:main"
 
 [tool.setuptools.packages.find]
