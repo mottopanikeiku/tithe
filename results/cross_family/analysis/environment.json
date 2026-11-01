@@ -15,8 +15,8 @@
     "OPENBLAS_NUM_THREADS": 2,
     "MKL_NUM_THREADS": 2
   },
-  "scoring_source_commit": "c998de9",
-  "analysis_plan_commit": "e299861",
+  "scoring_source_commit": "043a7be",
+  "analysis_plan_commit": "105992c",
   "total_full_score_rows": 22120,
-  "numeric_analysis_source_commit": "c998de9"
+  "numeric_analysis_source_commit": "043a7be"
 }
