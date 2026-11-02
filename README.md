@@ -1,8 +1,8 @@
 # tithe
 
-Instruction tuning made calibration worse in 8 of 9 base/instruct pairs when I scored the A/B label on TruthfulQA, and better in 6 of 9 when I scored the full answer.
+I compared the calibration of nine base/instruct model pairs under two evaluation setups, on the same 779 TruthfulQA questions with the same two candidate answers each, and the two setups point in opposite directions.
 
-Both runs use the same 779 questions and the same two candidate answers. The prompts differ too (a zero-shot A/B question versus the harness's six-shot primer), so this compares two evaluation setups, not the scoring rule alone.
+With a zero-shot A/B prompt that scores the answer letter, the instruct model's expected calibration error (ECE) rose in eight of nine pairs, all eight with 95% intervals above zero. With the lm-evaluation-harness six-shot prompt that scores the full answer text, ECE fell in eight pairs, six with intervals below zero. The setups differ in both prompt and scored text, so this shows that they disagree, not which difference causes it.
 
 ![Change in accuracy, calibration error and Brier score from base to instruct, for nine model pairs, under A/B-label and full-answer scoring](results/reanalysis/candidate_control_shared.svg)
 
@@ -37,13 +37,15 @@ On the standard 817-question TruthfulQA, instruction tuning also improves MC2 in
 
 ## Rebuild from the saved scores
 
+Install this checkout; the command is `tithe` and the Python package is `alignmenttax`.
+
 ```sh
 uv sync --locked
 uv run python -m alignmenttax.reanalysis    # a few minutes
 uv run --extra dev pytest -q tests
 ```
 
-That rebuilds `results/reanalysis` and `results/day_scale/analysis` from the saved scores; the last digits can differ between CPU architectures. Scoring models yourself needs `uv sync --extra full`, and the larger models want a GPU. The CLI is `tithe` (`tithe --help` lists the stages). The Python package is still called `alignmenttax`, which is where the name came from.
+The reanalysis rebuilds `results/reanalysis` and `results/day_scale/analysis`. Scoring models yourself needs `uv sync --extra full` and, for the larger models, a GPU; `tithe --help` lists the stages.
 
 Question matching, prompts, metrics and the bootstrap are in [docs/method.md](docs/method.md).
 

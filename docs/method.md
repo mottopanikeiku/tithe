@@ -18,6 +18,8 @@ Both checkpoints get the same plain prompt (`shared_plain_ab_label`). The `nativ
 - Brier is categorical Brier `sum((p - y)^2)`; NLL is unclipped, in nats.
 - All changes are instruct minus base. 10,000 paired question resamples (PCG64, seed 20260420), percentile 95% intervals, shared across models, protocols and metrics. A direction counts only if its interval excludes zero. No multiple-comparison correction.
 
+Rebuilding `results/reanalysis` on a different CPU architecture can change saved floats in their last digits; an arm64 rebuild differs from the committed files only there, and every rounded figure in the README stays the same.
+
 ## Temperature scaling
 
 Questions are split in half by a hash of their text. One temperature per model, fit on the calibration half by minimizing NLL in `[0.01, 200]`, is evaluated on the test half. 65 of 144 fits end at the upper bound, including every base model on matched answer strings. [`temperatures.csv`](../results/reanalysis/temperatures.csv) flags them.
