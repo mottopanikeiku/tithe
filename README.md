@@ -1,60 +1,50 @@
 # tithe
 
-Does instruction tuning hurt calibration? It depends on what you score.
+Instruction tuning made calibration worse in 8 of 9 base/instruct pairs when I scored the A/B label on TruthfulQA, and better in 6 of 9 when I scored the full answer.
 
-![Calibration changes across nine base/instruct pairs on the same 779 questions: A/B-label scoring mostly worsens ECE, while full-answer scoring mostly improves it](results/reanalysis/candidate_control_shared.svg)
+Both runs use the same 779 questions and the same two candidate answers. The prompts differ too (a zero-shot A/B question versus the harness's six-shot primer), so this compares two evaluation setups, not the scoring rule alone.
 
-I compared nine base/instruct pairs on the same 779 TruthfulQA questions and the same two answers. Scoring the A/B label, instruction tuning worsens expected calibration error (ECE) in 8 of 9 pairs; scoring the two full answers, it improves ECE in 6 and worsens it in none. These counts use 95% paired-bootstrap intervals that exclude zero.
+![Change in accuracy, calibration error and Brier score from base to instruct, for nine model pairs, under A/B-label and full-answer scoring](results/reanalysis/candidate_control_shared.svg)
 
-| Pair | A/B-label ΔECE | Two-answer ΔECE |
+Change in expected calibration error (ECE) from base to instruct, in percentage points. Positive is worse. A star means the 95% interval excludes zero.
+
+| Pair | A/B label | Full answer |
 |---|---:|---:|
-| [Mistral-7B-v0.3](results/day_scale/mistral_7b_v0_3) | +9.0* | -13.4* |
-| [OLMo-2-1B](results/day_scale/olmo2_0425_1b) | +12.5* | -9.7* |
-| [OLMo-2-7B](results/day_scale/olmo2_1124_7b) | +10.9* | -9.1* |
-| [Qwen2.5-0.5B](results/day_scale/qwen2_5_0_5b) | -2.8 | +0.1 |
-| [Qwen2.5-1.5B](results/day_scale/qwen2_5_1_5b) | +8.0* | -1.0 |
-| [Qwen2.5-7B](results/day_scale/qwen2_5_7b) | +7.2* | -7.0* |
-| [Qwen2.5-14B](results/day_scale/qwen2_5_14b) | +10.1* | -9.7* |
-| [Qwen2.5-32B](results/day_scale/qwen2_5_32b) | +7.4* | -8.6* |
-| [SmolLM2-1.7B](results/day_scale/smollm2_1_7b) | +32.2* | -0.7 |
+| Mistral-7B-v0.3 | +9.0* | -13.4* |
+| OLMo-2-1B | +12.5* | -9.7* |
+| OLMo-2-7B | +10.9* | -9.1* |
+| Qwen2.5-0.5B | -2.8 | +0.1 |
+| Qwen2.5-1.5B | +8.0* | -1.0 |
+| Qwen2.5-7B | +7.2* | -7.0* |
+| Qwen2.5-14B | +10.1* | -9.7* |
+| Qwen2.5-32B | +7.4* | -8.6* |
+| SmolLM2-1.7B | +32.2* | -0.7 |
 
-Change is instruct minus base, in percentage points; positive ΔECE is worse. Both checkpoints use plain prompts. A star marks a 95% interval excluding zero, from 10,000 paired question resamples. [Exact values and intervals](results/reanalysis/candidate_control.csv).
+Intervals come from 10,000 paired resamples of the questions.
 
-## What's going on
+## One pair up close
 
-Full-answer confidence starts very high: the base models average 92–94% confidence at only 28–46% accuracy. Instruction tuning moves that confidence by at most 3.5 points while accuracy rises by up to 16 points. Label confidence starts lower, at 61–83%, and usually rises much faster than accuracy. The two scoring rules start from very different kinds of overconfidence.
+Qwen2.5-7B, base → instruct:
 
-The comparison uses saved scores from a 790-question A/B task and the 817-question standard TruthfulQA task. I match questions and answer pairs, then normalize each scoring rule over those same two choices. The [method](docs/method.md) covers matching, prompts, metrics, the full standard-task results and temperature scaling.
+| Scoring | Accuracy | Mean confidence |
+|---|---:|---:|
+| A/B label | 70% → 78% | 77% → 96% |
+| Full answer | 45% → 55% | 93% → 96% |
 
-## Rebuild from saved scores
+On the label, tuning pushes confidence up 19 points while accuracy gains 8, so the gap between them grows. On full answers the base model is already 93% sure of itself while being right less than half the time. Tuning adds 10 points of accuracy and barely moves confidence, so the gap shrinks. The other pairs look the same: every base model sits at 92–94% confidence on full answers, and tuning moves that by 3.5 points at most.
 
-From the repo root, with [uv](https://docs.astral.sh/uv/) and only the saved scores:
+On the standard 817-question TruthfulQA, instruction tuning also improves MC2 in 8 of 9 pairs and MC1 in 6.
+
+## Rebuild from the saved scores
 
 ```sh
 uv sync --locked
-uv run python -m alignmenttax.reanalysis
-git diff --exit-code -- results
-```
-
-This rebuilds `results/reanalysis` and `results/day_scale/analysis`. The final command checks that the outputs match the saved results.
-
-Fast tests:
-
-```sh
+uv run python -m alignmenttax.reanalysis    # a few minutes
 uv run --extra dev pytest -q tests
 ```
 
-Twelve model-scorer tests skip without PyTorch and Transformers; CI runs them too. The CLI is `tithe`; the Python package remains `alignmenttax`.
+That rebuilds `results/reanalysis` and `results/day_scale/analysis` from the saved scores; the last digits can differ between CPU architectures. Scoring models yourself needs `uv sync --extra full`, and the larger models want a GPU. The CLI is `tithe` (`tithe --help` lists the stages). The Python package is still called `alignmenttax`, which is where the name came from.
 
-## Limitations
+Question matching, prompts, metrics and the bootstrap are in [docs/method.md](docs/method.md).
 
-- The matched questions and answers still use different prompts and scored text: an A/B prompt with a letter continuation versus a six-example Q/A prompt with a full answer. This comparison cannot separate their effects.
-- Base/instruct checkpoints differ in training data and objectives. Their differences do not isolate a causal effect of instruction tuning or reinforcement learning.
-- Confidence is normalized over the offered choices. It does not measure confidence in a generated answer.
-- Intervals resample questions for fixed checkpoints, with no multiple-comparison correction. Training seeds and numerical variation are outside them; some runs also used different GPUs.
-- ECE depends on binning. Brier score, NLL, alternative bins and held-out temperature fits are available in the [analysis](results/reanalysis); temperature fits often reach the upper bound of 200.
-
-## Related work
-
-[Kadavath et al.](https://arxiv.org/abs/2207.05221), the [GPT-4 report](https://arxiv.org/abs/2303.08774) and [Huang, Lu and Zeng](https://arxiv.org/abs/2508.00264) study calibration after post-training. Here, holding the questions and candidate answers fixed exposes how much the measurement depends on the scoring setup.
-[TruthfulQA](https://arxiv.org/abs/2109.07958) is by Lin, Hilton and Evans; temperature scaling follows [Guo et al.](https://arxiv.org/abs/1706.04599). [Dataset and code attribution](results/NOTICE.txt).
+TruthfulQA is by [Lin, Hilton and Evans](https://arxiv.org/abs/2109.07958). Temperature scaling follows [Guo et al.](https://arxiv.org/abs/1706.04599). Post-training calibration is also studied by [Kadavath et al.](https://arxiv.org/abs/2207.05221) and the [GPT-4 report](https://arxiv.org/abs/2303.08774). Data and code licenses: [`results/NOTICE.txt`](results/NOTICE.txt). Code is MIT.
