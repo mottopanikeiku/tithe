@@ -6,7 +6,7 @@ With a zero-shot A/B prompt that scores the answer letter, the instruct model's 
 
 ![Change in accuracy, calibration error and Brier score from base to instruct, for nine model pairs, under A/B-label and full-answer scoring](results/reanalysis/candidate_control_shared.svg)
 
-Change in expected calibration error (ECE) from base to instruct, in percentage points. Positive is worse. A star means the 95% interval excludes zero.
+The table gives the change in expected calibration error (ECE) from base to instruct in percentage points, where positive is worse and a star means the 95% interval excludes zero.
 
 | Pair | A/B label | Full answer |
 |---|---:|---:|
@@ -24,20 +24,20 @@ Intervals come from 10,000 paired resamples of the questions.
 
 ## One pair up close
 
-Qwen2.5-7B, base → instruct:
+Here is Qwen2.5-7B going from base to instruct:
 
 | Scoring | Accuracy | Mean confidence |
 |---|---:|---:|
 | A/B label | 70% → 78% | 77% → 96% |
 | Full answer | 45% → 55% | 93% → 96% |
 
-On the label, tuning pushes confidence up 19 points while accuracy gains 8, so the gap between them grows. On full answers the base model is already 93% sure of itself while being right less than half the time. Tuning adds 10 points of accuracy and barely moves confidence, so the gap shrinks. The other pairs look the same: every base model sits at 92–94% confidence on full answers, and tuning moves that by 3.5 points at most.
+On the label, tuning pushes confidence up 19 points while accuracy gains 8, so the gap between them grows. On full answers the base model is already 93% sure of itself while being right less than half the time, so when tuning adds 10 points of accuracy and barely moves confidence, the gap shrinks. The other pairs look the same: every base model sits at 92–94% confidence on full answers, and tuning moves that by 3.5 points at most.
 
 On the standard 817-question TruthfulQA, instruction tuning also improves MC2 in 8 of 9 pairs and MC1 in 6.
 
 ## Rebuild from the saved scores
 
-Install this checkout; the command is `tithe` and the Python package is `alignmenttax`.
+Install this checkout, which provides the `tithe` command and the `alignmenttax` Python package:
 
 ```sh
 uv sync --locked
@@ -45,8 +45,8 @@ uv run python -m alignmenttax.reanalysis    # a few minutes
 uv run --extra dev pytest -q tests
 ```
 
-The reanalysis rebuilds `results/reanalysis` and `results/day_scale/analysis`. Scoring models yourself needs `uv sync --extra full` and, for the larger models, a GPU; `tithe --help` lists the stages.
+The reanalysis rebuilds `results/reanalysis` and `results/day_scale/analysis` from the saved scores. Scoring models yourself needs `uv sync --extra full` and, for the larger models, a GPU, and `tithe --help` lists the stages.
 
 Question matching, prompts, metrics and the bootstrap are in [docs/method.md](docs/method.md).
 
-TruthfulQA is by [Lin, Hilton and Evans](https://arxiv.org/abs/2109.07958). Temperature scaling follows [Guo et al.](https://arxiv.org/abs/1706.04599). Post-training calibration is also studied by [Kadavath et al.](https://arxiv.org/abs/2207.05221) and the [GPT-4 report](https://arxiv.org/abs/2303.08774). Data and code licenses: [`results/NOTICE.txt`](results/NOTICE.txt). Code is MIT.
+TruthfulQA is by [Lin, Hilton and Evans](https://arxiv.org/abs/2109.07958), temperature scaling follows [Guo et al.](https://arxiv.org/abs/1706.04599), and post-training calibration is also studied by [Kadavath et al.](https://arxiv.org/abs/2207.05221) and the [GPT-4 report](https://arxiv.org/abs/2303.08774). Data and code licenses are listed in [`results/NOTICE.txt`](results/NOTICE.txt), and the code itself is MIT licensed.
